@@ -53,6 +53,10 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return this;
 	}
 	
+	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, VariableSymbolique droite) {
+		return this;
+	}
+	
 
 	@Override
 	public ExpressionArithmetique simplifier() {

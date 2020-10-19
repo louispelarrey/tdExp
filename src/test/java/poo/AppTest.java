@@ -108,12 +108,14 @@ public class AppTest {
 		
 		//question 8
 		ExpressionArithmetique xUn = new VariableSymbolique("x", 1);
-		ExpressionArithmetique yUn = new VariableSymbolique("y", 2);
+		ExpressionArithmetique yUn = new VariableSymbolique("y", 1);
 		
 		ExpressionArithmetique add = new Addition(yUn, un);
 		ExpressionArithmetique divSymbol = new Division(un, add);
 		ExpressionArithmetique addSymbol = new Addition(un, divSymbol);
 
-		System.out.println(addSymbol.calculer());
+		assertEquals(new ConstRationnelle(3, 2).calculer(), addSymbol.calculer(),0.00001);
+		
+		 
 	}
 }

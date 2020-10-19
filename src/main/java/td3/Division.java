@@ -37,6 +37,7 @@ public class Division extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
 		return this;
 	}
+	
 
 	@Override
 	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, VariableSymbolique droite) {
@@ -51,5 +52,15 @@ public class Division extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
 		return new ConstRationnelle((int)droite.getValeur(), gauche.getEntier()).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, VariableSymbolique droite) {
+		return new ConstEntiere((int)gauche.calculer() / (int)droite.getValeur());
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstSymbolique droite) {
+		return new ConstEntiere((int)gauche.getValeur() / (int)droite.calculer());
 	}
 }
