@@ -7,6 +7,7 @@ import org.junit.Test;
 import td3.Addition;
 import td3.ConstEntiere;
 import td3.ConstRationnelle;
+import td3.ConstSymbolique;
 import td3.Cos;
 import td3.ExpressionArithmetique;
 import td3.Ln;
@@ -68,7 +69,6 @@ public class AppTest {
 		ExpressionArithmetique ln = new Ln(neuf);
 		ExpressionArithmetique cos = new Cos(neuf);
 		ExpressionArithmetique sin = new Sin(neuf);
-		ExpressionArithmetique simplif = new Addition(cr, cr);
 		
 		
 		System.out.println(times.calculer());
@@ -87,6 +87,17 @@ public class AppTest {
 		ExpressionArithmetique plu = new Addition(dr, br);
 		ExpressionArithmetique question = new Addition(plu, sy);
 		
+		//question 5
 		System.out.println(question.simplifier());
+		
+		//question 6
+		ExpressionArithmetique un = new ConstEntiere(1);
+		ExpressionArithmetique plusSpe = new Addition(br, un);
+		assertEquals(1.7500, plusSpe.calculer(),0.00001);
+		
+		ExpressionArithmetique pi = new ConstSymbolique("π");
+		ExpressionArithmetique plusSpeDeux = new Addition(pi, un);
+		assertEquals(4.1416, plusSpeDeux.calculer(),0.00001);
+
 	}
 }
