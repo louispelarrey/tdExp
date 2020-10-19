@@ -1,6 +1,6 @@
 package td3;
 
-public abstract class OperationBinaire implements ExpressionArithmetique {
+public abstract class OperationBinaire extends ExpressionArithmetique {
 	protected ExpressionArithmetique eaLeft;
 	protected ExpressionArithmetique eaRight;
 

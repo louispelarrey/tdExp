@@ -12,7 +12,6 @@ public class Ln extends OperationUnaire{
 
 	@Override
 	public ExpressionArithmetique simplifier() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 }

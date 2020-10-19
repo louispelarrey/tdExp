@@ -1,6 +1,8 @@
 package poo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -99,5 +101,8 @@ public class AppTest {
 		ExpressionArithmetique plusSpeDeux = new Addition(pi, un);
 		assertEquals(4.1416, plusSpeDeux.calculer(),0.00001);
 
+		//question 7
+		assertTrue(plusSpeDeux.equals(question));
+		assertFalse(plusSpeDeux.equals(minus));
 	}
 }

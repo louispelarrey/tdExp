@@ -1,6 +1,6 @@
 package td3;
 
-public final class ConstEntiere implements ExpressionArithmetique {
+public final class ConstEntiere extends ExpressionArithmetique {
 
 	public ConstEntiere(int value) {
 		this.entier = value;
