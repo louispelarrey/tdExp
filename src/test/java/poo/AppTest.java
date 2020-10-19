@@ -80,7 +80,7 @@ public class AppTest {
 		assertEquals(-0.91113, cos.calculer(),0.00001);
 
 		
-		ExpressionArithmetique dr = new ConstRationnelle(1, 4);
+		ExpressionArithmetique dr = new ConstRationnelle(1, 3);
 		ExpressionArithmetique br = new ConstRationnelle(3, 4);
 		ExpressionArithmetique sy = new VariableSymbolique("x");
 

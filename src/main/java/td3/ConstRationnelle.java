@@ -1,6 +1,6 @@
 package td3;
 
-public final class ConstRationnelle extends ExpressionArithmetique {
+public final class ConstRationnelle implements ExpressionArithmetique {
 
 	private final int numerateur;
 	private final int denominateur;
