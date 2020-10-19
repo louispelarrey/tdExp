@@ -54,7 +54,7 @@ public class Addition extends OperationBinaire {
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, VariableSymbolique droite) {
-		return new ConstRationnelle((int)gauche.calculer() + (int)droite.getValeur());
+		//return new ConstRationnelle((int)gauche.calculer() + (int)droite.getValeur());
 	}
 	
 	@Override

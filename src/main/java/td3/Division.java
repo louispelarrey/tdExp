@@ -63,4 +63,6 @@ public class Division extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstSymbolique droite) {
 		return new ConstEntiere((int)gauche.getValeur() / (int)droite.calculer());
 	}
+	
+	
 }
