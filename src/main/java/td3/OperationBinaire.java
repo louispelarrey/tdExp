@@ -30,7 +30,6 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 	}
 	
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
-		System.out.println(this);
 		return this;
 	}
 	
