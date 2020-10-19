@@ -81,11 +81,6 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 			ConstRationnelle droite = (ConstRationnelle) this.eaRight;
 
 			res = simplifie(gauche, droite);
-		} else if (this.eaLeft instanceof ConstEntiere && this.eaRight instanceof VariableSymbolique) {
-			ConstEntiere gauche = (ConstEntiere) this.eaLeft;
-			VariableSymbolique droite = (VariableSymbolique) this.eaRight;
-
-			res = simplifie(gauche, droite);
 		} else {
 			res = this;
 		}

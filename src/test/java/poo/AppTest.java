@@ -11,6 +11,7 @@ import td3.ConstEntiere;
 import td3.ConstRationnelle;
 import td3.ConstSymbolique;
 import td3.Cos;
+import td3.Division;
 import td3.ExpressionArithmetique;
 import td3.Ln;
 import td3.Multiplication;
@@ -104,5 +105,15 @@ public class AppTest {
 		//question 7
 		assertTrue(plusSpeDeux.equals(question));
 		assertFalse(plusSpeDeux.equals(minus));
+		
+		//question 8
+		ExpressionArithmetique xUn = new VariableSymbolique("x", 1);
+		ExpressionArithmetique yUn = new VariableSymbolique("y", 2);
+		
+		ExpressionArithmetique add = new Addition(yUn, un);
+		ExpressionArithmetique divSymbol = new Division(un, add);
+		ExpressionArithmetique addSymbol = new Addition(un, divSymbol);
+
+		System.out.println(addSymbol.calculer());
 	}
 }

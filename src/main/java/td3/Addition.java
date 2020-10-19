@@ -32,11 +32,16 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return (ExpressionArithmetique) simplifie(droite, gauche).simplifier();
+		return simplifie(droite, gauche).simplifier();
 	}
- /*
+ 
 	@Override
 	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstEntiere droite) {
-		return new Const(gauche.getSymbole(), droite);
-	}*/
+		return new ConstEntiere((int)gauche.getValeur() + droite.getEntier());
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
+		return simplifie(droite, gauche).simplifier();
+	}
 }

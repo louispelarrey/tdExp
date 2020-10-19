@@ -38,4 +38,18 @@ public class Division extends OperationBinaire {
 		return this;
 	}
 
+	@Override
+	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, VariableSymbolique droite) {
+		return new ConstRationnelle((int)gauche.getValeur(), (int)droite.getValeur()).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstEntiere droite) {
+		return new ConstRationnelle((int)gauche.getValeur(), droite.getEntier()).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
+		return new ConstRationnelle((int)droite.getValeur(), gauche.getEntier()).simplifier();
+	}
 }

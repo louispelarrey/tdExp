@@ -9,11 +9,30 @@ public class VariableSymbolique extends ExpressionArithmetique{
 	}
 	
 	
+	public double getValeur() {
+		return valeur;
+	}
+
+
+	public void setValeur(double valeur) {
+		this.valeur = valeur;
+	}
+
+
+	public String getSymbole() {
+		return symbole;
+	}
+
+
+	public void setSymbole(String symbole) {
+		this.symbole = symbole;
+	}
+
+
 	public VariableSymbolique(String variable, double valeur) {
 		this.symbole = variable;
 		this.valeur = valeur;
 	}
-
 
 	@Override
 	public ExpressionArithmetique simplifier() {
@@ -23,11 +42,17 @@ public class VariableSymbolique extends ExpressionArithmetique{
 
 	@Override
 	public double calculer() {
-		return 0;
+		if(this.valeur != 0) {
+			return valeur;
+		}else {
+			return 0;
+		}
 	}
 	
 	
 	public String toString() {
+		if(this.valeur != 0)
+			return "" + this.valeur;
 		return this.symbole;
 	}
 	
