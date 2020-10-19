@@ -5,7 +5,6 @@ public class Addition extends OperationBinaire {
 
 	public Addition(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
 		super(eaLeft, eaRight);
-
 	}
 
 	@Override
@@ -33,15 +32,11 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return simplifie(droite, gauche).simplifier();
+		return (ExpressionArithmetique) simplifie(droite, gauche).simplifier();
 	}
-
+ /*
 	@Override
-	public String toString() { //Test
-		return ((ConstanteSymbolique) this.eaLeft).getSymbole() + "+" + ((ConstEntiere) this.eaRight).getEntier();
-	}
-	
-	
-	
-
+	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstEntiere droite) {
+		return new Const(gauche.getSymbole(), droite);
+	}*/
 }

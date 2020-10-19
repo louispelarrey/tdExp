@@ -1,16 +1,17 @@
 package td3;
 
-public class VariableSymbolique implements ExpressionArithmetique {
-	private final String symbole;
-	//private final double value;
+public class VariableSymbolique extends ExpressionArithmetique{
+	private double valeur;
+	private String symbole;
 	
-	public VariableSymbolique(String symbole) {
-		this.symbole = symbole;
+	public VariableSymbolique(String variable) {
+		this.symbole = variable;
 	}
 	
-
-	public String getSymbole() {
-		return symbole;
+	
+	public VariableSymbolique(String variable, double valeur) {
+		this.symbole = variable;
+		this.valeur = valeur;
 	}
 
 
@@ -24,9 +25,10 @@ public class VariableSymbolique implements ExpressionArithmetique {
 	public double calculer() {
 		return 0;
 	}
-
-
-
 	
+	
+	public String toString() {
+		return this.symbole;
+	}
 	
 }

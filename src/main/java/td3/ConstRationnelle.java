@@ -1,10 +1,15 @@
 package td3;
 
-public final class ConstRationnelle implements ExpressionArithmetique {
+public final class ConstRationnelle extends ExpressionArithmetique {
 
+	private final int numerateur;
+	private final int denominateur;
+	
 	@Override
 	public String toString() {
-		return "ConstRationnelle [numerateur=" + numerateur + ", denominateur=" + denominateur + "]";
+		if(numerateur == denominateur)
+			return "1";
+		return numerateur + "/" + denominateur;
 	}
 
 	public ConstRationnelle(int num, int denom) {
@@ -19,9 +24,6 @@ public final class ConstRationnelle implements ExpressionArithmetique {
 	public int getDenominateur() {
 		return denominateur;
 	}
-
-	private final int numerateur;
-	private final int denominateur;
 
 	@Override
 	public ExpressionArithmetique simplifier() {
@@ -38,7 +40,7 @@ public final class ConstRationnelle implements ExpressionArithmetique {
 
 	@Override
 	public double calculer() {
-		return (double)numerateur/(double)denominateur;
+		return (double)this.numerateur / (double)this.denominateur;
 	}
 
 }

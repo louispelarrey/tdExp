@@ -7,10 +7,15 @@ import org.junit.Test;
 import td3.Addition;
 import td3.ConstEntiere;
 import td3.ConstRationnelle;
-import td3.ConstanteSymbolique;
+import td3.Cos;
 import td3.ExpressionArithmetique;
+import td3.Ln;
 import td3.Multiplication;
+import td3.Puissance;
+import td3.RacineCarre;
+import td3.Sin;
 import td3.Soustraction;
+import td3.VariableSymbolique;
 
 /**
  * Unit test for simple App.
@@ -58,56 +63,30 @@ public class AppTest {
 		ExpressionArithmetique plus = new Addition(neuf, deux);
 		ExpressionArithmetique minus = new Soustraction(trois, cr);
 		ExpressionArithmetique times = new Multiplication(plus, minus);
-
-		ExpressionArithmetique results = new ConstRationnelle(550, 17);
-
+		ExpressionArithmetique pui = new Puissance(plus, minus);
+		ExpressionArithmetique racine = new RacineCarre(neuf);
+		ExpressionArithmetique ln = new Ln(neuf);
+		ExpressionArithmetique cos = new Cos(neuf);
+		ExpressionArithmetique sin = new Sin(neuf);
+		ExpressionArithmetique simplif = new Addition(cr, cr);
 		
+		
+		System.out.println(times.calculer());
 		assertEquals(550/17.0, times.calculer(),0.00001);
-
-	}
-	
-	@Test
-	public void constSymb() {
-
-		ConstanteSymbolique x = new ConstanteSymbolique("x", 9.88);
-		ConstEntiere deux = new ConstEntiere(2);
-		Addition racine = new Addition(x, deux);
-		
-		System.out.println(racine.toString());//test toString() a enlever de addition et mettre dans operation binaire
-
-		assertEquals(11.88, racine.simplifier().calculer(),0.00001);
-
-	}
-	
-	@Test
-	public void constSymbMultiplication() {
-
-		ConstanteSymbolique x = new ConstanteSymbolique("x", 9.88);
-		ConstEntiere deux = new ConstEntiere(2);
-		Multiplication racine = new Multiplication(x, deux);
-		
-		//System.out.println(racine.toString());//test toString()
-
-		assertEquals(19.76, racine.simplifier().calculer(),0.00001); //simplifier pas idnsipensable car constaSymb non simpl
-
-	}
-	
-	@Test
-	public void constSymbComplexe() {
-
-		ConstanteSymbolique x = new ConstanteSymbolique("x", 9.88);
-		ExpressionArithmetique deux = new ConstEntiere(2);
-		ExpressionArithmetique trois = new ConstEntiere(3);
-		ExpressionArithmetique cr = new ConstRationnelle(1, 17);
-
-		ExpressionArithmetique plus = new Addition(deux, x); //11.88
-		ExpressionArithmetique minus = new Soustraction(trois, cr); //0.11
-		ExpressionArithmetique times = new Multiplication(plus, minus);
-
-		ExpressionArithmetique results = new ConstRationnelle(594, 17);
+		assertEquals(1155.89839, pui.calculer(),0.00001);
+		assertEquals(3, racine.calculer(),0.00001);
+		assertEquals(2.197224577, ln.calculer(),0.00001);
+		assertEquals(0.412118, sin.calculer(),0.00001);
+		assertEquals(-0.91113, cos.calculer(),0.00001);
 
 		
-		assertEquals(594/17.0, times.calculer(),0.00001);
+		ExpressionArithmetique dr = new ConstRationnelle(1, 4);
+		ExpressionArithmetique br = new ConstRationnelle(3, 4);
+		ExpressionArithmetique sy = new VariableSymbolique("x");
+
+		ExpressionArithmetique plu = new Addition(dr, br);
+		ExpressionArithmetique question = new Addition(plu, sy);
 		
+		System.out.println(question.simplifier());
 	}
 }

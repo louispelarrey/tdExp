@@ -1,6 +1,6 @@
 package td3;
 
-public class ConstanteSymbolique implements ExpressionArithmetique {
+public class ConstanteSymbolique extends ExpressionArithmetique {
 
 	private final String symbole;
 	private final double value;

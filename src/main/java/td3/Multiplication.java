@@ -6,6 +6,11 @@ public class Multiplication extends OperationBinaire {
 		super(eaLeft, eaRight);
 
 	}
+	
+	@Override
+	public double calculer() {
+		return this.eaLeft.calculer() * this.eaRight.calculer();
+	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {
@@ -24,13 +29,8 @@ public class Multiplication extends OperationBinaire {
 	}
 
 	@Override
-	public double calculer() {
-		return this.eaLeft.calculer() * this.eaRight.calculer();
-	}
-
-	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return this.simplifie(droite, gauche).simplifier();
+		return (ExpressionArithmetique) this.simplifie(droite, gauche).simplifier();
 	}
 
 }

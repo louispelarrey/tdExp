@@ -1,6 +1,6 @@
 package td3;
 
-public interface ExpressionArithmetique {
-	public ExpressionArithmetique simplifier();
-	public double calculer();
+public abstract class ExpressionArithmetique{
+	public abstract ExpressionArithmetique simplifier();
+	public abstract double calculer();
 }
