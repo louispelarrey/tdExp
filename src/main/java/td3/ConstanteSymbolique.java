@@ -22,7 +22,7 @@ public class ConstanteSymbolique implements ExpressionArithmetique {
 
 
 	@Override
-	public ExpressionArithmetique<?> simplifier() {
+	public ExpressionArithmetique simplifier() {
 		return this;
 	}
 
