@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public class ConstSymbolique extends ExpressionArithmetique{
 	private String symbole;
 	
@@ -7,11 +9,11 @@ public class ConstSymbolique extends ExpressionArithmetique{
 		this.symbole = symbole;
 	}
 	
-	public ConstSymbolique simplifier() {
+	public ConstSymbolique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return this;
 	}
 	
-	public double calculer() {
+	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		double valeurApprox = 0;
 		if (this.symbole == "π" || this.symbole == "pi") {
 			valeurApprox = Math.PI;
@@ -20,4 +22,5 @@ public class ConstSymbolique extends ExpressionArithmetique{
 		}
 		return valeurApprox;
 	}
+
 }

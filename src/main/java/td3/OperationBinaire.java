@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public abstract class OperationBinaire extends ExpressionArithmetique {
 	protected ExpressionArithmetique eaLeft;
 	protected ExpressionArithmetique eaRight;
@@ -32,34 +34,9 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
 		return this;
 	}
-	
-	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, ConstEntiere droite) {
-		return this;
-	}
-	
-	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, ConstSymbolique droite) {
-		return this;
-	}
-	
-	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, VariableSymbolique droite) {
-		return this;
-	}
-	
-	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstEntiere droite) {
-		return this;
-	}
-	
-	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstSymbolique droite) {
-		return this;
-	}
-	
-	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, VariableSymbolique droite) {
-		return this;
-	}
-	
 
 	@Override
-	public ExpressionArithmetique simplifier() {
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 
 		ExpressionArithmetique res;
 		this.eaLeft = this.eaLeft.simplifier();

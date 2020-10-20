@@ -1,6 +1,8 @@
 
 package td3;
 
+import java.util.Map;
+
 public class Addition extends OperationBinaire {
 
 	public Addition(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
@@ -8,8 +10,8 @@ public class Addition extends OperationBinaire {
 	}
 
 	@Override
-	public double calculer() {
-		return this.eaLeft.calculer() + this.eaRight.calculer();
+	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		return this.eaLeft.calculer(map) + this.eaRight.calculer(map);
 	}
 
 	@Override
@@ -32,33 +34,6 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return simplifie(droite, gauche).simplifier();
-	}
- 
-	@Override
-	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, VariableSymbolique droite) {
-		//if(gauche.equals(droite))
-			//return new Multiplication();
-		return new ConstEntiere((int)gauche.getValeur() + (int)droite.getValeur());
-	}
-	
-	@Override
-	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstEntiere droite) {
-		return new ConstEntiere((int)gauche.getValeur() + droite.getEntier());
-	}
-	
-	@Override
-	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
-		return simplifie(droite, gauche).simplifier();
-	}
-	
-	@Override
-	protected ExpressionArithmetique simplifie(ConstSymbolique gauche, VariableSymbolique droite) {
-		//return new ConstRationnelle((int)gauche.calculer() + (int)droite.getValeur());
-	}
-	
-	@Override
-	protected ExpressionArithmetique simplifie(VariableSymbolique gauche, ConstSymbolique droite) {
 		return simplifie(droite, gauche).simplifier();
 	}
 }

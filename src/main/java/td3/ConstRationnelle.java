@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public final class ConstRationnelle extends ExpressionArithmetique {
 
 	private final int numerateur;
@@ -7,8 +9,6 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 	
 	@Override
 	public String toString() {
-		if(numerateur == denominateur)
-			return "1";
 		return numerateur + "/" + denominateur;
 	}
 
@@ -26,7 +26,7 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 	}
 
 	@Override
-	public ExpressionArithmetique simplifier() {
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		int pgcd = gcd(this.numerateur, this.denominateur);
 		return new ConstRationnelle(this.numerateur / pgcd, this.denominateur / pgcd);
 	}
@@ -39,7 +39,7 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 	}
 
 	@Override
-	public double calculer() {
+	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return (double)this.numerateur / (double)this.denominateur;
 	}
 

@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public class Puissance extends OperationBinaire{
 
 	public Puissance(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
@@ -7,8 +9,8 @@ public class Puissance extends OperationBinaire{
 	}
 
 	@Override
-	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstEntiere droite) {
-		return new ConstEntiere(gauche.getEntier() ^ droite.getEntier());
+	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		return Math.pow(this.eaLeft.calculer(map), this.eaRight.calculer(map));
 	}
 	
 	@Override

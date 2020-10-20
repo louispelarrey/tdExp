@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public class Soustraction extends OperationBinaire {
 
 	public Soustraction(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
@@ -8,8 +10,8 @@ public class Soustraction extends OperationBinaire {
 	}
 
 	@Override
-	public double calculer() {
-		return this.eaLeft.calculer() - this.eaRight.calculer();
+	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		return this.eaLeft.calculer(map) - this.eaRight.calculer(map);
 	}
 
 	@Override

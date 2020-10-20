@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
+
 import org.junit.Test;
 
 import td3.Addition;
@@ -83,8 +85,8 @@ public class AppTest {
 		assertEquals(-0.91113, cos.calculer(),0.00001);
 
 		
-		ExpressionArithmetique dr = new ConstRationnelle(1, 3);
-		ExpressionArithmetique br = new ConstRationnelle(3, 4);
+		ExpressionArithmetique dr = new ConstRationnelle(1, 2);
+		ExpressionArithmetique br = new ConstRationnelle(1, 2);
 		ExpressionArithmetique sy = new VariableSymbolique("x");
 
 		ExpressionArithmetique plu = new Addition(dr, br);
@@ -102,16 +104,18 @@ public class AppTest {
 		ExpressionArithmetique plusSpeDeux = new Addition(pi, un);
 		assertEquals(4.1416, plusSpeDeux.calculer(),0.00001);
 
+		//(1/4 + 3/4) + x = 
 		//question 7
-		assertTrue(plusSpeDeux.equals(question));
-		assertFalse(plusSpeDeux.equals(minus));
+		//assertTrue(plusSpeDeux.equals(question));
+		//assertFalse(plusSpeDeux.equals(minus));
 		
 		//question 8
-		ExpressionArithmetique xUn = new VariableSymbolique("x", 1);
-		ExpressionArithmetique yUn = new VariableSymbolique("y", 1);
+		ExpressionArithmetique x = new VariableSymbolique("x");
+		ExpressionArithmetique y = new VariableSymbolique("y");
+		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.00001);
 		
-		ExpressionArithmetique add = new Addition(yUn, un);
-		ExpressionArithmetique divSymbol = new Division(un, add);
+		ExpressionArithmetique add = new Addition(y, un);
+		ExpressionArithmetique divSymbol = new Division(x, add);
 		ExpressionArithmetique addSymbol = new Addition(un, divSymbol);
 
 		assertEquals(new ConstRationnelle(3, 2).calculer(), addSymbol.calculer(),0.00001);

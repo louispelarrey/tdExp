@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public class ConstanteSymbolique extends ExpressionArithmetique {
 
 	private final String symbole;
@@ -22,13 +24,13 @@ public class ConstanteSymbolique extends ExpressionArithmetique {
 
 
 	@Override
-	public ExpressionArithmetique simplifier() {
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return this;
 	}
 
 	
 	@Override
-	public double calculer() {
+	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return value;
 	}
 	
