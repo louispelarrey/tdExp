@@ -7,7 +7,8 @@ public class Ln extends OperationUnaire{
 	public Ln(ExpressionArithmetique membre) {
 		super(membre);
 	}
-
+	
+	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return Math.log(this.membre.calculer());
 	}

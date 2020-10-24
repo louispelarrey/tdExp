@@ -27,22 +27,20 @@ public class VariableSymbolique extends ExpressionArithmetique{
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		ExpressionArithmetique ea = map.get(this);
-		if(ea == null) {
-			return this;
+		if(map.containsKey(this) && map.get(this) != null) {
+			return map.get(this);
 		}else {
-			return ea;
+			return this;
 		}
 	}
 
 
 	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		ExpressionArithmetique ea = map.get(this);
-		if(ea == null) {
-			throw new MissingValueException("Impossible de calculer : la valeur de la variable symbolique n'est pas définie");
+		if(map.containsKey(this) && map.get(this) != null) {
+			return map.get(this).calculer();
 		}else {
-			return ea.calculer();
+			throw new MissingValueException("Impossible de calculer : la valeur de la variable symbolique n'est pas définie");
 		}
 	}
 	

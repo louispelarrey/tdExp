@@ -7,7 +7,8 @@ public class RacineCarre extends OperationUnaire{
 	public RacineCarre(ExpressionArithmetique membre) {
 		super(membre);
 	}
-
+	
+	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return Math.sqrt(this.membre.calculer());
 	}

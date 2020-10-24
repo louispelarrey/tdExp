@@ -31,16 +31,12 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return this;
 	}
 	
-	protected ExpressionArithmetique simplifie(ConstEntiere gauche, VariableSymbolique droite) {
-		return this;
-	}
-
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 
 		ExpressionArithmetique res;
-		this.eaLeft = this.eaLeft.simplifier();
-		this.eaRight = this.eaRight.simplifier();
+		this.eaLeft = this.eaLeft.simplifier(map);
+		this.eaRight = this.eaRight.simplifier(map);
 
 		if (this.eaLeft instanceof ConstEntiere && this.eaRight instanceof ConstEntiere) {
 			ConstEntiere gauche = (ConstEntiere) this.eaLeft;
