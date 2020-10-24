@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -16,6 +18,7 @@ import td3.Cos;
 import td3.Division;
 import td3.ExpressionArithmetique;
 import td3.Ln;
+import td3.MissingValueException;
 import td3.Multiplication;
 import td3.Pi;
 import td3.Puissance;
@@ -129,16 +132,29 @@ public class AppTest {
 	@Test
 	public void testVarSymbWithValue() {
 		//question 8	
+		
+		VariableSymbolique x = new VariableSymbolique("x");
 		ExpressionArithmetique un = new ConstEntiere(1);
-		ExpressionArithmetique x = new VariableSymbolique("x");
+		
+		VariableSymbolique y = new VariableSymbolique("y");
+		ExpressionArithmetique dix = new ConstEntiere(10);
 		
 		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.00001);
 		
+		Addition addUn = new Addition(un, x);
+		Addition addDeux = new Addition(dix, y);
+		Multiplication addUnFoisAddDeux = new Multiplication(addUn, addDeux); //(1+x)*(10+y)
 		
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>();
+		map.put(x, un);// x = 1
+		map.put(y, dix);// x = 10		
+		
+		
+		assertEquals(40, addUnFoisAddDeux.calculer(map), 0.00001); // (1+1)*(10+10) = 40 (serieux ??)
 		
 	}
 	
-	@Test(expected = RuntimeException.class) //changer par une class perso
+	@Test(expected = MissingValueException.class) //changer par une class perso
 	public void testExceptionVarSymb() {
 		ExpressionArithmetique x = new VariableSymbolique("x");
 		

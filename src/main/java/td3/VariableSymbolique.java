@@ -3,21 +3,10 @@ package td3;
 import java.util.Map;
 
 public class VariableSymbolique extends ExpressionArithmetique{
-	private double valeur;
 	private String symbole;
 	
 	public VariableSymbolique(String variable) {
 		this.symbole = variable;
-	}
-	
-	
-	public double getValeur() {
-		return valeur;
-	}
-
-
-	public void setValeur(double valeur) {
-		this.valeur = valeur;
 	}
 
 
@@ -30,16 +19,8 @@ public class VariableSymbolique extends ExpressionArithmetique{
 		this.symbole = symbole;
 	}
 
-
-	public VariableSymbolique(String variable, double valeur) {
-		this.symbole = variable;
-		this.valeur = valeur;
-	}
-
 	
 	public String toString() {
-		if(this.valeur != 0)
-			return "" + this.valeur;
 		return this.symbole;
 	}
 
@@ -59,7 +40,7 @@ public class VariableSymbolique extends ExpressionArithmetique{
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		ExpressionArithmetique ea = map.get(this);
 		if(ea == null) {
-			throw new RuntimeException();
+			throw new MissingValueException("Impossible de calculer : la valeur de la variable symbolique n'est pas définie");
 		}else {
 			return ea.calculer();
 		}
