@@ -17,6 +17,7 @@ import td3.Division;
 import td3.ExpressionArithmetique;
 import td3.Ln;
 import td3.Multiplication;
+import td3.Pi;
 import td3.Puissance;
 import td3.RacineCarre;
 import td3.Sin;
@@ -119,7 +120,7 @@ public class AppTest {
 	public void testConstSymb() {
 		//question 6
 		ExpressionArithmetique un = new ConstEntiere(1);
-		ExpressionArithmetique pi = new ConstSymbolique("π");
+		Pi pi = new Pi();
 		ExpressionArithmetique piPlusUn = new Addition(pi, un);
 		
 		assertEquals(4.1416, piPlusUn.calculer(),0.00001);	

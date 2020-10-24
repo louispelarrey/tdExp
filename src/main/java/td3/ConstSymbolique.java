@@ -3,24 +3,31 @@ package td3;
 import java.util.Map;
 
 public class ConstSymbolique extends ExpressionArithmetique{
-	private String symbole;
+	private final String symbole;
+	private final double value;
 	
-	public ConstSymbolique(String symbole) {
+	public ConstSymbolique(String symbole, double value) {
 		this.symbole = symbole;
+		this.value = value;
 	}
-	
-	public ConstSymbolique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+
+	public String getSymbole() {
+		return symbole;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return this;
 	}
-	
+	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		double valeurApprox = 0;
-		if (this.symbole == "π" || this.symbole == "pi") {
-			valeurApprox = Math.PI;
-		}else if(this.symbole == "e") {
-			valeurApprox = Math.exp(1.0);
-		}
-		return valeurApprox;
+		return value;
 	}
+	
+	
 
 }
