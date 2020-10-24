@@ -69,22 +69,39 @@ public class AppTest {
 		ExpressionArithmetique plus = new Addition(neuf, deux);
 		ExpressionArithmetique minus = new Soustraction(trois, cr);
 		ExpressionArithmetique times = new Multiplication(plus, minus);
-		ExpressionArithmetique pui = new Puissance(plus, minus);
+		
+		
+		System.out.println(times.calculer());
+		assertEquals(550/17.0, times.calculer(),0.00001);
+		
+
+		//(1/4 + 3/4) + x = 
+		//question 7
+		//assertTrue(plusSpeDeux.equals(question));
+		//assertFalse(plusSpeDeux.equals(minus));
+		
+		 
+	}
+	
+	@Test
+	public void testOpUnaire(){
+		ExpressionArithmetique neuf = new ConstEntiere(9);
+		ExpressionArithmetique pui = new Puissance(neuf, neuf);
 		ExpressionArithmetique racine = new RacineCarre(neuf);
 		ExpressionArithmetique ln = new Ln(neuf);
 		ExpressionArithmetique cos = new Cos(neuf);
 		ExpressionArithmetique sin = new Sin(neuf);
 		
-		
-		System.out.println(times.calculer());
-		assertEquals(550/17.0, times.calculer(),0.00001);
-		assertEquals(1155.89839, pui.calculer(),0.00001);
+		assertEquals(Math.pow(9,9), pui.calculer(),0.00001);
 		assertEquals(3, racine.calculer(),0.00001);
 		assertEquals(2.197224577, ln.calculer(),0.00001);
 		assertEquals(0.412118, sin.calculer(),0.00001);
 		assertEquals(-0.91113, cos.calculer(),0.00001);
 
-		
+	}
+	
+	@Test
+	public void testSimplifierVarSymb(){
 		ExpressionArithmetique dr = new ConstRationnelle(1, 2);
 		ExpressionArithmetique br = new ConstRationnelle(1, 2);
 		ExpressionArithmetique sy = new VariableSymbolique("x");
@@ -95,31 +112,35 @@ public class AppTest {
 		//question 5
 		System.out.println(question.simplifier());
 		
+		//remplacer par un assert de String
+	}
+	
+	@Test
+	public void testConstSymb() {
 		//question 6
 		ExpressionArithmetique un = new ConstEntiere(1);
-		ExpressionArithmetique plusSpe = new Addition(br, un);
-		assertEquals(1.7500, plusSpe.calculer(),0.00001);
-		
 		ExpressionArithmetique pi = new ConstSymbolique("π");
-		ExpressionArithmetique plusSpeDeux = new Addition(pi, un);
-		assertEquals(4.1416, plusSpeDeux.calculer(),0.00001);
-
-		//(1/4 + 3/4) + x = 
-		//question 7
-		//assertTrue(plusSpeDeux.equals(question));
-		//assertFalse(plusSpeDeux.equals(minus));
+		ExpressionArithmetique piPlusUn = new Addition(pi, un);
 		
-		//question 8
+		assertEquals(4.1416, piPlusUn.calculer(),0.00001);	
+	}
+	
+	@Test
+	public void testVarSymbWithValue() {
+		//question 8	
+		ExpressionArithmetique un = new ConstEntiere(1);
 		ExpressionArithmetique x = new VariableSymbolique("x");
-		ExpressionArithmetique y = new VariableSymbolique("y");
+		
 		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.00001);
 		
-		ExpressionArithmetique add = new Addition(y, un);
-		ExpressionArithmetique divSymbol = new Division(x, add);
-		ExpressionArithmetique addSymbol = new Addition(un, divSymbol);
-
-		assertEquals(new ConstRationnelle(3, 2).calculer(), addSymbol.calculer(),0.00001);
 		
-		 
+		
+	}
+	
+	@Test(expected = RuntimeException.class) //changer par une class perso
+	public void testExceptionVarSymb() {
+		ExpressionArithmetique x = new VariableSymbolique("x");
+		
+		double error = x.calculer(); 
 	}
 }
