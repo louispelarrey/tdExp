@@ -36,4 +36,9 @@ public class Addition extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
 		return simplifie(droite, gauche).simplifier();
 	}
+	
+	@Override
+	public String toString() {
+		return eaLeft.toString() + "+" + eaRight.toString();
+	}
 }

@@ -28,6 +28,9 @@ public class ConstSymbolique extends ExpressionArithmetique{
 		return value;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return symbole;
+	}
 
 }

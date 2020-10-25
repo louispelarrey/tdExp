@@ -17,4 +17,9 @@ public class Sin extends OperationUnaire{
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		return "sin(" + membre.toString() + ")";
+	}
 }

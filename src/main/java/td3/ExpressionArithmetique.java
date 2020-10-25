@@ -17,6 +17,7 @@ public abstract class ExpressionArithmetique{
 	
 	public abstract ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map);
 	public abstract double calculer(Map<VariableSymbolique, ExpressionArithmetique> map);
+	@Override public abstract String toString(); //demander pour override
 	
 	@Override
 	public boolean equals(Object obj) {

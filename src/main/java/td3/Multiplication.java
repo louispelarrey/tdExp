@@ -32,8 +32,12 @@ public class Multiplication extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return (ExpressionArithmetique) this.simplifie(droite, gauche).simplifier();
+		return this.simplifie(droite, gauche).simplifier();
 	}
-
+	
+	@Override
+	public String toString() {
+		return eaLeft.toString() + "*" + eaRight.toString();
+	}
 
 }

@@ -172,7 +172,6 @@ public class AppTest {
 		//x² +3x + 6 ->  x = -0.4
 		
 		ConstEntiere deux = new ConstEntiere(2);//2		
-		ConstEntiere cinq = new ConstEntiere(5);//5
 		ConstEntiere trois = new ConstEntiere(3);//3
 		ConstEntiere six = new ConstEntiere(6);//6	
 		
@@ -190,6 +189,29 @@ public class AppTest {
 		ExpressionArithmetique exp2 = new Addition(sousPuiTimes2, six);//-0.4^2 + 3*-0.4 + 6
 		
 		equals(exp1.equals(exp2));
+		
+		//penser a rajouter un equals avec map 
+	}
+	
+	@Test
+	public void testToString() {
+		
+		//x² +3x + 6 ->  x = -0.4
+		
+		ConstEntiere deux = new ConstEntiere(2);//2		
+		ConstEntiere trois = new ConstEntiere(3);//3
+		ConstEntiere six = new ConstEntiere(6);//6	
+		
+		ConstRationnelle moinZeroQuatre = new ConstRationnelle(-2, 5);//-0.4
+		ExpressionArithmetique pui = new Puissance(moinZeroQuatre,deux); //-0.4^2
+		ExpressionArithmetique times = new Multiplication(trois, moinZeroQuatre); //3*-0.4
+		
+		ExpressionArithmetique addPuiTimes = new Addition(pui, times);//-0.4^2 + 3*-0.4
+		ExpressionArithmetique exp1 = new Addition(addPuiTimes, six);//-0.4^2 + 3*-0.4 + 6
+		
+
+		
+		assertEquals("-2/5^2+3*-2/5+6", exp1.toString());
 		
 		//penser a rajouter un equals avec map 
 	}

@@ -17,4 +17,9 @@ public class Cos extends OperationUnaire{
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		return "cos(" + membre.toString() + ")";
+	}
 }

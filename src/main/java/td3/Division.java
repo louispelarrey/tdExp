@@ -6,7 +6,6 @@ public class Division extends OperationBinaire {
 
 	public Division(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
 		super(eaLeft, eaRight);
-
 	}
 
 	@Override
@@ -34,10 +33,10 @@ public class Division extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstEntiere droite) {
 		return new ConstRationnelle(gauche.getEntier(), droite.getEntier()).simplifier();
 	}
-
+	
 	@Override
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
-		return this;
+	public String toString() {
+		return eaLeft.toString() + "/" + eaRight.toString();
 	}
 	
 }

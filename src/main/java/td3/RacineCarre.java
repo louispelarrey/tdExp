@@ -17,5 +17,10 @@ public class RacineCarre extends OperationUnaire{
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return "√" + membre.toString();
+	}
 
 }

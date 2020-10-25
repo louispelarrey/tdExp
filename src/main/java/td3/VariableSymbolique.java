@@ -19,7 +19,7 @@ public class VariableSymbolique extends ExpressionArithmetique{
 		this.symbole = symbole;
 	}
 
-	
+	@Override
 	public String toString() {
 		return this.symbole;
 	}

@@ -37,5 +37,10 @@ public class Soustraction extends OperationBinaire {
 		return new ConstRationnelle(droite.getDenominateur() * gauche.getEntier() - droite.getNumerateur() * 1,
 				1 * droite.getDenominateur()).simplifier();
 	}
+	
+	@Override
+	public String toString() {
+		return eaLeft.toString() + "-" + eaRight.toString();
+	}
 
 }

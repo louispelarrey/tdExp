@@ -6,11 +6,6 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 
 	private final int numerateur;
 	private final int denominateur;
-	
-	@Override
-	public String toString() {
-		return numerateur + "/" + denominateur;
-	}
 
 	public ConstRationnelle(int num, int denom) {
 		this.numerateur = num;
@@ -41,6 +36,11 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		return (double)this.numerateur / (double)this.denominateur;
+	}
+	
+	@Override
+	public String toString() {
+		return Integer.toString(numerateur) + "/" + Integer.toString(denominateur);
 	}
 
 }

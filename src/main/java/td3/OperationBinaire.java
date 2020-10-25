@@ -65,9 +65,5 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return res;
 
 	}
-	
-	public String toString() {
-		return this.eaLeft + " + " + this.eaRight;
-	}
 
 }

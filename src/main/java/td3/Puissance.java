@@ -34,5 +34,9 @@ public class Puissance extends OperationBinaire{
 		return Math.pow(this.eaLeft.calculer(), this.eaRight.calculer());
 	}
 	
+	@Override
+	public String toString() {
+		return eaLeft.toString() + "^" + eaRight.toString();
+	}
 	
 }
