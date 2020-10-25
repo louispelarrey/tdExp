@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public abstract class ExpressionArithmetique{
+	
 	@SuppressWarnings("unchecked")
 	public ExpressionArithmetique simplifier() {
 		return simplifier(Collections.EMPTY_MAP);

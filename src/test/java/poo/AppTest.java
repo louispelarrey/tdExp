@@ -126,7 +126,11 @@ public class AppTest {
 		Pi pi = new Pi();
 		ExpressionArithmetique piPlusUn = new Addition(pi, un);
 		
+		ExpressionArithmetique troisQuart = new ConstRationnelle(3,4);
+		ExpressionArithmetique unPlusTroisQuart = new Addition(un, troisQuart);
+
 		assertEquals(4.1416, piPlusUn.calculer(),0.00001);	
+		assertEquals(1.7500, unPlusTroisQuart.calculer(),0.00001);	
 	}
 	
 	@Test
@@ -140,17 +144,18 @@ public class AppTest {
 		ExpressionArithmetique dix = new ConstEntiere(10);
 		
 		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.00001);
+	
 		
-		Addition addUn = new Addition(un, x);
-		Addition addDeux = new Addition(dix, y);
-		Multiplication addUnFoisAddDeux = new Multiplication(addUn, addDeux); //(1+x)*(10+y)
 		
-		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>();
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); //valorisation de x et y
 		map.put(x, un);// x = 1
-		map.put(y, dix);// x = 10		
+		map.put(y, un);// y = 1	
 		
+		Addition denom = new Addition(y, un); // y+1
+		Division div = new Division(x, denom);// x/(y+1)
+		Addition add = new Addition(un, div);// 1 + (x/(y+1)
 		
-		assertEquals(40, addUnFoisAddDeux.calculer(map), 0.00001); // (1+1)*(10+10) = 40 (serieux ??)
+		assertEquals(3/2.0, add.calculer(map), 0.00001);
 		
 	}
 	
@@ -159,5 +164,33 @@ public class AppTest {
 		ExpressionArithmetique x = new VariableSymbolique("x");
 		
 		double error = x.calculer(); 
+	}
+	
+	@Test
+	public void testEquals() {
+		
+		//x² +3x + 6 ->  x = -0.4
+		
+		ConstEntiere deux = new ConstEntiere(2);//2		
+		ConstEntiere cinq = new ConstEntiere(5);//5
+		ConstEntiere trois = new ConstEntiere(3);//3
+		ConstEntiere six = new ConstEntiere(6);//6	
+		
+		ConstRationnelle moinZeroQuatre = new ConstRationnelle(-2, 5);//-0.4
+		ExpressionArithmetique pui = new Puissance(moinZeroQuatre,deux); //-0.4^2
+		ExpressionArithmetique times = new Multiplication(trois, moinZeroQuatre); //3*-0.4
+		
+		ExpressionArithmetique addPuiTimes = new Addition(pui, times);//-0.4^2 + 3*-0.4
+		ExpressionArithmetique exp1 = new Addition(addPuiTimes, six);//-0.4^2 + 3*-0.4 + 6
+		
+		// x² -2x + 4 -> x = -0.4
+		
+		ExpressionArithmetique times2 = new Multiplication(deux, moinZeroQuatre); //2*-0.4
+		ExpressionArithmetique sousPuiTimes2 = new Addition(pui, times2);//-0.4^2 - 2*-0.4
+		ExpressionArithmetique exp2 = new Addition(sousPuiTimes2, six);//-0.4^2 + 3*-0.4 + 6
+		
+		equals(exp1.equals(exp2));
+		
+		//penser a rajouter un equals avec map 
 	}
 }
