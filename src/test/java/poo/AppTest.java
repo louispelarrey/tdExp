@@ -75,7 +75,7 @@ public class AppTest {
 		ExpressionArithmetique times = new Multiplication(plus, minus);
 		
 		
-		System.out.println(times.calculer());
+		//System.out.println(times.calculer());
 		assertEquals(550/17.0, times.calculer(),0.0001);
 		
 
@@ -114,7 +114,7 @@ public class AppTest {
 		ExpressionArithmetique question = new Addition(plu, sy);
 		
 		//question 5
-		System.out.println(question.simplifier());
+		//System.out.println(question.simplifier());
 		
 		//remplacer par un assert de String
 	}
@@ -209,11 +209,26 @@ public class AppTest {
 		ExpressionArithmetique addPuiTimes = new Addition(pui, times);//-0.4^2 + 3*-0.4
 		ExpressionArithmetique exp1 = new Addition(addPuiTimes, six);//-0.4^2 + 3*-0.4 + 6
 		
-
-		
 		assertEquals("-2/5^2+3*-2/5+6", exp1.toString());
 		
 		//penser a rajouter un equals avec map 
+		
+		// Question 17
+		
+		/*
+		ExpressionArithmetique baseAdd = new Addition(new VariableSymbolique("x"), new ConstEntiere(2));
+		ExpressionArithmetique baseAdd2 = new Addition(baseAdd, new ConstEntiere(2));
+		ExpressionArithmetique baseAdd3 = new Addition(baseAdd2, new VariableSymbolique("y"));
+		ExpressionArithmetique simpString = baseAdd3.simplifier();
+		*/
+		
+		
+		ExpressionArithmetique baseMul = new Multiplication(new ConstEntiere(2), new VariableSymbolique("x"));
+		ExpressionArithmetique baseMul2 = new Multiplication(new ConstEntiere(5), baseMul);
+		ExpressionArithmetique baseMul3 = new Multiplication(baseMul2, new ConstEntiere(6));
+		ExpressionArithmetique simpString = baseMul3.simplifier();
+		
+		System.out.println(simpString);
 	}
 	
 	@Test
