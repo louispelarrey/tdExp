@@ -76,7 +76,7 @@ public class AppTest {
 		
 		
 		System.out.println(times.calculer());
-		assertEquals(550/17.0, times.calculer(),0.00001);
+		assertEquals(550/17.0, times.calculer(),0.0001);
 		
 
 		//(1/4 + 3/4) + x = 
@@ -96,11 +96,11 @@ public class AppTest {
 		ExpressionArithmetique cos = new Cos(neuf);
 		ExpressionArithmetique sin = new Sin(neuf);
 		
-		assertEquals(Math.pow(9,9), pui.calculer(),0.00001);
-		assertEquals(3, racine.calculer(),0.00001);
-		assertEquals(2.197224577, ln.calculer(),0.00001);
-		assertEquals(0.412118, sin.calculer(),0.00001);
-		assertEquals(-0.91113, cos.calculer(),0.00001);
+		assertEquals(Math.pow(9,9), pui.calculer(),0.0001);
+		assertEquals(3, racine.calculer(),0.0001);
+		assertEquals(2.197224577, ln.calculer(),0.0001);
+		assertEquals(0.412118, sin.calculer(),0.0001);
+		assertEquals(-0.91113, cos.calculer(),0.0001);
 
 	}
 	
@@ -129,8 +129,8 @@ public class AppTest {
 		ExpressionArithmetique troisQuart = new ConstRationnelle(3,4);
 		ExpressionArithmetique unPlusTroisQuart = new Addition(un, troisQuart);
 
-		assertEquals(4.1416, piPlusUn.calculer(),0.00001);	
-		assertEquals(1.7500, unPlusTroisQuart.calculer(),0.00001);	
+		assertEquals(4.1416, piPlusUn.calculer(),0.0001);	
+		assertEquals(1.7500, unPlusTroisQuart.calculer(),0.0001);	
 	}
 	
 	@Test
@@ -143,7 +143,7 @@ public class AppTest {
 		VariableSymbolique y = new VariableSymbolique("y");
 		ExpressionArithmetique dix = new ConstEntiere(10);
 		
-		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.00001);
+		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.0001);
 	
 		
 		
@@ -155,7 +155,7 @@ public class AppTest {
 		Division div = new Division(x, denom);// x/(y+1)
 		Addition add = new Addition(un, div);// 1 + (x/(y+1)
 		
-		assertEquals(3/2.0, add.calculer(map), 0.00001);
+		assertEquals(3/2.0, add.calculer(map), 0.0001);
 		
 	}
 	
