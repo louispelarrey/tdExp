@@ -215,4 +215,33 @@ public class AppTest {
 		
 		//penser a rajouter un equals avec map 
 	}
+	
+	@Test
+	public void test() {
+		ConstEntiere deux1 = new ConstEntiere(2);//2
+		ConstEntiere trois = new ConstEntiere(3);//2
+		VariableSymbolique x = new VariableSymbolique("x");
+		
+		ExpressionArithmetique oui = new Addition(deux1, x);
+		ExpressionArithmetique non = new Soustraction(deux1, x);
+		assertFalse(oui.equals(non));
+		
+		ExpressionArithmetique oui2 = new Addition(deux1, x);
+		
+		assertTrue(oui.equals(oui2));
+		
+		ExpressionArithmetique oui3 = new Addition(deux1, trois);
+		ExpressionArithmetique non3 = new Addition(deux1, trois);
+		
+		assertTrue(oui3.equals(oui3));
+		
+		ExpressionArithmetique opU = new Cos(deux1);
+		ExpressionArithmetique opU2 = new Cos(x);
+		
+		assertFalse(opU.equals(opU2));
+		
+		ExpressionArithmetique opU3 = new Cos(deux1);
+		
+		assertTrue(opU.equals(opU3));
+	}
 }

@@ -65,5 +65,17 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return res;
 
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OperationBinaire other = (OperationBinaire) obj;
+		return (eaLeft.simplifier().equals(other.eaLeft.simplifier()) && eaRight.simplifier().equals(other.eaRight.simplifier()));
+	}
 
 }

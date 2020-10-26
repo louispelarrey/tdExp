@@ -15,11 +15,12 @@ public class Ln extends OperationUnaire{
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		return this;
+		return new Ln(membre.simplifier(map));
 	}
 	
 	@Override
 	public String toString() {
 		return "ln(" + membre.toString() + ")";
 	}
+	
 }

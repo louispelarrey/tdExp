@@ -10,12 +10,12 @@ public class Cos extends OperationUnaire{
 	
 	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		return Math.cos(this.membre.calculer());
+		return Math.cos(this.membre.calculer(map));
 	}
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		return this;
+		return new Cos(membre.simplifier(map));
 	}
 	
 	@Override

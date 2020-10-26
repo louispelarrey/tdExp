@@ -43,4 +43,30 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 		return Integer.toString(numerateur) + "/" + Integer.toString(denominateur);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + denominateur;
+		result = prime * result + numerateur;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ConstRationnelle other = (ConstRationnelle) obj;
+		if (denominateur != other.denominateur)
+			return false;
+		if (numerateur != other.numerateur)
+			return false;
+		return true;
+	}
+
+
 }

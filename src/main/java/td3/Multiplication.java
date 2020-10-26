@@ -39,5 +39,4 @@ public class Multiplication extends OperationBinaire {
 	public String toString() {
 		return eaLeft.toString() + "*" + eaRight.toString();
 	}
-
 }

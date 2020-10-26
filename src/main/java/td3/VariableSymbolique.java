@@ -43,5 +43,32 @@ public class VariableSymbolique extends ExpressionArithmetique{
 			throw new MissingValueException("Impossible de calculer : la valeur de la variable symbolique n'est pas définie");
 		}
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((symbole == null) ? 0 : symbole.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VariableSymbolique other = (VariableSymbolique) obj;
+		if (symbole == null) {
+			if (other.symbole != null)
+				return false;
+		} else if (!symbole.equals(other.symbole))
+			return false;
+		return true;
+	}
 	
 }
