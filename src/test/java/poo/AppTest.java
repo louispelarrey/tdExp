@@ -169,26 +169,25 @@ public class AppTest {
 	@Test
 	public void testEquals() {
 		
-		//x² +3x + 6 ->  x = -0.4
+		ConstEntiere deux = new ConstEntiere(2);//2	
+		ConstEntiere deux2 = new ConstEntiere(2);//2
 		
-		ConstEntiere deux = new ConstEntiere(2);//2		
+		assertEquals(true,deux.equals(deux2));
+		
 		ConstEntiere trois = new ConstEntiere(3);//3
 		ConstEntiere six = new ConstEntiere(6);//6	
 		
-		ConstRationnelle moinZeroQuatre = new ConstRationnelle(-2, 5);//-0.4
-		ExpressionArithmetique pui = new Puissance(moinZeroQuatre,deux); //-0.4^2
-		ExpressionArithmetique times = new Multiplication(trois, moinZeroQuatre); //3*-0.4
+		assertEquals(false,six.equals(trois));
+	
+		ExpressionArithmetique add = new Addition(trois, six);
+		ExpressionArithmetique add2 = new Addition(trois, six);
 		
-		ExpressionArithmetique addPuiTimes = new Addition(pui, times);//-0.4^2 + 3*-0.4
-		ExpressionArithmetique exp1 = new Addition(addPuiTimes, six);//-0.4^2 + 3*-0.4 + 6
+		assertEquals(true,add.equals(add2));
 		
-		// x² -2x + 4 -> x = -0.4
+		ExpressionArithmetique div = new Division(six, trois);
+		ExpressionArithmetique div2 = new Division(trois, six);
 		
-		ExpressionArithmetique times2 = new Multiplication(deux, moinZeroQuatre); //2*-0.4
-		ExpressionArithmetique sousPuiTimes2 = new Addition(pui, times2);//-0.4^2 - 2*-0.4
-		ExpressionArithmetique exp2 = new Addition(sousPuiTimes2, six);//-0.4^2 + 3*-0.4 + 6
-		
-		equals(exp1.equals(exp2));
+		assertEquals(false,div.equals(div2));
 		
 		//penser a rajouter un equals avec map 
 	}
