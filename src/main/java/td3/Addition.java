@@ -36,4 +36,9 @@ public class Addition extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
 		return simplifie(droite, gauche).simplifier();
 	}
+	
+	@Override
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0); //faut-il resimplifier ?
+	}
 }

@@ -188,7 +188,7 @@ public class AppTest {
 		ExpressionArithmetique sousPuiTimes2 = new Addition(pui, times2);//-0.4^2 - 2*-0.4
 		ExpressionArithmetique exp2 = new Addition(sousPuiTimes2, six);//-0.4^2 + 3*-0.4 + 6
 		
-		equals(exp1.equals(exp2));
+		assertEquals(exp1, exp2);
 		
 		//penser a rajouter un equals avec map 
 	}
@@ -243,5 +243,24 @@ public class AppTest {
 		ExpressionArithmetique opU3 = new Cos(deux1);
 		
 		assertTrue(opU.equals(opU3));
+	}
+	
+	@Test //question 15
+	public void testElementNeutre() {
+		ConstEntiere un = new ConstEntiere(1);//1
+		ConstEntiere zero = new ConstEntiere(0);//0		
+		ConstEntiere cinq = new ConstEntiere(5);//5
+		
+		ExpressionArithmetique add = new Addition(zero, cinq);	
+		ExpressionArithmetique sous = new Soustraction(cinq, zero);
+		
+		assertEquals(cinq, add.simplifier());
+		assertEquals(cinq, sous.simplifier());
+		
+		ExpressionArithmetique div = new Division(cinq, un);
+		ExpressionArithmetique mult = new Multiplication(un, cinq);
+		
+		assertEquals(cinq, div.simplifier());
+		assertEquals(cinq, mult.simplifier());
 	}
 }

@@ -39,4 +39,9 @@ public class Puissance extends OperationBinaire{
 		return eaLeft.toString() + "^" + eaRight.toString();
 	}
 	
+	@Override
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 1);
+	}
+	
 }

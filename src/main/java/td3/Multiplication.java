@@ -39,4 +39,10 @@ public class Multiplication extends OperationBinaire {
 	public String toString() {
 		return eaLeft.toString() + "*" + eaRight.toString();
 	}
+
+	@Override
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 1);
+	}
+	
 }

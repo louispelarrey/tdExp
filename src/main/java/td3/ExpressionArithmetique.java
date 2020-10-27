@@ -19,4 +19,6 @@ public abstract class ExpressionArithmetique{
 	public abstract double calculer(Map<VariableSymbolique, ExpressionArithmetique> map);
 	
 	
+	
+	
 }

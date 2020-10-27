@@ -37,6 +37,11 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		ExpressionArithmetique res;
 		this.eaLeft = this.eaLeft.simplifier(map);
 		this.eaRight = this.eaRight.simplifier(map);
+		
+		if(isNeutre(eaLeft))
+			return eaRight;
+		else if(isNeutre(eaRight))
+			return eaLeft;
 
 		if (this.eaLeft instanceof ConstEntiere && this.eaRight instanceof ConstEntiere) {
 			ConstEntiere gauche = (ConstEntiere) this.eaLeft;
@@ -65,6 +70,8 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return res;
 
 	}
+	
+	protected abstract boolean isNeutre(ExpressionArithmetique ea);
 	
 	@Override
 	public boolean equals(Object obj) {
