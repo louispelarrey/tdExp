@@ -249,17 +249,22 @@ public class AppTest {
 		ConstEntiere un = new ConstEntiere(1);//1
 		ConstEntiere zero = new ConstEntiere(0);//0		
 		ConstEntiere cinq = new ConstEntiere(5);//5
+		VariableSymbolique x = new VariableSymbolique("x");
 		
 		ExpressionArithmetique add = new Addition(zero, cinq);	
 		ExpressionArithmetique sous = new Soustraction(cinq, zero);
 		
-		assertEquals(cinq, add.simplifier());
-		assertEquals(cinq, sous.simplifier());
+		assertEquals(true, cinq.equals(add.simplifier()));
+		assertEquals(true, cinq.equals(sous.simplifier()));
 		
 		ExpressionArithmetique div = new Division(cinq, un);
 		ExpressionArithmetique mult = new Multiplication(un, cinq);
 		
-		assertEquals(cinq, div.simplifier());
-		assertEquals(cinq, mult.simplifier());
+		assertEquals(true, cinq.equals(div.simplifier()));
+		assertEquals(true, cinq.equals(mult.simplifier()));
+		
+		ExpressionArithmetique addX = new Addition(zero, x);	
+		
+		assertEquals(true, x.equals(addX.simplifier()));
 	}
 }
