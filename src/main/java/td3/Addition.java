@@ -41,4 +41,8 @@ public class Addition extends OperationBinaire {
 	protected boolean isNeutre(ExpressionArithmetique ea) {
 		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0); //faut-il resimplifier ?
 	}
+		
+	public String toString() {
+		return eaLeft.toString() + "+" + eaRight.toString();
+	}
 }
