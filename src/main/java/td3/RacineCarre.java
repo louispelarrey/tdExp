@@ -15,7 +15,8 @@ public class RacineCarre extends OperationUnaire{
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		return new RacineCarre(membre.simplifier(map));
+		return this.membre.equals(new ConstEntiere(4)) ? new ConstEntiere(2) :
+			new RacineCarre(membre.simplifier(map));
 	}
 	
 	@Override

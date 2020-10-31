@@ -1,6 +1,5 @@
 package td3;
 
-import java.rmi.server.Operation;
 import java.util.Map;
 
 public class Sin extends OperationUnaire{
@@ -16,7 +15,8 @@ public class Sin extends OperationUnaire{
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		return new Sin(membre.simplifier(map));
+		return this.membre.equals(new Division(new Pi(), new ConstEntiere(2))) ? new ConstEntiere(1) :
+				new Sin(membre.simplifier(map));
 	}
 	
 	@Override

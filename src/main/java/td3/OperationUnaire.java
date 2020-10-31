@@ -18,5 +18,4 @@ public abstract class OperationUnaire extends ExpressionArithmetique{
 		OperationUnaire other = (OperationUnaire) obj;
 		return (other.membre.simplifier().equals(this.membre.simplifier()));
 	}
-
 }

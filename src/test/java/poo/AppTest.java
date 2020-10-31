@@ -26,6 +26,7 @@ import td3.RacineCarre;
 import td3.Sin;
 import td3.Soustraction;
 import td3.VariableSymbolique;
+import td3.e;
 
 /**
  * Unit test for simple App.
@@ -217,8 +218,11 @@ public class AppTest {
 	
 	@Test
 	public void test() {
+		ConstEntiere zero = new ConstEntiere(0);//2
+		ConstEntiere un = new ConstEntiere(1);//2
 		ConstEntiere deux1 = new ConstEntiere(2);//2
 		ConstEntiere trois = new ConstEntiere(3);//2
+		ConstEntiere quatre = new ConstEntiere(4);//2
 		VariableSymbolique x = new VariableSymbolique("x");
 		
 		ExpressionArithmetique oui = new Addition(deux1, x);
@@ -242,5 +246,34 @@ public class AppTest {
 		ExpressionArithmetique opU3 = new Cos(deux1);
 		
 		assertTrue(opU.equals(opU3));
-	}
+		
+		ExpressionArithmetique ln = new Ln(un);
+		ExpressionArithmetique qLouis = new Addition(un, ln);
+		
+		
+		//question 10
+		assertTrue(un.equals(qLouis.simplifier()));
+
+		Pi pi = new Pi();
+		e e = new e();
+		
+		ExpressionArithmetique ePui = new Puissance(e, zero);
+		ExpressionArithmetique qLouis3 = new Addition(un, ePui);
+
+		assertEquals(deux1, qLouis3.simplifier());
+		
+		ExpressionArithmetique pi2 = new Division(pi, deux1);
+		ExpressionArithmetique sin2 = new Sin(pi2);
+		ExpressionArithmetique qLouis4 = new Addition(un, sin2);
+		
+		assertTrue(deux1.equals(qLouis4.simplifier()));
+
+		ExpressionArithmetique qLouis5 = new RacineCarre(quatre);
+		//peut etre compléter avec d'autres exemples
+
+		assertTrue(deux1.equals(qLouis5.simplifier()));
+		
+		
+		//question 11
+}
 }

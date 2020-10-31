@@ -1,6 +1,7 @@
 
 package td3;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class Addition extends OperationBinaire {

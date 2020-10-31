@@ -14,8 +14,15 @@ public class Puissance extends OperationBinaire{
 	}
 	
 	@Override
+	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstEntiere droite) {
+		return droite.getEntier() == 0 ? new ConstEntiere(1) :
+				new ConstEntiere(gauche.getEntier() ^ droite.getEntier()).simplifier();
+	}
+	
+	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {
-		return new ConstRationnelle(droite.getEntier() ^ gauche.getNumerateur(), gauche.getDenominateur()).simplifier();
+		return droite.getEntier() == 0 ? new ConstEntiere(1) :
+				new ConstRationnelle(droite.getEntier() ^ gauche.getNumerateur(), gauche.getDenominateur()).simplifier();
 	}
 
 	@Override
@@ -23,10 +30,15 @@ public class Puissance extends OperationBinaire{
 		return this;
 	}
 
-
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
 		return this.simplifie(droite, gauche).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
+		return droite.getEntier() == 0 ? new ConstEntiere(1) :
+			this.simplifie(droite, gauche).simplifier();
 	}
 	
 	@Override
