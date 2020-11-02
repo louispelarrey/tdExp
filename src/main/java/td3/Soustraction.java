@@ -44,7 +44,7 @@ public class Soustraction extends OperationBinaire {
 	}
 
 	public ExpressionArithmetique idRemarquable() {
-		ConstEntiere constanteIdentite = new ConstEntiere(1);
+		ExpressionArithmetique constanteIdentite = new ConstEntiere(1);
 		boolean isIdRemarquable = true;
 		
 		Puissance part1NoConst = null, part2NoConst = null;
@@ -54,9 +54,9 @@ public class Soustraction extends OperationBinaire {
 			Multiplication part1 = (Multiplication) this.eaLeft;
 			Multiplication part2 = (Multiplication) this.eaRight;
 			
-			if(part1.getEaLeft() instanceof ConstEntiere && part2.getEaLeft() instanceof ConstEntiere
+			if((part1.getEaLeft() instanceof ConstEntiere || part1.getEaLeft() instanceof ConstRationnelle)
 					&& part1.getEaLeft().equals(part2.getEaLeft())) {
-				constanteIdentite = (ConstEntiere) part1.getEaLeft();
+				constanteIdentite = part1.getEaLeft();
 				
 				if(part1.getEaRight() instanceof Puissance && ((Puissance) part1.getEaRight()).getEaLeft() instanceof VariableSymbolique &&
 						((Puissance) part1.getEaRight()).getEaRight().equals(new ConstEntiere(2)) &&

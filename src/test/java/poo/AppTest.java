@@ -263,26 +263,26 @@ public class AppTest {
 	@Test
 	public void testIdRemarquable() {
 		ConstEntiere trois = new ConstEntiere(3);
-		ConstEntiere six = new ConstEntiere(6);
+		ConstRationnelle rat = new ConstRationnelle(2, 5);
 		VariableSymbolique a = new VariableSymbolique("a");
 		VariableSymbolique b = new VariableSymbolique("b");
 		Puissance puissA = new Puissance(a, new ConstEntiere(2));
 		Puissance puissB = new Puissance(b, new ConstEntiere(2));
 		
-		
+		/*
 		ExpressionArithmetique part1 = new Multiplication(trois, puissA);
 		ExpressionArithmetique part2 = new Multiplication(six, new Multiplication(a, b));
 		ExpressionArithmetique part3 = new Multiplication(trois, puissB);
 		
 		Addition idRemarquable = new Addition(part1, new Addition(part2, part3));
+		*/
 		
 		
-		/*
-		ExpressionArithmetique part1 = new Multiplication(trois, puissA);
-		ExpressionArithmetique part2 = new Multiplication(trois, puissB);
+		ExpressionArithmetique part1 = new Multiplication(rat, puissA);
+		ExpressionArithmetique part2 = new Multiplication(rat, puissB);
 		
 		Soustraction idRemarquable = new Soustraction (part1, part2);
-		*/
+		
 		
 		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
 		System.out.println(idRemarquableSimp);

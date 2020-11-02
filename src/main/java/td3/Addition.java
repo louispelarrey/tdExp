@@ -162,20 +162,20 @@ public class Addition extends OperationBinaire {
 		
 		globalCond:	
 		if(part2 instanceof Multiplication && isIdRemarquable) {
-			ConstEntiere constanteIdentite = new ConstEntiere(1);
-			ConstEntiere constanteMilieu = new ConstEntiere(2);
-			ConstEntiere constanteMilieuNeg = (ConstEntiere) new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier();
+			ExpressionArithmetique constanteIdentite = new ConstEntiere(1);
+			ExpressionArithmetique constanteMilieu = new ConstEntiere(2);
+			ExpressionArithmetique constanteMilieuNeg = new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier();
 			
 			boolean milieuNeg;
 			
 			Puissance part1NoConst, part3NoConst;
 			Multiplication part2NoConst;
 			
-			if(part1 instanceof Multiplication && ((Multiplication) part1).getEaLeft() instanceof ConstEntiere && 
+			if(part1 instanceof Multiplication && (((Multiplication) part1).getEaLeft() instanceof ConstEntiere || ((Multiplication) part1).getEaLeft() instanceof ConstRationnelle) && 
 					((Multiplication) part1).getEaRight() instanceof Puissance && ((Multiplication) part3).getEaRight() instanceof Puissance)  {
-				constanteIdentite = (ConstEntiere) ((Multiplication) part1).getEaLeft();
-				constanteMilieu = (ConstEntiere) new Multiplication(constanteIdentite, new ConstEntiere(2)).simplifier();
-				constanteMilieuNeg = (ConstEntiere) new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier();
+				constanteIdentite = ((Multiplication) part1).getEaLeft();
+				constanteMilieu = new Multiplication(constanteIdentite, new ConstEntiere(2)).simplifier();
+				constanteMilieuNeg = new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier();
 				
 				if(!(part3 instanceof Multiplication) || !constanteIdentite.equals(((Multiplication) part3).getEaLeft())) {
 					isIdRemarquable = false;
