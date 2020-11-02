@@ -37,6 +37,8 @@ public class Multiplication extends OperationBinaire {
 	
 	@Override
 	public ExpressionArithmetique simplifier() {
+		// La partie suivante gère l'associativité
+		
 		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
 		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
 		

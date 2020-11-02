@@ -36,7 +36,12 @@ public class Puissance extends OperationBinaire{
 	
 	@Override
 	public String toString() {
-		return eaLeft.toString() + "^" + eaRight.toString();
+		if(eaLeft instanceof OperationBinaire) {
+			return "(" + eaLeft.toString() + ")" + "^" + eaRight.toString();
+		}
+		else {
+			return eaLeft.toString() + "^" + eaRight.toString();
+		}
 	}
 	
 }

@@ -228,7 +228,7 @@ public class AppTest {
 		ExpressionArithmetique baseMul3 = new Multiplication(baseMul2, new ConstEntiere(6));
 		ExpressionArithmetique simpString = baseMul3.simplifier();
 		
-		System.out.println(simpString);
+		//System.out.println(simpString);
 	}
 	
 	@Test
@@ -258,5 +258,24 @@ public class AppTest {
 		ExpressionArithmetique opU3 = new Cos(deux1);
 		
 		assertTrue(opU.equals(opU3));
+	}
+	
+	@Test
+	public void testIdRemarquable() {
+		ConstEntiere trois = new ConstEntiere(3);
+		ConstEntiere six = new ConstEntiere(6);
+		VariableSymbolique a = new VariableSymbolique("a");
+		VariableSymbolique b = new VariableSymbolique("b");
+		Puissance puissA = new Puissance(a, new ConstEntiere(2));
+		Puissance puissB = new Puissance(b, new ConstEntiere(2));
+		
+		ExpressionArithmetique part1 = new Multiplication(trois, puissA);
+		ExpressionArithmetique part2 = new Multiplication(six, new Multiplication(a, b));
+		ExpressionArithmetique part3 = new Multiplication(trois, puissB);
+		
+		Addition idRemarquable = new Addition(part1, new Addition(part2, part3));
+		
+		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
+		System.out.println(idRemarquableSimp);
 	}
 }
