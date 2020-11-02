@@ -136,6 +136,9 @@ public class Multiplication extends OperationBinaire {
 	
 	@Override
 	public String toString() {
-		return eaLeft.toString() + "*" + eaRight.toString();
+		String eaLeftString = (eaLeft instanceof OperationBinaire) ? "(" + eaLeft.toString() + ")" : eaLeft.toString();
+		String eaRightString = (eaRight instanceof OperationBinaire) ? "(" + eaRight.toString() + ")" : eaRight.toString();
+		
+		return eaLeftString + "*" + eaRightString;
 	}
 }

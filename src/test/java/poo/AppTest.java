@@ -269,11 +269,20 @@ public class AppTest {
 		Puissance puissA = new Puissance(a, new ConstEntiere(2));
 		Puissance puissB = new Puissance(b, new ConstEntiere(2));
 		
+		
 		ExpressionArithmetique part1 = new Multiplication(trois, puissA);
 		ExpressionArithmetique part2 = new Multiplication(six, new Multiplication(a, b));
 		ExpressionArithmetique part3 = new Multiplication(trois, puissB);
 		
 		Addition idRemarquable = new Addition(part1, new Addition(part2, part3));
+		
+		
+		/*
+		ExpressionArithmetique part1 = new Multiplication(trois, puissA);
+		ExpressionArithmetique part2 = new Multiplication(trois, puissB);
+		
+		Soustraction idRemarquable = new Soustraction (part1, part2);
+		*/
 		
 		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
 		System.out.println(idRemarquableSimp);

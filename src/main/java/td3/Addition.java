@@ -140,8 +140,7 @@ public class Addition extends OperationBinaire {
 	public ExpressionArithmetique idRemarquable() {
 		boolean isIdRemarquable = true;
 		
-		ExpressionArithmetique part1 = null, part2 = null, part3 = null;
-		Multiplication idRemarquable = null;
+		ExpressionArithmetique part1 = null, part2 = null, part3 = null, idRemarquable = null;
 		
 		if(this.eaLeft instanceof Addition) {
 			Addition castEaLeft = (Addition) this.eaLeft;
@@ -245,7 +244,14 @@ public class Addition extends OperationBinaire {
 				}
 				
 				operation2 = new Puissance(operation1, new ConstEntiere(2));
-				idRemarquable = new Multiplication(constanteIdentite, operation2);
+				
+				if(!constanteIdentite.equals(new ConstEntiere(1))) {
+					idRemarquable = new Multiplication(constanteIdentite, operation2);
+				}
+				
+				else {
+					idRemarquable = operation2;
+				}
 			}
 			
 			else {
