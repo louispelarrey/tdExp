@@ -39,4 +39,10 @@ public class Division extends OperationBinaire {
 		return eaLeft.toString() + "/" + eaRight.toString();
 	}
 	
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new Division(new Soustraction(new Multiplication(this.eaLeft.deriver(), this.eaRight),
+				new Multiplication(this.eaLeft, this.eaRight.deriver())), new Puissance(this.eaRight, new ConstEntiere(2))).simplifier();
+	}
+	
 }

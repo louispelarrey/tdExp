@@ -31,19 +31,29 @@ public class Puissance extends OperationBinaire{
 	}
 
 	@Override
-	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return this.simplifie(droite, gauche).simplifier();
+	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {	
+		return this;
 	}
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		return droite.getEntier() == 0 ? new ConstEntiere(1) :
-			this.simplifie(droite, gauche).simplifier();
+		if(droite.getEntier() == 1) {
+			return gauche.simplifier();
+		}else if(droite.getEntier() == 0) {
+			return new ConstEntiere(1);
+		}
+		return this;
 	}
 	
 	@Override
 	public double calculer() {
 		return Math.pow(this.eaLeft.calculer(), this.eaRight.calculer());
+	}
+	
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new Multiplication(new Multiplication(this.eaRight, new Puissance(this.eaLeft, new Soustraction(this.eaRight, new ConstEntiere(1)))),
+				this.eaLeft.deriver()).simplifier();
 	}
 	
 	@Override

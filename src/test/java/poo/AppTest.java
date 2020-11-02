@@ -275,5 +275,29 @@ public class AppTest {
 		
 		
 		//question 11
+		//3*x^2
+		
+		ConstEntiere trois1 = new ConstEntiere(3);
+		ConstEntiere six = new ConstEntiere(6);
+		ConstEntiere cinq = new ConstEntiere(5);
+		ConstEntiere dix = new ConstEntiere(10);
+		VariableSymbolique x1 = new VariableSymbolique("x");
+		
+		ExpressionArithmetique add = new Addition(x, trois);
+		ExpressionArithmetique multi = new Multiplication(x, trois);
+		ExpressionArithmetique puissa = new Puissance(x, deux1);
+		ExpressionArithmetique TroisixCarre = new Multiplication(trois1, puissa);
+		
+		assertEquals(new ConstEntiere(1), add.deriver());
+		assertEquals(new ConstEntiere(3), multi.deriver());
+		assertEquals(new Multiplication(deux1, x1), puissa.deriver());
+		
+		
+		ExpressionArithmetique cinqIx = new Multiplication(cinq, x);
+		ExpressionArithmetique sixIx = new Multiplication(six, x);
+		
+		assertEquals(sixIx, TroisixCarre.deriver());
+
+		assertEquals(new Addition(sixIx, cinq), new Addition(dix,new Addition(TroisixCarre, cinqIx)));
 }
 }

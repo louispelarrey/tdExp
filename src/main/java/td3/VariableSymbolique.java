@@ -52,6 +52,11 @@ public class VariableSymbolique extends ExpressionArithmetique{
 		result = prime * result + ((symbole == null) ? 0 : symbole.hashCode());
 		return result;
 	}
+	
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new ConstEntiere(1);
+	}
 
 
 	@Override

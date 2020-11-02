@@ -35,6 +35,9 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return this;
 	}
 	
+	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ExpressionArithmetique droite) {
+		return this;
+	}
 	
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {

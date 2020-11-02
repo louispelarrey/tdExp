@@ -39,6 +39,11 @@ public class Addition extends OperationBinaire {
 	}
 	
 	@Override
+	public ExpressionArithmetique deriver() {
+		return new Addition(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
+	}
+	
+	@Override
 	public String toString() {
 		return eaLeft.toString() + "+" + eaRight.toString();
 	}

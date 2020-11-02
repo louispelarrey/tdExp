@@ -22,4 +22,10 @@ public class Cos extends OperationUnaire{
 	public String toString() {
 		return "cos(" + membre.toString() + ")";
 	}
+	
+
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new ConstEntiere(0);
+	}
 }

@@ -49,4 +49,9 @@ public final class ConstEntiere extends ExpressionArithmetique {
 	public String toString() {
 		return Integer.toString(entier);
 	}
+	
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new ConstEntiere(0);
+	}
 }

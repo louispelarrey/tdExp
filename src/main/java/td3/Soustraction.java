@@ -43,4 +43,8 @@ public class Soustraction extends OperationBinaire {
 		return eaLeft.toString() + "-" + eaRight.toString();
 	}
 
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new Soustraction(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
+	}
 }

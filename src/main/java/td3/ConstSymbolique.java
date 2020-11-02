@@ -58,5 +58,8 @@ public class ConstSymbolique extends ExpressionArithmetique{
 		return true;
 	}
 
-
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new ConstEntiere(0);
+	}
 }

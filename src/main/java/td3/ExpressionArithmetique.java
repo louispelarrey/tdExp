@@ -15,6 +15,11 @@ public abstract class ExpressionArithmetique{
 		return calculer(Collections.EMPTY_MAP);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ExpressionArithmetique deriver() {
+		return deriver();
+	}
+	
 	public abstract ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map);
 	public abstract double calculer(Map<VariableSymbolique, ExpressionArithmetique> map);
 }
