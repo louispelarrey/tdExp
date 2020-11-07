@@ -46,6 +46,7 @@ public class Multiplication extends OperationBinaire {
 			return new ConstEntiere(0);
 		}
 		return this.simplifie(droite, gauche);
+		
 	}
 	
 	//Distributivite
