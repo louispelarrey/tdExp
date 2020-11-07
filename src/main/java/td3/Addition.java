@@ -1,7 +1,6 @@
 
 package td3;
 
-import java.util.Collections;
 import java.util.Map;
 
 public class Addition extends OperationBinaire {
@@ -37,14 +36,28 @@ public class Addition extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
 		return simplifie(droite, gauche).simplifier();
 	}
-	
+
 	@Override
 	public ExpressionArithmetique deriver() {
 		return new Addition(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
 	}
-	
+
 	@Override
 	public String toString() {
 		return eaLeft.toString() + "+" + eaRight.toString();
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		ExpressionArithmetique simplified = super.simplifier(map);
+		if (simplified instanceof Addition) {
+			Addition simplifiedAdd = (Addition) simplified;
+			if (simplifiedAdd.eaLeft.equals(new ConstEntiere(0))) {
+				return this.eaRight;
+			} else if (simplifiedAdd.eaRight.equals(new ConstEntiere(0))) {
+				return this.eaLeft;
+			}
+		}
+		return simplified;
 	}
 }

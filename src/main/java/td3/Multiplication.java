@@ -40,26 +40,12 @@ public class Multiplication extends OperationBinaire {
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		System.out.println("oui");
-
 		if(droite.getEntier() == 1) {
 			return gauche.simplifier();
 		}else if(droite.getEntier() == 0) {
 			return new ConstEntiere(0);
 		}
-		return this.simplifie(droite, gauche).simplifier();
-	}
-	
-	@Override
-	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ExpressionArithmetique droite) {
-		System.out.println("oui");
-
-		if(gauche.getEntier() == 1) {
-			return droite.simplifier();
-		}else if(gauche.getEntier() == 0) {
-			return new ConstEntiere(0);
-		}
-		return this.simplifie(gauche, droite).simplifier();
+		return this.simplifie(droite, gauche);
 	}
 	
 	@Override
@@ -70,5 +56,21 @@ public class Multiplication extends OperationBinaire {
 	@Override
 	public ExpressionArithmetique deriver() {
 		return new Addition(new Multiplication(this.eaLeft.deriver(), this.eaRight), new Multiplication(this.eaLeft, this.eaRight.deriver())).simplifier();
+	}
+	
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		ExpressionArithmetique simplified = super.simplifier(map);
+		if (simplified instanceof Multiplication) {
+			Multiplication simplifiedMult = (Multiplication) simplified;
+			if (simplifiedMult.eaLeft.equals(new ConstEntiere(0)) || simplifiedMult.eaRight.equals(new ConstEntiere(0))) {
+				return new ConstEntiere(0);
+			}else if(simplifiedMult.eaLeft.equals(new ConstEntiere(1))){
+				return simplifiedMult.eaRight;
+			}else if(simplifiedMult.eaRight.equals(new ConstEntiere(1))){
+				return simplifiedMult.eaLeft;
+			}
+		}
+		return simplified;
 	}
 }

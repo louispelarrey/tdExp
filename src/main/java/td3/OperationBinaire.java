@@ -90,5 +90,4 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		OperationBinaire other = (OperationBinaire) obj;
 		return (eaLeft.simplifier().equals(other.eaLeft.simplifier()) && eaRight.simplifier().equals(other.eaRight.simplifier()));
 	}
-
 }

@@ -45,4 +45,15 @@ public class Division extends OperationBinaire {
 				new Multiplication(this.eaLeft, this.eaRight.deriver())), new Puissance(this.eaRight, new ConstEntiere(2))).simplifier();
 	}
 	
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		ExpressionArithmetique simplified = super.simplifier(map);
+		if (simplified instanceof Division) {
+			Division simplifiedDiv = (Division) simplified;
+			if (simplifiedDiv.eaRight.equals(new ConstEntiere(1))) {
+				return simplifiedDiv.eaLeft;
+			}
+		}
+		return simplified;
+	}
 }

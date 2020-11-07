@@ -47,4 +47,18 @@ public class Soustraction extends OperationBinaire {
 	public ExpressionArithmetique deriver() {
 		return new Soustraction(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
 	}
+	
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		ExpressionArithmetique simplified = super.simplifier(map);
+		if (simplified instanceof Soustraction) {
+			Soustraction simplifiedSous = (Soustraction) simplified;
+			if (simplifiedSous.eaRight.equals(new ConstEntiere(0))) {
+				return simplifiedSous.eaLeft;
+			}else if(simplifiedSous.eaLeft.equals(new ConstEntiere(0))){
+				return simplifiedSous.eaRight;
+			}
+		}
+		return simplified;
+	}
 }
