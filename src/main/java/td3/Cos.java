@@ -28,4 +28,5 @@ public class Cos extends OperationUnaire{
 	public ExpressionArithmetique deriver() {
 		return new ConstEntiere(0);
 	}
+	
 }

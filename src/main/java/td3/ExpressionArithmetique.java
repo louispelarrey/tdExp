@@ -20,6 +20,16 @@ public abstract class ExpressionArithmetique{
 		return deriver();
 	}
 	
+	public ExpressionArithmetique deriver(int n) {
+		ExpressionArithmetique deriverN = this;
+		for(int i=0; i<n; i++) {
+			deriverN = deriverN.deriver();
+		}
+		return deriverN;
+	}
+	
 	public abstract ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map);
 	public abstract double calculer(Map<VariableSymbolique, ExpressionArithmetique> map);
+
+
 }

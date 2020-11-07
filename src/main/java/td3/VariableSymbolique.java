@@ -58,7 +58,6 @@ public class VariableSymbolique extends ExpressionArithmetique{
 		return new ConstEntiere(1);
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

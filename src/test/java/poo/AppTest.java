@@ -275,8 +275,9 @@ public class AppTest {
 		
 		
 		//question 11
-		//3*x^2
+		//3*x^2		
 		
+		//question 13
 		ConstEntiere trois1 = new ConstEntiere(3);
 		ConstEntiere six = new ConstEntiere(6);
 		ConstEntiere cinq = new ConstEntiere(5);
@@ -296,15 +297,24 @@ public class AppTest {
 		ExpressionArithmetique cinqIx = new Multiplication(cinq, x);
 		ExpressionArithmetique sixIx = new Multiplication(six, x);
 		
-		//assertEquals(sixIx, TroisixCarre.deriver());
-
-		assertEquals(new Addition(sixIx, cinq), new Addition(dix,new Addition(TroisixCarre, cinqIx)).deriver());
+		//assertEquals(new Addition(sixIx, cinq), new Multiplication(new Multiplication(trois, deux1), new Addition(x1, cinq).simplifier()));
+		//assertEquals(new Addition(sixIx, cinq), new Addition(dix,new Addition(TroisixCarre, cinqIx)).deriver());
 	
 		//1+x/(1-x)
 		ExpressionArithmetique unX= new Addition(un, x1);
 		ExpressionArithmetique unMoinsX= new Soustraction(un, x1);
 
-		ExpressionArithmetique uuu = new Division(unX, unMoinsX);
-		System.out.println(uuu.deriver());
+		ExpressionArithmetique uuu = new Division(unX, unMoinsX);		
+		
+		//question 14
+		ExpressionArithmetique cinqxquatre = new Multiplication(cinq, new Puissance(x1, quatre));
+		ExpressionArithmetique quatrexcube = new Multiplication(quatre, new Puissance(x1, trois1));
+		ExpressionArithmetique troisxcarre = new Multiplication(trois1, new Puissance(x1, deux1));
+		ExpressionArithmetique cinqx = new Multiplication(cinq, x1);
+		ExpressionArithmetique centvingt = new ConstEntiere(120);
+		
+		System.out.println(cinqxquatre.deriver(3));
+		assertEquals(new Multiplication(centvingt, x1), new Addition(cinqxquatre, new Addition(quatrexcube, new Addition(troisxcarre,
+				new Addition(cinqx, dix)))).deriver(3));
 }
 }
