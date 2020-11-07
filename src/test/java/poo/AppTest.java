@@ -393,7 +393,8 @@ public class AppTest {
 
 		ExpressionArithmetique mult8 = new Multiplication(sous, deux); // (x-1/2)*2
 		ExpressionArithmetique sous8 = new Soustraction(new Multiplication(x, deux), un); // x*2 - 1
-
+		
+		System.out.println(mult8.simplifier());
 		assertEquals(true, mult8.simplifier().equals(sous8.simplifier()));
 
 		// Double distributivité

@@ -4,6 +4,13 @@ import java.util.Map;
 
 public abstract class OperationBinaire extends ExpressionArithmetique {
 	protected ExpressionArithmetique eaLeft;
+	protected ExpressionArithmetique eaRight;
+	
+	public OperationBinaire(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
+		this.eaLeft = eaLeft;
+		this.eaRight = eaRight;
+	}
+
 	
 	public ExpressionArithmetique getEaLeft() {
 		return eaLeft;
@@ -12,14 +19,9 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 	public ExpressionArithmetique getEaRight() {
 		return eaRight;
 	}
+	
 
-	protected ExpressionArithmetique eaRight;
-
-	public OperationBinaire(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
-		this.eaLeft = eaLeft;
-		this.eaRight = eaRight;
-	}
-
+	
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
 		return this;
 	}
@@ -58,6 +60,8 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return this;
 	}
 	
+	
+	
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
 		return this;
 	}
@@ -69,7 +73,7 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 
-		ExpressionArithmetique res = this;
+		ExpressionArithmetique res;
 		this.eaLeft = this.eaLeft.simplifier(map);
 		this.eaRight = this.eaRight.simplifier(map);
 		
@@ -98,11 +102,6 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 			ConstRationnelle droite = (ConstRationnelle) this.eaRight;
 
 			res = simplifie(gauche, droite);
-		} else if (this.eaLeft instanceof ExpressionArithmetique && this.eaRight instanceof ConstEntiere) {
-			ExpressionArithmetique gauche = this.eaLeft;
-			ConstEntiere droite = (ConstEntiere) this.eaRight;
-
-			res = simplifie(gauche, droite);
 		} else if (this.eaRight instanceof Addition) { //distributivité addition
 			Addition droite = (Addition) this.eaRight;
 
@@ -120,6 +119,15 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 			Soustraction gauche = (Soustraction) this.eaLeft;
 
 			res = simplifie(gauche, this.eaRight);
+		}
+		 else if (this.eaLeft instanceof ExpressionArithmetique && this.eaRight instanceof ConstEntiere) {
+				ExpressionArithmetique gauche = this.eaLeft;
+				ConstEntiere droite = (ConstEntiere) this.eaRight;
+
+				res = simplifie(gauche, droite);
+		 }
+		else {
+			res = this;
 		}
 
 		return res;
