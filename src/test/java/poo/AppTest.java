@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.beans.Expression;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,17 +75,8 @@ public class AppTest {
 		ExpressionArithmetique minus = new Soustraction(trois, cr);
 		ExpressionArithmetique times = new Multiplication(plus, minus);
 		
-		
-		System.out.println(times.calculer());
-		assertEquals(550/17.0, times.calculer(),0.0001);
-		
-
-		//(1/4 + 3/4) + x = 
-		//question 7
-		//assertTrue(plusSpeDeux.equals(question));
-		//assertFalse(plusSpeDeux.equals(minus));
-		
-		 
+		assertEquals(550/17.0, times.simplifier().calculer(),0.0001);
+			 
 	}
 	
 	@Test
@@ -104,24 +96,24 @@ public class AppTest {
 
 	}
 	
-	@Test
+	@Test //question 5
 	public void testSimplifierVarSymb(){
-		ExpressionArithmetique dr = new ConstRationnelle(1, 2);
-		ExpressionArithmetique br = new ConstRationnelle(1, 2);
-		ExpressionArithmetique sy = new VariableSymbolique("x");
-
-		ExpressionArithmetique plu = new Addition(dr, br);
-		ExpressionArithmetique question = new Addition(plu, sy);
+		ExpressionArithmetique unQuart = new ConstRationnelle(1, 4);
+		ExpressionArithmetique troisQuart = new ConstRationnelle(3, 4);
+		ExpressionArithmetique x = new VariableSymbolique("x");
+		ConstEntiere un = new ConstEntiere(1);
 		
-		//question 5
-		System.out.println(question.simplifier());
+		ExpressionArithmetique plu = new Addition(unQuart, troisQuart);
 		
-		//remplacer par un assert de String
+		ExpressionArithmetique question = new Addition(plu, x); 	//((1/4) + (3/4))+x
+		ExpressionArithmetique questionRep = new Addition(un, x); 	//1+x
+		
+		assertEquals(true, question.simplifier().equals(questionRep.simplifier()));
 	}
 	
-	@Test
+	@Test //question 6
 	public void testConstSymb() {
-		//question 6
+		
 		ExpressionArithmetique un = new ConstEntiere(1);
 		Pi pi = new Pi();
 		ExpressionArithmetique piPlusUn = new Addition(pi, un);
@@ -133,9 +125,8 @@ public class AppTest {
 		assertEquals(1.7500, unPlusTroisQuart.calculer(),0.0001);	
 	}
 	
-	@Test
-	public void testVarSymbWithValue() {
-		//question 8	
+	@Test //question 8	
+	public void testVarSymbWithValue() {	
 		
 		VariableSymbolique x = new VariableSymbolique("x");
 		ExpressionArithmetique un = new ConstEntiere(1);
@@ -144,7 +135,6 @@ public class AppTest {
 		ExpressionArithmetique dix = new ConstEntiere(10);
 		
 		assertEquals(1, x.calculer(Collections.singletonMap((VariableSymbolique) x, un)), 0.0001);
-	
 		
 		
 		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); //valorisation de x et y
@@ -159,14 +149,14 @@ public class AppTest {
 		
 	}
 	
-	@Test(expected = MissingValueException.class) //changer par une class perso
+	@Test(expected = MissingValueException.class) 
 	public void testExceptionVarSymb() {
 		ExpressionArithmetique x = new VariableSymbolique("x");
 		
 		double error = x.calculer(); 
 	}
 	
-	@Test
+	@Test //question 7
 	public void testEquals() {
 		
 		ConstEntiere deux = new ConstEntiere(2);//2	
@@ -189,10 +179,9 @@ public class AppTest {
 		
 		assertEquals(false,div.equals(div2));
 		
-		//penser a rajouter un equals avec map 
 	}
 	
-	@Test
+	@Test //question 9
 	public void testToString() {
 		
 		//x² +3x + 6 ->  x = -0.4
@@ -212,7 +201,6 @@ public class AppTest {
 		
 		assertEquals("-2/5^2+3*-2/5+6", exp1.toString());
 		
-		//penser a rajouter un equals avec map 
 	}
 	
 	@Test
@@ -266,5 +254,71 @@ public class AppTest {
 		ExpressionArithmetique addX = new Addition(zero, x);	
 		
 		assertEquals(true, x.equals(addX.simplifier()));
+	}
+	
+	@Test // question 16
+	public void testDistributivite() {
+		ConstEntiere un = new ConstEntiere(1);//1
+		ConstEntiere deux = new ConstEntiere(2);//2
+		VariableSymbolique x = new VariableSymbolique("x");	//x	
+		ConstRationnelle unDemi = new ConstRationnelle(1,2);// 1/2
+		
+		
+		//Distributivité addition
+		
+		ExpressionArithmetique add = new Addition(x, unDemi); // (x+1/2)
+		
+		ExpressionArithmetique mult = new Multiplication(deux, add); 										// 2*(x+1/2)
+		ExpressionArithmetique add2 = new Addition(new Multiplication(deux, x), un);						// 2x + 1
+		
+		assertEquals(true, mult.simplifier().equals(add2.simplifier()));
+		
+		ExpressionArithmetique mult3 = new Multiplication(x, add); 											// x*(x+1/2)
+		ExpressionArithmetique add3= new Addition(new Multiplication(x, x), new Multiplication(x, unDemi)); // x*x + x*1/2
+		
+		assertEquals(true, mult3.simplifier().equals(add3.simplifier()));
+		
+		Cos cos = new Cos(deux); //cos(2)
+		ExpressionArithmetique mult4 = new Multiplication(cos, add); 											// cos(2)*(x+1/2)
+		ExpressionArithmetique add4= new Addition(new Multiplication(cos, x), new Multiplication(cos, unDemi));	// cos(2)*x + cos(2)*1/2
+		
+		assertEquals(true, mult4.simplifier().equals(add4.simplifier()));
+	
+		//Distributivité soustraction
+		
+		ExpressionArithmetique sous = new Soustraction(x, unDemi); // (x-1/2)
+		
+		ExpressionArithmetique mult5 = new Multiplication(deux, sous); 										// 2*(x-1/2)
+		ExpressionArithmetique sous5 = new Soustraction(new Multiplication(deux, x), un);					// 2x - 1
+		
+		assertEquals(true, mult5.simplifier().equals(sous5.simplifier()));
+		
+		ExpressionArithmetique mult6 = new Multiplication(x, sous); 											// x*(x-1/2)
+		ExpressionArithmetique sous6= new Soustraction(new Multiplication(x, x), new Multiplication(x, unDemi));// x*x - x*1/2
+		
+		assertEquals(true, mult6.simplifier().equals(sous6.simplifier()));
+		
+		Cos cos2 = new Cos(deux); //cos(2)
+		ExpressionArithmetique mult7 = new Multiplication(cos2, sous); 													// cos*(x-1/2)
+		ExpressionArithmetique sous7= new Soustraction(new Multiplication(cos2, x), new Multiplication(cos2, unDemi)); 	// cos(2)*x - cos(2)*1/2
+		
+		assertEquals(true, mult7.simplifier().equals(sous7.simplifier()));
+		
+		//Distributivité inversé
+		
+		ExpressionArithmetique mult8 = new Multiplication(sous, deux); 										// (x-1/2)*2
+		ExpressionArithmetique sous8 = new Soustraction(new Multiplication(x, deux), un);					//  x*2 - 1	
+		
+		assertEquals(true, mult8.simplifier().equals(sous8.simplifier()));
+		
+		//Double distributivité
+		
+		ExpressionArithmetique mult9 = new Multiplication(add, add); //	(x+1/2)*(x+1/2)
+		ExpressionArithmetique sous9 = new Addition(new Addition(new Multiplication(x, x),new Multiplication(unDemi, x)), new Addition(new Multiplication(x, unDemi),new Multiplication(unDemi, unDemi))); //x*x+1/2*x+x*1/2+1/4
+
+		assertEquals(true, mult9.simplifier().equals(sous9.simplifier()));
+		
+		//Double distrib avec une soustraction ne marche pas !!
+		
 	}
 }

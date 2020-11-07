@@ -29,7 +29,27 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
 		return this;
+	}	
+	
+	
+	//distributivite
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Addition droite) {
+		return this;
 	}
+	
+	protected ExpressionArithmetique simplifie(Addition gauche, ExpressionArithmetique droite) {
+		return this;
+	}
+	
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Soustraction droite) {
+		return this;
+	}
+	
+	protected ExpressionArithmetique simplifie(Soustraction gauche, ExpressionArithmetique droite) {
+		return this;
+	}
+	
+	
 	
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
@@ -63,7 +83,25 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 			ConstRationnelle droite = (ConstRationnelle) this.eaRight;
 
 			res = simplifie(gauche, droite);
-		} else {
+		} else if (this.eaRight instanceof Addition) { //distributivité addition
+			Addition droite = (Addition) this.eaRight;
+
+			res = simplifie(this.eaLeft, droite);
+		} else if (this.eaLeft instanceof Addition) { 		
+			Addition gauche = (Addition) this.eaLeft;
+			
+
+			res = simplifie(gauche, this.eaRight);
+		}else if (this.eaRight instanceof Soustraction) {//distributivité soustraction
+			Soustraction droite = (Soustraction) this.eaRight;
+
+			res = simplifie(this.eaLeft, droite);
+		}else if (this.eaLeft instanceof Soustraction) { 		
+			Soustraction gauche = (Soustraction) this.eaLeft;
+
+			res = simplifie(gauche, this.eaRight);
+		}
+		else {
 			res = this;
 		}
 

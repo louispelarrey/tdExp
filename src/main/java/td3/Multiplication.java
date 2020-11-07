@@ -35,6 +35,35 @@ public class Multiplication extends OperationBinaire {
 		return this.simplifie(droite, gauche).simplifier();
 	}
 	
+	//Distributivite
+	@Override
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Addition droite) {
+		ExpressionArithmetique mLeft = new Multiplication(gauche, droite.eaLeft).simplifier();
+		ExpressionArithmetique mRight = new Multiplication(gauche, droite.eaRight).simplifier();
+		return new Addition(mLeft, mRight).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(Addition gauche, ExpressionArithmetique droite) {
+		ExpressionArithmetique mLeft = new Multiplication(gauche.eaLeft, droite).simplifier();
+		ExpressionArithmetique mRight = new Multiplication(gauche.eaRight, droite).simplifier();
+		return new Addition(mLeft, mRight).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Soustraction droite) {
+		ExpressionArithmetique mLeft = new Multiplication(gauche, droite.eaLeft).simplifier();
+		ExpressionArithmetique mRight = new Multiplication(gauche, droite.eaRight).simplifier();
+		return new Soustraction(mLeft, mRight).simplifier();
+	}
+	
+	@Override
+	protected ExpressionArithmetique simplifie(Soustraction gauche, ExpressionArithmetique droite) {
+		ExpressionArithmetique mLeft = new Multiplication(gauche.eaLeft, droite).simplifier();
+		ExpressionArithmetique mRight = new Multiplication(gauche.eaRight, droite).simplifier();
+		return new Soustraction(mLeft, mRight).simplifier();
+	}
+	
 	@Override
 	public String toString() {
 		return eaLeft.toString() + "*" + eaRight.toString();

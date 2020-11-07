@@ -39,7 +39,7 @@ public class Addition extends OperationBinaire {
 	
 	@Override
 	protected boolean isNeutre(ExpressionArithmetique ea) {
-		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0); //faut-il resimplifier ?
+		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0);
 	}
 		
 	public String toString() {
