@@ -4,6 +4,15 @@ import java.util.Map;
 
 public abstract class OperationBinaire extends ExpressionArithmetique {
 	protected ExpressionArithmetique eaLeft;
+	
+	public ExpressionArithmetique getEaLeft() {
+		return eaLeft;
+	}
+
+	public ExpressionArithmetique getEaRight() {
+		return eaRight;
+	}
+
 	protected ExpressionArithmetique eaRight;
 
 	public OperationBinaire(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
