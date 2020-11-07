@@ -47,15 +47,15 @@ public class Addition extends OperationBinaire {
 		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0);
 	}
 
-	public ExpressionArithmetique simplifier() {
+	public Addition associativite() {
 		// La partie suivante gère l'associativité
 		
 		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
 		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
 		
-		ExpressionArithmetique newEaLeft = null;
-		ExpressionArithmetique newEaRight = null;
-		ExpressionArithmetique res = null;
+		ExpressionArithmetique newEaLeft;
+		ExpressionArithmetique newEaRight;
+		Addition res;
 
 		if(eaLeftSimp instanceof Addition && (eaRightSimp instanceof ConstEntiere || eaRightSimp instanceof ConstRationnelle)) {
 			Addition eaLeftCast = (Addition) eaLeftSimp;
@@ -65,6 +65,8 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft = new Addition(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
 				newEaRight = eaLeftCast.getEaLeft();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
 			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
@@ -72,9 +74,11 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft = new Addition(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
 				newEaRight = eaLeftCast.getEaRight();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
-			res = new Addition(newEaLeft, newEaRight);
+			else res = this;
 		}
 		
 		else if(eaRightSimp instanceof Addition && (eaLeftSimp instanceof ConstEntiere || eaLeftSimp instanceof ConstRationnelle)) {
@@ -85,6 +89,8 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft = new Addition(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
 				newEaRight = eaRightCast.getEaLeft();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
 			else if((eaRightCast.getEaRight() instanceof VariableSymbolique  || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
@@ -93,9 +99,10 @@ public class Addition extends OperationBinaire {
 				newEaLeft = new Addition(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
 				newEaRight = eaRightCast.getEaRight();
 				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
-			res = new Addition(newEaLeft, newEaRight);
+			else res = this;
 		}
 		
 		else if(eaLeftSimp instanceof Addition && (eaRightSimp instanceof VariableSymbolique || eaRightSimp instanceof ConstSymbolique)) {
@@ -106,6 +113,8 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft = eaLeftCast.getEaRight();
 				newEaRight = new Addition(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
 			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
@@ -113,9 +122,11 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft =  eaLeftCast.getEaLeft();
 				newEaRight = new Addition(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
-			res = new Addition(newEaLeft, newEaRight);
+			else res = this;
 		}
 		
 		else if(eaRightSimp instanceof Addition && (eaLeftSimp instanceof VariableSymbolique || eaLeftSimp instanceof ConstSymbolique)) {
@@ -126,6 +137,8 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft = eaRightCast.getEaRight();
 				newEaRight = new Addition(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
 			else if((eaRightCast.getEaRight() instanceof VariableSymbolique || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
@@ -133,13 +146,15 @@ public class Addition extends OperationBinaire {
 				
 				newEaLeft = eaRightCast.getEaLeft();
 				newEaRight = new Addition(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
+				
+				res = new Addition(newEaLeft, newEaRight);
 			}
 			
-			res = new Addition(newEaLeft, newEaRight);
+			else res = this;
 		}
 
 		else {
-			res = super.simplifier();
+			res = this;
 		}
 		
 		return res;
@@ -284,11 +299,13 @@ public class Addition extends OperationBinaire {
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		ExpressionArithmetique simplified = super.simplifier(map);
 		if (simplified instanceof Addition) {
-			Addition simplifiedAdd = (Addition) simplified;
+			Addition simplifiedAdd = ((Addition) simplified).associativite();
 			if (simplifiedAdd.eaLeft.equals(new ConstEntiere(0))) {
 				return this.eaRight;
 			} else if (simplifiedAdd.eaRight.equals(new ConstEntiere(0))) {
 				return this.eaLeft;
+			} else {
+				return simplifiedAdd;
 			}
 		}
 		return simplified;

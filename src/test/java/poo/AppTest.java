@@ -288,9 +288,9 @@ public class AppTest {
 		ExpressionArithmetique cinqIx = new Multiplication(cinq, x);
 		ExpressionArithmetique sixIx = new Multiplication(six, x);
 
-		assertEquals(sixIx, TroisixCarre.deriver());
+		//assertEquals(sixIx, new Multiplication(trois1, new Multiplication(deux1, x1)).simplifier());
+		assertEquals(sixIx, TroisixCarre.deriver().simplifier());
 		
-		assertEquals(new Addition(sixIx, cinq), new Multiplication(new Multiplication(trois, deux1), new Addition(x1, cinq)));
 		assertEquals(new Addition(sixIx, cinq), new Addition(dix, new Addition(TroisixCarre, cinqIx)).deriver());
 
 		// 1+x/(1-x)
@@ -307,7 +307,7 @@ public class AppTest {
 		ExpressionArithmetique centvingt = new ConstEntiere(120);
 
 		// System.out.println(cinqxquatre.deriver(3));
-		assertEquals(new Multiplication(centvingt, x1), new Addition(cinqxquatre,
+		assertEquals(new Addition(new Multiplication(centvingt, x1), new ConstEntiere(24)), new Addition(cinqxquatre,
 				new Addition(quatrexcube, new Addition(troisxcarre, new Addition(cinqx, dix)))).deriver(3));
 
 	}
@@ -395,7 +395,10 @@ public class AppTest {
 		ExpressionArithmetique mult8 = new Multiplication(sous, deux); // (x-1/2)*2
 		ExpressionArithmetique sous8 = new Soustraction(new Multiplication(x, deux), un); // x*2 - 1
 
-		assertEquals(true, mult8.simplifier().equals(sous8.simplifier()));
+		ExpressionArithmetique mult8Simp = mult8.simplifier();
+		ExpressionArithmetique sous8Simp = sous8.simplifier();
+		
+		assertEquals(true, mult8Simp.equals(sous8Simp));
 
 		// Double distributivité
 
@@ -432,6 +435,6 @@ public class AppTest {
 		Soustraction idRemarquable = new Soustraction(part1, part2);
 
 		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
-		System.out.println(idRemarquableSimp);
+		//System.out.println(idRemarquableSimp);
 	}
 }
