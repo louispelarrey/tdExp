@@ -40,8 +40,6 @@ public class Multiplication extends OperationBinaire {
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		if(gauche instanceof Multiplication)
-			System.out.println("oui");
 		if(droite.getEntier() == 1) {
 			return gauche.simplifier();
 		}else if(droite.getEntier() == 0) {
