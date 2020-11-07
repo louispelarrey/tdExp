@@ -22,8 +22,13 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		int pgcd = gcd(this.numerateur, this.denominateur);
-		return new ConstRationnelle(this.numerateur / pgcd, this.denominateur / pgcd);
+		if(numerateur == denominateur) {
+			return new ConstEntiere(1);
+		}
+		else {
+			int pgcd = gcd(this.numerateur, this.denominateur);
+			return new ConstRationnelle(this.numerateur / pgcd, this.denominateur / pgcd);
+		}
 	}
 
 	private static int gcd(int a, int b) {

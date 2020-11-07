@@ -56,4 +56,7 @@ public class Division extends OperationBinaire {
 		}
 		return simplified;
 	}
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 1);
+	}
 }
