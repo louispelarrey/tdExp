@@ -201,14 +201,6 @@ public class AppTest {
 
 		// Question 17
 
-		/*
-		 * ExpressionArithmetique baseAdd = new Addition(new VariableSymbolique("x"),
-		 * new ConstEntiere(2)); ExpressionArithmetique baseAdd2 = new Addition(baseAdd,
-		 * new ConstEntiere(2)); ExpressionArithmetique baseAdd3 = new
-		 * Addition(baseAdd2, new VariableSymbolique("y")); ExpressionArithmetique
-		 * simpString = baseAdd3.simplifier();
-		 */
-
 		ExpressionArithmetique baseMul = new Multiplication(new ConstEntiere(2), new VariableSymbolique("x"));
 		ExpressionArithmetique baseMul2 = new Multiplication(new ConstEntiere(5), baseMul);
 		ExpressionArithmetique baseMul3 = new Multiplication(baseMul2, new ConstEntiere(6));
@@ -289,19 +281,16 @@ public class AppTest {
 		ExpressionArithmetique puissa = new Puissance(x, deux1);
 		ExpressionArithmetique TroisixCarre = new Multiplication(trois1, puissa);
 
-		/*
-		 * assertEquals(new ConstEntiere(1), add.deriver()); assertEquals(new
-		 * ConstEntiere(3), multi.deriver()); assertEquals(new Multiplication(deux1,
-		 * x1), puissa.deriver());
-		 */
+		assertEquals(new ConstEntiere(1), add.deriver());
+		assertEquals(new ConstEntiere(3), multi.deriver());
+		assertEquals(new Multiplication(deux1, x1), puissa.deriver());
 
 		ExpressionArithmetique cinqIx = new Multiplication(cinq, x);
 		ExpressionArithmetique sixIx = new Multiplication(six, x);
 
-		// assertEquals(new Addition(sixIx, cinq), new Multiplication(new
-		// Multiplication(trois, deux1), new Addition(x1, cinq).simplifier()));
-		// assertEquals(new Addition(sixIx, cinq), new Addition(dix,new
-		// Addition(TroisixCarre, cinqIx)).deriver());
+		assertEquals(new Addition(sixIx, cinq),
+				new Multiplication(new Multiplication(trois, deux1), new Addition(x1, cinq).simplifier()));
+		assertEquals(new Addition(sixIx, cinq), new Addition(dix, new Addition(TroisixCarre, cinqIx)).deriver());
 
 		// 1+x/(1-x)
 		ExpressionArithmetique unX = new Addition(un, x1);
@@ -316,9 +305,10 @@ public class AppTest {
 		ExpressionArithmetique cinqx = new Multiplication(cinq, x1);
 		ExpressionArithmetique centvingt = new ConstEntiere(120);
 
-		//System.out.println(cinqxquatre.deriver(3));
-		/*assertEquals(new Multiplication(centvingt, x1), new Addition(cinqxquatre,
-				new Addition(quatrexcube, new Addition(troisxcarre, new Addition(cinqx, dix)))).deriver(3));*/
+		// System.out.println(cinqxquatre.deriver(3));
+		assertEquals(new Multiplication(centvingt, x1), new Addition(cinqxquatre,
+				new Addition(quatrexcube, new Addition(troisxcarre, new Addition(cinqx, dix)))).deriver(3));
+
 	}
 
 	@Test // question 15
@@ -426,22 +416,20 @@ public class AppTest {
 		VariableSymbolique b = new VariableSymbolique("b");
 		Puissance puissA = new Puissance(a, new ConstEntiere(2));
 		Puissance puissB = new Puissance(b, new ConstEntiere(2));
-		
+
 		/*
-		ExpressionArithmetique part1 = new Multiplication(trois, puissA);
-		ExpressionArithmetique part2 = new Multiplication(six, new Multiplication(a, b));
-		ExpressionArithmetique part3 = new Multiplication(trois, puissB);
-		
-		Addition idRemarquable = new Addition(part1, new Addition(part2, part3));
-		*/
-		
-		
+		 * ExpressionArithmetique part1 = new Multiplication(trois, puissA);
+		 * ExpressionArithmetique part2 = new Multiplication(six, new Multiplication(a,
+		 * b)); ExpressionArithmetique part3 = new Multiplication(trois, puissB);
+		 * 
+		 * Addition idRemarquable = new Addition(part1, new Addition(part2, part3));
+		 */
+
 		ExpressionArithmetique part1 = new Multiplication(rat, puissA);
 		ExpressionArithmetique part2 = new Multiplication(rat, puissB);
-		
-		Soustraction idRemarquable = new Soustraction (part1, part2);
-		
-		
+
+		Soustraction idRemarquable = new Soustraction(part1, part2);
+
 		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
 		System.out.println(idRemarquableSimp);
 	}
