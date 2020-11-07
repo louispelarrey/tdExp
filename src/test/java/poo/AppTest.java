@@ -288,8 +288,9 @@ public class AppTest {
 		ExpressionArithmetique cinqIx = new Multiplication(cinq, x);
 		ExpressionArithmetique sixIx = new Multiplication(six, x);
 
-		assertEquals(new Addition(sixIx, cinq),
-				new Multiplication(new Multiplication(trois, deux1), new Addition(x1, cinq).simplifier()));
+		//assertEquals(sixIx, TroisixCarre.deriver());
+		
+		assertEquals(new Addition(sixIx, cinq), new Multiplication(new Multiplication(trois, deux1), new Addition(x1, cinq)));
 		assertEquals(new Addition(sixIx, cinq), new Addition(dix, new Addition(TroisixCarre, cinqIx)).deriver());
 
 		// 1+x/(1-x)
