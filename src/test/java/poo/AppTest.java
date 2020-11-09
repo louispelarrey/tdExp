@@ -303,6 +303,7 @@ public class AppTest {
 		assertEquals(deux1 , qLouis5.simplifier());
 	}
 	
+	
 	@Test // question 13
 	public void testDerivPolynome() {
 			ConstEntiere trois1 = new ConstEntiere(3);
@@ -458,8 +459,8 @@ public class AppTest {
 
 	@Test //question 18
 	public void testFactorisationIdRemarquable() {
-		ConstEntiere trois = new ConstEntiere(3);
-		ConstEntiere six = new ConstEntiere(6);
+		ConstEntiere trois = new ConstEntiere(4);
+		ConstEntiere six = new ConstEntiere(8);
 		ConstEntiere deux = new ConstEntiere(2);
 		ConstRationnelle rat = new ConstRationnelle(2, 5);
 		VariableSymbolique a = new VariableSymbolique("a");

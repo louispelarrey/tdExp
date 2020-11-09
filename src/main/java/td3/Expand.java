@@ -2,7 +2,7 @@ package td3;
 
 import java.util.Map;
 
-public abstract class Expend extends ExpressionArithmetique{
+public abstract class Expand extends ExpressionArithmetique{
 
 	@Override
 	public abstract ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map);
