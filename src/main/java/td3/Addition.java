@@ -42,11 +42,6 @@ public class Addition extends OperationBinaire {
 		return new Addition(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
 	}
 
-	@Override
-	protected boolean isNeutre(ExpressionArithmetique ea) {
-		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0);
-	}
-
 	public Addition associativite() {
 		// La partie suivante gère l'associativité
 		

@@ -25,7 +25,10 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 		if(numerateur == denominateur) {
 			return new ConstEntiere(1);
 		}
-		else {
+		else if(denominateur == 1) {
+			return new ConstEntiere(numerateur);
+		}
+		else{
 			int pgcd = gcd(this.numerateur, this.denominateur);
 			return new ConstRationnelle(this.numerateur / pgcd, this.denominateur / pgcd);
 		}

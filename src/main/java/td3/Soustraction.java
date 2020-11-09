@@ -43,10 +43,10 @@ public class Soustraction extends OperationBinaire {
 		return eaLeft.toString() + "-" + eaRight.toString();
 	}
 	
-	@Override
+	/*@Override
 	protected boolean isNeutre(ExpressionArithmetique ea) {
 		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0);
-	}
+	}*/
 
 	@Override
 	public ExpressionArithmetique deriver() {
@@ -60,8 +60,9 @@ public class Soustraction extends OperationBinaire {
 			Soustraction simplifiedSous = (Soustraction) simplified;
 			if (simplifiedSous.eaRight.equals(new ConstEntiere(0))) {
 				return simplifiedSous.eaLeft;
-			}else if(simplifiedSous.eaLeft.equals(new ConstEntiere(0))){
-				return simplifiedSous.eaRight;
+			}
+			else {
+				return simplifiedSous;
 			}
 		}
 		return simplified;

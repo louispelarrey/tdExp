@@ -50,13 +50,19 @@ public class Division extends OperationBinaire {
 		ExpressionArithmetique simplified = super.simplifier(map);
 		if (simplified instanceof Division) {
 			Division simplifiedDiv = (Division) simplified;
-			if (simplifiedDiv.eaRight.equals(new ConstEntiere(1))) {
+			if(simplifiedDiv.eaRight.equals(new ConstEntiere(0))) {
+				throw new DivisionByZeroException("Impossible de diviser par 0 voyons");
+			}else if(simplifiedDiv.eaLeft.equals(new ConstEntiere(0))) {
+				return new ConstEntiere(0);
+			}else if (simplifiedDiv.eaLeft.equals(simplifiedDiv.eaRight)) {
+				return new ConstEntiere(1);
+			}else if (simplifiedDiv.eaRight.equals(new ConstEntiere(1))) {
 				return simplifiedDiv.eaLeft;
-			}
+			}else {
+				return simplifiedDiv;
+			}		
 		}
 		return simplified;
 	}
-	protected boolean isNeutre(ExpressionArithmetique ea) {
-		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 1);
-	}
+	
 }

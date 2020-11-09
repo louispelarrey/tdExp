@@ -6,7 +6,6 @@ public class Multiplication extends OperationBinaire {
 
 	public Multiplication(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
 		super(eaLeft, eaRight);
-
 	}
 	
 	@Override
@@ -16,8 +15,7 @@ public class Multiplication extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {
-		return droite.getEntier() == 0 ? new ConstEntiere(0) :
-				new ConstRationnelle(droite.getEntier() * gauche.getNumerateur(), gauche.getDenominateur()).simplifier();
+		return new ConstRationnelle(droite.getEntier() * gauche.getNumerateur(), gauche.getDenominateur()).simplifier();
 	}
 
 	@Override
@@ -28,55 +26,49 @@ public class Multiplication extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstEntiere droite) {
-		return droite.getEntier() == 0 || gauche.getEntier() == 0 ? new ConstEntiere(0) :
-			new ConstEntiere(gauche.getEntier() * droite.getEntier()).simplifier();
+		return new ConstEntiere(gauche.getEntier() * droite.getEntier()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
-		return gauche.getEntier() == 0 ? new ConstEntiere(0) :
-			this.simplifie(droite, gauche).simplifier();
+		return this.simplifie(droite, gauche).simplifier();
 	}
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		if(droite.getEntier() == 1) {
-			return gauche.simplifier();
-		}else if(droite.getEntier() == 0) {
-			return new ConstEntiere(0);
-		}
 		return this.simplifie(droite, gauche);
 		
 	}
 	
 	//Distributivite
-	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Addition droite) {
 		ExpressionArithmetique mLeft = new Multiplication(gauche, droite.eaLeft).simplifier();
 		ExpressionArithmetique mRight = new Multiplication(gauche, droite.eaRight).simplifier();
 		return new Addition(mLeft, mRight).simplifier();
 	}
 	
-	@Override
+
 	protected ExpressionArithmetique simplifie(Addition gauche, ExpressionArithmetique droite) {
 		ExpressionArithmetique mLeft = new Multiplication(gauche.eaLeft, droite).simplifier();
 		ExpressionArithmetique mRight = new Multiplication(gauche.eaRight, droite).simplifier();
 		return new Addition(mLeft, mRight).simplifier();
 	}
 	
-	@Override
+
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Soustraction droite) {
 		ExpressionArithmetique mLeft = new Multiplication(gauche, droite.eaLeft).simplifier();
 		ExpressionArithmetique mRight = new Multiplication(gauche, droite.eaRight).simplifier();
 		return new Soustraction(mLeft, mRight).simplifier();
 	}
 	
-	@Override
+
 	protected ExpressionArithmetique simplifie(Soustraction gauche, ExpressionArithmetique droite) {
 		ExpressionArithmetique mLeft = new Multiplication(gauche.eaLeft, droite).simplifier();
 		ExpressionArithmetique mRight = new Multiplication(gauche.eaRight, droite).simplifier();
 		return new Soustraction(mLeft, mRight).simplifier();
 	}
+	
+	
 	
 	public Multiplication associativite() {
 		// La partie suivante gère l'associativité
@@ -212,20 +204,39 @@ public class Multiplication extends OperationBinaire {
 			Multiplication simplifiedMult = ((Multiplication) simplified).associativite();
 			if (simplifiedMult.eaLeft.equals(new ConstEntiere(0)) || simplifiedMult.eaRight.equals(new ConstEntiere(0))) {
 				return new ConstEntiere(0);
-			}else if(simplifiedMult.eaLeft.equals(new ConstEntiere(1))){
+			}
+			else if(simplifiedMult.eaLeft.equals(new ConstEntiere(1))){
 				return simplifiedMult.eaRight;
-			}else if(simplifiedMult.eaRight.equals(new ConstEntiere(1))){
+			}
+			else if(simplifiedMult.eaRight.equals(new ConstEntiere(1))){
 				return simplifiedMult.eaLeft;
-			}else {
+			}
+			else if (simplifiedMult.eaRight instanceof Addition) { //distributivité addition
+				Addition droite = (Addition) simplifiedMult.eaRight;
+
+				 return simplifie(simplifiedMult.eaLeft, droite);
+			}
+			else if (simplifiedMult.eaLeft instanceof Addition) { 		
+				Addition gauche = (Addition) simplifiedMult.eaLeft;
+				
+
+				return simplifie(gauche, simplifiedMult.eaRight);
+			}
+			else if (simplifiedMult.eaRight instanceof Soustraction) {//distributivité soustraction
+				Soustraction droite = (Soustraction) simplifiedMult.eaRight;
+
+				return simplifie(simplifiedMult.eaLeft, droite);
+			}
+			else if (simplifiedMult.eaLeft instanceof Soustraction) { 		
+				Soustraction gauche = (Soustraction) simplifiedMult.eaLeft;
+
+				return simplifie(gauche, simplifiedMult.eaRight);
+			}
+			else {
 				return simplifiedMult;
 			}
-		}
-		
+		}	
 		return simplified;
 	}
 
-	@Override
-	protected boolean isNeutre(ExpressionArithmetique ea) {
-		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 1);
-	}
 }
