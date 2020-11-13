@@ -12,7 +12,7 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 	}
 
 	
-	public ExpressionArithmetique getEaLeft() {
+	public ExpressionArithmetique getEaLeft() {//TODO à enlever car deja en protected
 		return eaLeft;
 	}
 
@@ -23,7 +23,7 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 
 	
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
-		return this;
+		return this; //sert peut etre à rien
 	}
 
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {
@@ -43,14 +43,6 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 	}	
 	
 	
-	
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		return this;
-	}
-	
-	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ExpressionArithmetique droite) {
-		return this;
-	}
 		
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
@@ -58,6 +50,11 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		ExpressionArithmetique res;
 		this.eaLeft = this.eaLeft.simplifier(map);
 		this.eaRight = this.eaRight.simplifier(map);
+		
+		if(isNeutre(this.eaLeft))
+			return eaRight;
+		else if(isNeutre(this.eaRight))
+			return eaLeft;
 		
 
 		if (this.eaLeft instanceof ConstEntiere && this.eaRight instanceof ConstEntiere) {
@@ -80,12 +77,7 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 			ConstRationnelle droite = (ConstRationnelle) this.eaRight;
 
 			res = simplifie(gauche, droite);
-		} else if (this.eaLeft instanceof ExpressionArithmetique && this.eaRight instanceof ConstEntiere) {
-				ExpressionArithmetique gauche = this.eaLeft;
-				ConstEntiere droite = (ConstEntiere) this.eaRight;
-
-				res = simplifie(gauche, droite);
-		 }
+		}
 		else {
 			res = this;
 		}
@@ -93,6 +85,8 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		return res;
 
 	}
+	
+	protected abstract boolean isNeutre(ExpressionArithmetique ea);
 	
 	@Override
 	public boolean equals(Object obj) {

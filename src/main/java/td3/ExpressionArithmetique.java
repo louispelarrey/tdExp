@@ -17,7 +17,7 @@ public abstract class ExpressionArithmetique{
 	
 	@SuppressWarnings("unchecked")
 	public ExpressionArithmetique deriver() {
-		return deriver();
+		return deriver();//TODO METTRE un int dans parenthèse ??
 	}
 	
 	public ExpressionArithmetique deriver(int n) {

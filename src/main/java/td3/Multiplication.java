@@ -34,11 +34,6 @@ public class Multiplication extends OperationBinaire {
 		return this.simplifie(droite, gauche).simplifier();
 	}
 	
-	@Override
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		return this.simplifie(droite, gauche);
-		
-	}
 	
 	//Distributivite
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Addition droite) {
@@ -69,16 +64,20 @@ public class Multiplication extends OperationBinaire {
 	}
 	
 	
+	@Override
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea.equals(new ConstEntiere(1)));
+	}
 	
-	public Multiplication associativite() {
+	public ExpressionArithmetique associativite() {
 		// La partie suivante gère l'associativité
 		
-		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
-		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
+		ExpressionArithmetique eaLeftSimp = this.eaLeft; //TODO a modifier
+		ExpressionArithmetique eaRightSimp = this.eaRight;
 		
 		ExpressionArithmetique newEaLeft;
 		ExpressionArithmetique newEaRight;
-		Multiplication res;
+		ExpressionArithmetique res;
 
 		if(eaLeftSimp instanceof Multiplication && (eaRightSimp instanceof ConstEntiere || eaRightSimp instanceof ConstRationnelle)) {
 			Multiplication eaLeftCast = (Multiplication) eaLeftSimp;
@@ -86,19 +85,19 @@ public class Multiplication extends OperationBinaire {
 			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
 					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
 				
-				newEaLeft = new Multiplication(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
+				newEaLeft = new Multiplication(eaLeftCast.getEaRight(), eaRightSimp);
 				newEaRight = eaLeftCast.getEaLeft();
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
 					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
 				
-				newEaLeft = new Multiplication(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
+				newEaLeft = new Multiplication(eaLeftCast.getEaLeft(), eaRightSimp);
 				newEaRight = eaLeftCast.getEaRight();
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else res = this;
@@ -110,19 +109,19 @@ public class Multiplication extends OperationBinaire {
 			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
 					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
 				
-				newEaLeft = new Multiplication(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
+				newEaLeft = new Multiplication(eaRightCast.getEaRight(), eaLeftSimp);
 				newEaRight = eaRightCast.getEaLeft();
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else if((eaRightCast.getEaRight() instanceof VariableSymbolique  || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
 					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
 				
-				newEaLeft = new Multiplication(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
+				newEaLeft = new Multiplication(eaRightCast.getEaLeft(), eaLeftSimp);
 				newEaRight = eaRightCast.getEaRight();
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else res = this;
@@ -135,18 +134,18 @@ public class Multiplication extends OperationBinaire {
 					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
 				
 				newEaLeft = eaLeftCast.getEaRight();
-				newEaRight = new Multiplication(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
+				newEaRight = new Multiplication(eaLeftCast.getEaLeft(), eaRightSimp);
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
 					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
 				
 				newEaLeft =  eaLeftCast.getEaLeft();
-				newEaRight = new Multiplication(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
+				newEaRight = new Multiplication(eaLeftCast.getEaRight(), eaRightSimp);
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else res = this;
@@ -159,18 +158,18 @@ public class Multiplication extends OperationBinaire {
 					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
 				
 				newEaLeft = eaRightCast.getEaRight();
-				newEaRight = new Multiplication(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
+				newEaRight = new Multiplication(eaRightCast.getEaLeft(), eaLeftSimp);
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else if((eaRightCast.getEaRight() instanceof VariableSymbolique || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
 					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
 				
 				newEaLeft = eaRightCast.getEaLeft();
-				newEaRight = new Multiplication(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
+				newEaRight = new Multiplication(eaRightCast.getEaRight(), eaLeftSimp);
 				
-				res = new Multiplication(newEaLeft, newEaRight);
+				res = new Multiplication(newEaLeft, newEaRight).simplifier();
 			}
 			
 			else res = this;
@@ -201,15 +200,9 @@ public class Multiplication extends OperationBinaire {
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		ExpressionArithmetique simplified = super.simplifier(map);
 		if (simplified instanceof Multiplication) {
-			Multiplication simplifiedMult = ((Multiplication) simplified).associativite();
+			Multiplication simplifiedMult = (Multiplication) simplified;
 			if (simplifiedMult.eaLeft.equals(new ConstEntiere(0)) || simplifiedMult.eaRight.equals(new ConstEntiere(0))) {
 				return new ConstEntiere(0);
-			}
-			else if(simplifiedMult.eaLeft.equals(new ConstEntiere(1))){
-				return simplifiedMult.eaRight;
-			}
-			else if(simplifiedMult.eaRight.equals(new ConstEntiere(1))){
-				return simplifiedMult.eaLeft;
 			}
 			else if (simplifiedMult.eaRight instanceof Addition) { //distributivité addition
 				Addition droite = (Addition) simplifiedMult.eaRight;
@@ -231,6 +224,10 @@ public class Multiplication extends OperationBinaire {
 				Soustraction gauche = (Soustraction) simplifiedMult.eaLeft;
 
 				return simplifie(gauche, simplifiedMult.eaRight);
+			}
+			else if (simplifiedMult.eaRight instanceof Multiplication) { //TODO associativité a verifier
+
+				 return associativite();
 			}
 			else {
 				return simplifiedMult;

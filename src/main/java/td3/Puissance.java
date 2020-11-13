@@ -15,34 +15,22 @@ public class Puissance extends OperationBinaire{
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstEntiere droite) {
-		return droite.getEntier() == 0 ? new ConstEntiere(1) :
-				new ConstEntiere(gauche.getEntier() ^ droite.getEntier()).simplifier();
+		return new ConstEntiere(gauche.getEntier() ^ droite.getEntier()).simplifier();
 	}
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {
-		return droite.getEntier() == 0 ? new ConstEntiere(1) :
-				new ConstRationnelle(droite.getEntier() ^ gauche.getNumerateur(), gauche.getDenominateur()).simplifier();
+		return new ConstRationnelle(droite.getEntier() ^ gauche.getNumerateur(), gauche.getDenominateur()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstRationnelle droite) {
-		return this;
+		return this; //TODO a faire ou inutile
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {	
-		return this;
-	}
-	
-	@Override
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ConstEntiere droite) {
-		if(droite.getEntier() == 1) {
-			return gauche.simplifier();
-		}else if(droite.getEntier() == 0) {
-			return new ConstEntiere(1);
-		}
-		return this;
+		return this;//TODO a faire ou inutile
 	}
 	
 	@Override
@@ -66,9 +54,27 @@ public class Puissance extends OperationBinaire{
 		}
 	}
 	
-	/*@Override
+	@Override
 	protected boolean isNeutre(ExpressionArithmetique ea) {
-		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 1);
-	}*/
+		return (ea.equals(this.eaRight) && ea.equals(new ConstEntiere(1)));//si 1 est à droite
+	}
 	
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		ExpressionArithmetique simplified = super.simplifier(map);
+		if (simplified instanceof Puissance) {
+			Puissance simplifiedPui = (Puissance) simplified;
+			
+			if (simplifiedPui.eaLeft.equals(new ConstEntiere(0))) {
+				return new ConstEntiere(0);
+			}
+			else if(simplifiedPui.eaRight.equals(new ConstEntiere(0))){
+				return new ConstEntiere(1);
+			}
+			else {
+				return simplifiedPui;
+			}		
+		}
+		return simplified;
+	}
 }

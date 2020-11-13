@@ -448,11 +448,11 @@ public class AppTest {
 		
 		ExpressionArithmetique add = new Addition(un, new Addition(un, x)); // 1 + (1+x)
 		ExpressionArithmetique add2 = new Addition(deux, x); // 2 + x
+		add.simplifier();
 		
 		assertEquals(add2, add.simplifier());
 				
 		ExpressionArithmetique mult = new Multiplication(deux, new Multiplication(new ConstRationnelle(1, 2), x)); //2 * (1/2 * x) 
-
 		assertEquals(x, mult.simplifier());
 	}
 

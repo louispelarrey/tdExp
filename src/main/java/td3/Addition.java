@@ -41,11 +41,16 @@ public class Addition extends OperationBinaire {
 	public ExpressionArithmetique deriver() {
 		return new Addition(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
 	}
-
+	
+	@Override
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea.equals(new ConstEntiere(0)));
+	}
+	
 	public Addition associativite() {
 		// La partie suivante gère l'associativité
 		
-		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
+		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();  //TODO MODIFIER COMME DANS MULT
 		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
 		
 		ExpressionArithmetique newEaLeft;
@@ -153,6 +158,15 @@ public class Addition extends OperationBinaire {
 		}
 		
 		return res;
+	}
+	
+	@Override
+	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		ExpressionArithmetique simplified = super.simplifier(map);
+		if (simplified instanceof Addition) {
+			return ((Addition) simplified).associativite();	//le pb de associativité est que la méthode retourne this si n'est pas dans la condition
+		}
+		return simplified;
 	}
 	
 	public ExpressionArithmetique idRemarquable() {
@@ -290,19 +304,4 @@ public class Addition extends OperationBinaire {
 		return eaLeft.toString() + "+" + eaRight.toString();
 	}
 
-	@Override
-	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		ExpressionArithmetique simplified = super.simplifier(map);
-		if (simplified instanceof Addition) {
-			Addition simplifiedAdd = ((Addition) simplified).associativite();
-			if (simplifiedAdd.eaLeft.equals(new ConstEntiere(0))) {
-				return this.eaRight;
-			} else if (simplifiedAdd.eaRight.equals(new ConstEntiere(0))) {
-				return this.eaLeft;
-			} else {
-				return simplifiedAdd;
-			}
-		}
-		return simplified;
-	}
 }
