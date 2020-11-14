@@ -30,5 +30,7 @@ public abstract class ExpressionArithmetique{
 	
 	public abstract ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map);
 	public abstract double calculer(Map<VariableSymbolique, ExpressionArithmetique> map);
+	
+	
 
 }
