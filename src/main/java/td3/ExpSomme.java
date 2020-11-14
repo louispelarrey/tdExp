@@ -39,8 +39,11 @@ public class ExpSomme extends ExpressionArithmetique {
 
 	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	
 
 	
 }
