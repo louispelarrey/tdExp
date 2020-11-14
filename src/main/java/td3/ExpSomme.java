@@ -2,29 +2,48 @@ package td3;
 
 import java.util.Map;
 
-public class ExpSomme extends Expand {
-	private Multiplication produit;
+public class ExpSomme extends ExpressionArithmetique {
 	
-	public ExpSomme(Multiplication produit, int minimum, int maximum) {
-		if(produit.getEaLeft() instanceof VariableSymbolique && produit.getEaRight() instanceof ExpressionArithmetique) {
-			this.produit = produit;
-		}
-		
-		else throw new IllegalArgumentException("Pas une multiplication d'une variable symbolique par un expression arithmétique");
+	private final OperationBinaire exp;
+	private ConstEntiere i;
+	private int max;
+	
+	public ExpSomme(OperationBinaire exp, ConstEntiere i, int max) {
+		this.exp = exp;
+		this.i = i;
+		this.max = max;
 	}
-	
+
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		/*if(map instanceof Map<VariableSymboliqueIndicee, ExpressionArithmetique>)
-		for(Map.Entry<VariableSymboliqueIndicee, ExpressionArithmetique> variable : map.entrySet()) {
-			
-		}*/
+		VariableSymbolique i = new VariableSymbolique("i");
+		map.put(i, this.i);
+		ExpressionArithmetique e;
 		
-		return null;
+		if(exp instanceof Addition)
+			e = new Addition(exp.eaLeft, exp.eaRight).simplifier(map);
+		else if(exp instanceof Soustraction)
+			e = new Soustraction(exp.eaLeft, exp.eaRight).simplifier(map);
+		else if(exp instanceof Multiplication)
+			e = new Multiplication(exp.eaLeft, exp.eaRight).simplifier(map);
+		else
+			e = new Division(exp.eaLeft, exp.eaRight).simplifier(map);
+			
+		for(int j = this.i.getEntier()+1; j<=max; j++) {	
+			map.put(i, new ConstEntiere(j));
+			e = new Addition(e, new Multiplication(exp.eaLeft, exp.eaRight).simplifier(map));			
+		}
+		
+		return e;
 	}
 
 	@Override
 	public double calculer(Map<VariableSymbolique, ExpressionArithmetique> map) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	
+
+	
 }

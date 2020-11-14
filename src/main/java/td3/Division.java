@@ -46,19 +46,26 @@ public class Division extends OperationBinaire {
 	}
 	
 	@Override
+	protected boolean isNeutre(ExpressionArithmetique ea) {
+		return (ea.equals(this.eaRight) && ea.equals(new ConstEntiere(1))); //si 1 est à droite
+	}
+	
+	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		ExpressionArithmetique simplified = super.simplifier(map);
 		if (simplified instanceof Division) {
 			Division simplifiedDiv = (Division) simplified;
+			
 			if(simplifiedDiv.eaRight.equals(new ConstEntiere(0))) {
 				throw new DivisionByZeroException("Impossible de diviser par 0 voyons");
-			}else if(simplifiedDiv.eaLeft.equals(new ConstEntiere(0))) {
+			}
+			else if(simplifiedDiv.eaLeft.equals(new ConstEntiere(0))) {
 				return new ConstEntiere(0);
-			}else if (simplifiedDiv.eaLeft.equals(simplifiedDiv.eaRight)) {
+			}
+			else if (simplifiedDiv.eaLeft.equals(simplifiedDiv.eaRight)) {
 				return new ConstEntiere(1);
-			}else if (simplifiedDiv.eaRight.equals(new ConstEntiere(1))) {
-				return simplifiedDiv.eaLeft;
-			}else {
+			}
+			else {
 				return simplifiedDiv;
 			}		
 		}

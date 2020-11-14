@@ -17,6 +17,8 @@ import td3.ConstRationnelle;
 import td3.ConstSymbolique;
 import td3.Cos;
 import td3.Division;
+import td3.ExpSomme;
+import td3.Expend;
 import td3.ExpressionArithmetique;
 import td3.Ln;
 import td3.MissingValueException;
@@ -449,11 +451,11 @@ public class AppTest {
 		
 		ExpressionArithmetique add = new Addition(un, new Addition(un, x)); // 1 + (1+x)
 		ExpressionArithmetique add2 = new Addition(deux, x); // 2 + x
+		add.simplifier();
 		
 		assertEquals(add2, add.simplifier());
 				
 		ExpressionArithmetique mult = new Multiplication(deux, new Multiplication(new ConstRationnelle(1, 2), x)); //2 * (1/2 * x) 
-
 		assertEquals(x, mult.simplifier());
 	}
 
@@ -488,5 +490,25 @@ public class AppTest {
 
 		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
 		System.out.println(idRemarquableSimp);*/
+	}
+	
+	@Test //question 11
+	public void testExpSomme() {
+		VariableSymbolique a = new VariableSymbolique("a");
+		ConstEntiere deux = new ConstEntiere(2);
+		
+		VariableSymbolique t = new VariableSymbolique("t");
+		
+		VariableSymbolique i = new VariableSymbolique("i");
+		
+		Multiplication mult = new Multiplication(a,i); // a^i
+		
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de a
+		map.put(t, deux);// a = 2
+		
+		ExpSomme exp = new ExpSomme(mult,new ConstEntiere(2), 5);
+		ExpressionArithmetique res = exp.simplifier(map);
+		
+		System.out.println(res);
 	}
 }

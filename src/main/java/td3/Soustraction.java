@@ -6,7 +6,6 @@ public class Soustraction extends OperationBinaire {
 
 	public Soustraction(ExpressionArithmetique eaLeft, ExpressionArithmetique eaRight) {
 		super(eaLeft, eaRight);
-
 	}
 
 	@Override
@@ -43,30 +42,16 @@ public class Soustraction extends OperationBinaire {
 		return eaLeft.toString() + "-" + eaRight.toString();
 	}
 	
-	/*@Override
+	@Override
 	protected boolean isNeutre(ExpressionArithmetique ea) {
-		return (ea instanceof ConstEntiere && ((ConstEntiere)ea).getEntier() == 0);
-	}*/
+		return (ea.equals(this.eaRight) && ea.equals(new ConstEntiere(0)));//si 0 est à droite
+	}
 
 	@Override
 	public ExpressionArithmetique deriver() {
 		return new Soustraction(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
 	}
 	
-	@Override
-	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
-		ExpressionArithmetique simplified = super.simplifier(map);
-		if (simplified instanceof Soustraction) {
-			Soustraction simplifiedSous = (Soustraction) simplified;
-			if (simplifiedSous.eaRight.equals(new ConstEntiere(0))) {
-				return simplifiedSous.eaLeft;
-			}
-			else {
-				return simplifiedSous;
-			}
-		}
-		return simplified;
-	}
 	
 	public ExpressionArithmetique idRemarquable() {
 		ExpressionArithmetique constanteIdentite = new ConstEntiere(1);

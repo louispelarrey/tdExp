@@ -46,17 +46,19 @@ public class VariableSymbolique extends ExpressionArithmetique{
 
 
 	@Override
+	public ExpressionArithmetique deriver() {
+		return new ConstEntiere(1);
+	}
+
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((symbole == null) ? 0 : symbole.hashCode());
 		return result;
 	}
-	
-	@Override
-	public ExpressionArithmetique deriver() {
-		return new ConstEntiere(1);
-	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -74,5 +76,7 @@ public class VariableSymbolique extends ExpressionArithmetique{
 			return false;
 		return true;
 	}
+	
+	
 	
 }
