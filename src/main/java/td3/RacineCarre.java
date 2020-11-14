@@ -24,4 +24,8 @@ public class RacineCarre extends OperationUnaire{
 		return "√" + membre.toString();
 	}
 
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new Division(new ConstEntiere((int)this.membre.calculer()).deriver(), new Multiplication(new ConstEntiere(2),new RacineCarre(new ConstEntiere((int)this.membre.calculer()))));
+	}
 }

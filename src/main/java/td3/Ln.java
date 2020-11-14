@@ -22,4 +22,9 @@ public class Ln extends OperationUnaire{
 	public String toString() {
 		return "ln(" + membre.toString() + ")";
 	}
+	
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new Division(new ConstEntiere((int)this.membre.calculer()).deriver(), new ConstEntiere((int)this.membre.calculer()));
+	}
 }

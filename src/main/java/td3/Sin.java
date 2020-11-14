@@ -24,4 +24,8 @@ public class Sin extends OperationUnaire{
 		return "sin(" + membre.toString() + ")";
 	}
 	
+	@Override
+	public ExpressionArithmetique deriver() {
+		return new Multiplication(new ConstEntiere((int)this.membre.calculer()).deriver(), new Cos(this.membre));
+	}
 }
