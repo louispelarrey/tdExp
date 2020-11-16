@@ -70,118 +70,65 @@ public class Multiplication extends OperationBinaire {
 	
 	
 	
-	public Multiplication associativite() {
-		// La partie suivante gère l'associativité
-		
+	private Multiplication associativite() {
+
 		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
 		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
+		Multiplication eaCast;
+		int action = 0;
 		
-		ExpressionArithmetique newEaLeft;
-		ExpressionArithmetique newEaRight;
-		Multiplication res;
+		/* Pour chaque, on vérifie si on a bien une multiplication à gauche ou à droite avec un paramètre isolé, puis si on doit inverser pour 
+		 * simplifier en ConstReelle * un symbole. La variable action permet de raccourcir car certaines "actions" sont les mêmes.
+		 */
 
-		if(eaLeftSimp instanceof Multiplication && (eaRightSimp instanceof ConstEntiere || eaRightSimp instanceof ConstRationnelle)) {
-			Multiplication eaLeftCast = (Multiplication) eaLeftSimp;
+		if(eaLeftSimp instanceof Multiplication && eaRightSimp instanceof ConstReelle) {
+			eaCast = (Multiplication) eaLeftSimp;
 			
-			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Multiplication(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
-				newEaRight = eaLeftCast.getEaLeft();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Multiplication(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
-				newEaRight = eaLeftCast.getEaRight();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 1;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 2;
 		}
 		
-		else if(eaRightSimp instanceof Multiplication && (eaLeftSimp instanceof ConstEntiere || eaLeftSimp instanceof ConstRationnelle)) {
-			Multiplication eaRightCast = (Multiplication) eaRightSimp;
+		else if(eaRightSimp instanceof Multiplication && eaLeftSimp instanceof ConstReelle) {
+			eaCast = (Multiplication) eaRightSimp;
 			
-			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Multiplication(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
-				newEaRight = eaRightCast.getEaLeft();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else if((eaRightCast.getEaRight() instanceof VariableSymbolique  || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Multiplication(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
-				newEaRight = eaRightCast.getEaRight();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 3;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 4;
 		}
 		
-		else if(eaLeftSimp instanceof Multiplication && (eaRightSimp instanceof VariableSymbolique || eaRightSimp instanceof ConstSymbolique)) {
-			Multiplication eaLeftCast = (Multiplication) eaLeftSimp;
+		else if(eaLeftSimp instanceof Multiplication && eaRightSimp instanceof Symbolique) {
+			eaCast = (Multiplication) eaLeftSimp;
 			
-			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaLeftCast.getEaRight();
-				newEaRight = new Multiplication(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft =  eaLeftCast.getEaLeft();
-				newEaRight = new Multiplication(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 2;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 1;
 		}
 		
-		else if(eaRightSimp instanceof Multiplication && (eaLeftSimp instanceof VariableSymbolique || eaLeftSimp instanceof ConstSymbolique)) {
-			Multiplication eaRightCast = (Multiplication) eaRightSimp;
+		else if(eaRightSimp instanceof Multiplication && eaLeftSimp instanceof Symbolique) {
+			eaCast = (Multiplication) eaRightSimp;
 			
-			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaRightCast.getEaRight();
-				newEaRight = new Multiplication(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else if((eaRightCast.getEaRight() instanceof VariableSymbolique || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaRightCast.getEaLeft();
-				newEaRight = new Multiplication(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
-				
-				res = new Multiplication(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
-			
-		}
-
-		else {
-			res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 4;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 3;
 		}
 		
-		return res;
+		else return this;
+		
+		ExpressionArithmetique newEaLeft, newEaRight;
+		
+		if(action == 1) {
+			newEaLeft = new Multiplication(eaCast.getEaRight(), eaRightSimp).simplifier();
+			newEaRight = eaCast.getEaLeft();
+		} else if(action == 2) {
+			newEaLeft = new Multiplication(eaCast.getEaLeft(), eaRightSimp).simplifier();
+			newEaRight = eaCast.getEaRight();
+		} else if(action == 3) {
+			newEaLeft = new Multiplication(eaCast.getEaRight(), eaLeftSimp).simplifier();
+			newEaRight = eaCast.getEaLeft();
+		} else if(action == 4) {
+			newEaLeft = new Multiplication(eaCast.getEaLeft(), eaLeftSimp).simplifier();
+			newEaRight = eaCast.getEaRight();
+		}
+		else return this;
+		
+		return new Multiplication(newEaLeft, newEaRight);
 	}
 	
 	@Override

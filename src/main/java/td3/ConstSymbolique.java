@@ -2,7 +2,7 @@ package td3;
 
 import java.util.Map;
 
-public class ConstSymbolique extends ExpressionArithmetique {
+public class ConstSymbolique extends ExpressionArithmetique implements Symbolique {
 	private final String symbole;
 	private final double value;
 	

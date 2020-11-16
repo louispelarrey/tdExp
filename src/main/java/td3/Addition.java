@@ -42,123 +42,73 @@ public class Addition extends OperationBinaire {
 		return new Addition(this.eaLeft.deriver(), this.eaRight.deriver()).simplifier();
 	}
 
-	public Addition associativite() {
-		// La partie suivante gère l'associativité
-		
+
+	private Addition associativite() {
+
 		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
 		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
+		Addition eaCast;
+		int action = 0;
 		
-		ExpressionArithmetique newEaLeft;
-		ExpressionArithmetique newEaRight;
-		Addition res;
 
-		if(eaLeftSimp instanceof Addition && (eaRightSimp instanceof ConstEntiere || eaRightSimp instanceof ConstRationnelle)) {
-			Addition eaLeftCast = (Addition) eaLeftSimp;
+		if(eaLeftSimp instanceof Addition && eaRightSimp instanceof ConstReelle) {
+			eaCast = (Addition) eaLeftSimp;
 			
-			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
-				newEaRight = eaLeftCast.getEaLeft();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
-				newEaRight = eaLeftCast.getEaRight();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 1;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 2;
 		}
 		
-		else if(eaRightSimp instanceof Addition && (eaLeftSimp instanceof ConstEntiere || eaLeftSimp instanceof ConstRationnelle)) {
-			Addition eaRightCast = (Addition) eaRightSimp;
+		else if(eaRightSimp instanceof Addition && eaLeftSimp instanceof ConstReelle) {
+			eaCast = (Addition) eaRightSimp;
 			
-			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
-				newEaRight = eaRightCast.getEaLeft();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaRightCast.getEaRight() instanceof VariableSymbolique  || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
-				newEaRight = eaRightCast.getEaRight();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 3;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 4;
 		}
 		
-		else if(eaLeftSimp instanceof Addition && (eaRightSimp instanceof VariableSymbolique || eaRightSimp instanceof ConstSymbolique)) {
-			Addition eaLeftCast = (Addition) eaLeftSimp;
+		else if(eaLeftSimp instanceof Addition && eaRightSimp instanceof Symbolique) {
+			eaCast = (Addition) eaLeftSimp;
 			
-			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaLeftCast.getEaRight();
-				newEaRight = new Addition(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft =  eaLeftCast.getEaLeft();
-				newEaRight = new Addition(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 2;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 1;
 		}
 		
-		else if(eaRightSimp instanceof Addition && (eaLeftSimp instanceof VariableSymbolique || eaLeftSimp instanceof ConstSymbolique)) {
-			Addition eaRightCast = (Addition) eaRightSimp;
+		else if(eaRightSimp instanceof Addition && eaLeftSimp instanceof Symbolique) {
+			eaCast = (Addition) eaRightSimp;
 			
-			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaRightCast.getEaRight();
-				newEaRight = new Addition(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaRightCast.getEaRight() instanceof VariableSymbolique || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaRightCast.getEaLeft();
-				newEaRight = new Addition(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
-		}
-
-		else {
-			res = this;
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 4;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 3;
 		}
 		
-		return res;
+		else return this;
+		
+		ExpressionArithmetique newEaLeft, newEaRight;
+		
+		if(action == 1) {
+			newEaLeft = new Addition(eaCast.getEaRight(), eaRightSimp).simplifier();
+			newEaRight = eaCast.getEaLeft();
+		} else if(action == 2) {
+			newEaLeft = new Addition(eaCast.getEaLeft(), eaRightSimp).simplifier();
+			newEaRight = eaCast.getEaRight();
+		} else if(action == 3) {
+			newEaLeft = new Addition(eaCast.getEaRight(), eaLeftSimp).simplifier();
+			newEaRight = eaCast.getEaLeft();
+		} else if(action == 4) {
+			newEaLeft = new Addition(eaCast.getEaLeft(), eaLeftSimp).simplifier();
+			newEaRight = eaCast.getEaRight();
+		}
+		else return this;
+		
+		return new Addition(newEaLeft, newEaRight);
 	}
 	
 	public ExpressionArithmetique idRemarquable() {
 		boolean isIdRemarquable = true;
 		
 		ExpressionArithmetique part1 = null, part2 = null, part3 = null, idRemarquable = null;
+		
+		/* Pour chaque, on vérifie si on a bien une addition à gauche ou à droite avec un paramètre isolé, puis si on doit inverser pour 
+		 * simplifier en ConstReelle + un symbole. La variable action permet de raccourcir car certaines "actions" sont les mêmes.
+		 */
 		
 		if(this.eaLeft instanceof Addition) {
 			Addition castEaLeft = (Addition) this.eaLeft;
@@ -189,7 +139,7 @@ public class Addition extends OperationBinaire {
 			Puissance part1NoConst, part3NoConst;
 			Multiplication part2NoConst;
 			
-			if(part1 instanceof Multiplication && (((Multiplication) part1).getEaLeft() instanceof ConstEntiere || ((Multiplication) part1).getEaLeft() instanceof ConstRationnelle) && 
+			if(part1 instanceof Multiplication && ((Multiplication) part1).getEaLeft() instanceof ConstReelle && 
 					((Multiplication) part1).getEaRight() instanceof Puissance && ((Multiplication) part3).getEaRight() instanceof Puissance)  {
 				constanteIdentite = ((Multiplication) part1).getEaLeft();
 				constanteMilieu = new Multiplication(constanteIdentite, new ConstEntiere(2)).simplifier();
