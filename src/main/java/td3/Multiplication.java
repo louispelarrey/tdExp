@@ -111,7 +111,8 @@ public class Multiplication extends OperationBinaire {
 		
 		else return this;
 		
-		ExpressionArithmetique newEaLeft, newEaRight;
+		ExpressionArithmetique newEaLeft;
+		ExpressionArithmetique newEaRight;
 		
 		if(action == 1) {
 			newEaLeft = new Multiplication(eaCast.getEaRight(), eaRightSimp).simplifier();
