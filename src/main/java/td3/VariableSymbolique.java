@@ -3,7 +3,7 @@ package td3;
 import java.util.Map;
 
 public class VariableSymbolique extends ExpressionArithmetique{
-	private String symbole;
+	protected String symbole;
 	
 	public VariableSymbolique(String variable) {
 		this.symbole = variable;
@@ -77,6 +77,9 @@ public class VariableSymbolique extends ExpressionArithmetique{
 		return true;
 	}
 	
-	
+	@Override
+	public ExpressionArithmetique clone() {
+		return new VariableSymbolique(this.symbole);
+	}
 	
 }

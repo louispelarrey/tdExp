@@ -80,4 +80,9 @@ public final class ConstRationnelle extends ExpressionArithmetique {
 	public ExpressionArithmetique deriver() {
 		return new ConstEntiere(0);
 	}
+	
+	@Override
+	public ExpressionArithmetique clone() {
+		return new ConstRationnelle(this.numerateur, denominateur);
+	}
 }

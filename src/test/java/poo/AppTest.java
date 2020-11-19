@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.text.html.parser.ContentModel;
+
 import org.junit.Test;
 
 import td3.Addition;
@@ -18,7 +20,7 @@ import td3.ConstSymbolique;
 import td3.Cos;
 import td3.Division;
 import td3.ExpSomme;
-import td3.Expend;
+import td3.Expand;
 import td3.ExpressionArithmetique;
 import td3.Ln;
 import td3.MissingValueException;
@@ -29,7 +31,9 @@ import td3.RacineCarre;
 import td3.Sin;
 import td3.Soustraction;
 import td3.VariableSymbolique;
-import td3.e;
+import td3.VariableSymboliqueIndicee;
+import td3.E;
+import td3.ExpProduit;
 
 /**
  * Unit test for simple App.
@@ -286,7 +290,7 @@ public class AppTest {
 		assertEquals(un , qLouis.simplifier());
 
 		Pi pi = new Pi();
-		e e = new e();
+		E e = new E();
 
 		ExpressionArithmetique ePui = new Puissance(e, zero);
 		ExpressionArithmetique qLouis3 = new Addition(un, ePui);
@@ -305,6 +309,70 @@ public class AppTest {
 		assertEquals(deux1 , qLouis5.simplifier());
 	}
 	
+	@Test //question 11
+	public void testVariableSymbIndicee() {
+		VariableSymboliqueIndicee u = new VariableSymboliqueIndicee("U", new VariableSymbolique("n"));
+		assertEquals("Un" , u.toString());
+		
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de n
+		map.put(new VariableSymbolique("n"), new ConstEntiere(2));// n = 2
+		
+		assertEquals(new VariableSymboliqueIndicee("U", new ConstEntiere(2)), u.simplifier(map));
+		
+		map.put(u, new Puissance(new VariableSymbolique("n"), new ConstEntiere(2)));// U_n = n^2
+		assertEquals(new ConstEntiere(4), u.simplifier(map));
+	}
+	
+	@Test //question 11
+	public void testExpSomme() {
+		VariableSymbolique x = new VariableSymbolique("x");
+		VariableSymbolique i = new VariableSymbolique("i");
+		
+		VariableSymboliqueIndicee a_i = new VariableSymboliqueIndicee("a", i); // a_i
+		
+		Puissance pui = new Puissance(i, new ConstEntiere(2)); // i^2
+		Multiplication mult = new Multiplication(new ConstEntiere(4),i); // 4*i		
+		Puissance droite = new Puissance(x, i); //x^i
+		
+		Multiplication multi = new Multiplication(a_i,droite); // a_i * x^i
+		
+		ExpSomme exp = new ExpSomme(new VariableSymbolique("i"),0, 4, multi);
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de a_i et x
+		map.put(a_i, pui); // a_i = i^2
+		map.put(x, new ConstEntiere(4)); // x = 4
+		
+		assertEquals(new ConstEntiere(4740), exp.simplifier(map));
+		
+		map.put(a_i, mult); // a_i = 4*i
+		
+		assertEquals(new ConstEntiere(5008), exp.simplifier(map));
+
+		System.out.println(exp.simplifier()); //Sans map
+	}
+	
+	@Test //question 12
+	public void testExpProduit() {
+		VariableSymbolique x = new VariableSymbolique("x");
+		VariableSymbolique i = new VariableSymbolique("i");
+		
+		VariableSymboliqueIndicee a_i = new VariableSymboliqueIndicee("a", i); // a_i
+		
+		Puissance pui = new Puissance(i, new ConstEntiere(2)); // i^2
+		Multiplication mult = new Multiplication(new ConstEntiere(4),i); // 4*i		
+		Puissance droite = new Puissance(x, i); //x^i
+		
+		Multiplication multi = new Multiplication(a_i,droite); // a_i * x^i
+		
+		ExpProduit exp = new ExpProduit(new VariableSymbolique("i"),0, 4, multi);
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de a_i et x
+		map.put(a_i, pui); // a_i = i^2
+		map.put(x, new ConstEntiere(4)); // x = 4
+		
+		assertEquals(new ConstEntiere(0), exp.simplifier(map));
+		
+		System.out.println(exp.simplifier()); //sans map
+			
+	}
 	
 	@Test // question 13
 	public void testDerivPolynome() {
@@ -405,10 +473,6 @@ public class AppTest {
 		ExpressionArithmetique add3 = new Addition(new Multiplication(x, x), new Multiplication(x, unDemi)); // x*x + x*1/2
 		assertEquals(true, mult3.simplifier().equals(add3.simplifier()));
 
-		
-		ExpressionArithmetique mult4 = new Multiplication(cos2, add); // cos(2)*(x+1/2)
-		ExpressionArithmetique add4 = new Addition(new Multiplication(cos2, x), new Multiplication(cos2, unDemi)); // cos(2)*x + cos(2)*1/2
-		assertEquals(true, mult4.simplifier().equals(add4.simplifier()));
 
 		// Distributivité soustraction
 
@@ -422,9 +486,6 @@ public class AppTest {
 		ExpressionArithmetique sous6 = new Soustraction(new Multiplication(x, x), new Multiplication(x, unDemi));// x*x - x*1/2
 		assertEquals(true, mult6.simplifier().equals(sous6.simplifier()));
 
-		ExpressionArithmetique mult7 = new Multiplication(cos2, sous); // cos*(x-1/2)
-		ExpressionArithmetique sous7 = new Soustraction(new Multiplication(cos2, x), new Multiplication(cos2, unDemi)); // cos(2)*x - cos(2)*1/2
-		assertEquals(true, mult7.simplifier().equals(sous7.simplifier()));
 
 		// Distributivité inversée
 
@@ -482,33 +543,7 @@ public class AppTest {
 		
 		assertEquals(idRemarqueFactorise, idRemarquable.idRemarquable());
 		 
-
-		/*ExpressionArithmetique part1 = new Multiplication(rat, puissA);
-		ExpressionArithmetique part2 = new Multiplication(rat, puissB);
-
-		Soustraction idRemarquable = new Soustraction(part1, part2);
-
-		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
-		System.out.println(idRemarquableSimp);*/
 	}
 	
-	@Test //question 11
-	public void testExpSomme() {
-		VariableSymbolique a = new VariableSymbolique("a");
-		ConstEntiere deux = new ConstEntiere(2);
-		
-		VariableSymbolique t = new VariableSymbolique("t");
-		
-		VariableSymbolique i = new VariableSymbolique("i");
-		
-		Multiplication mult = new Multiplication(a,i); // a^i
-		
-		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de a
-		map.put(t, deux);// a = 2
-		
-		ExpSomme exp = new ExpSomme(mult,new ConstEntiere(2), 5);
-		ExpressionArithmetique res = exp.simplifier(map);
-		
-		System.out.println(res);
-	}
+	
 }

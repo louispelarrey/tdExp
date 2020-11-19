@@ -28,4 +28,9 @@ public class Sin extends OperationUnaire{
 	public ExpressionArithmetique deriver() {
 		return new Multiplication(new ConstEntiere((int)this.membre.calculer()).deriver(), new Cos(this.membre));
 	}
+
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Sin(membre.clone());
+	}
 }

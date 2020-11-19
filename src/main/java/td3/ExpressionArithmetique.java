@@ -1,21 +1,20 @@
 package td3;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ExpressionArithmetique{
 	
-	@SuppressWarnings("unchecked")
 	public ExpressionArithmetique simplifier() {
-		return simplifier(Collections.EMPTY_MAP);
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); //map vide
+		return simplifier(map);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public double calculer() {
-		return calculer(Collections.EMPTY_MAP);
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); //map vide
+		return calculer(map);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ExpressionArithmetique deriver() {
 		return deriver();//TODO METTRE un int dans parenthèse ??
 	}
@@ -30,7 +29,7 @@ public abstract class ExpressionArithmetique{
 	
 	public abstract ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map);
 	public abstract double calculer(Map<VariableSymbolique, ExpressionArithmetique> map);
-	
+	public abstract ExpressionArithmetique clone();
 	
 
 }

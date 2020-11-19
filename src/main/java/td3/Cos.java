@@ -27,4 +27,9 @@ public class Cos extends OperationUnaire{
 	public ExpressionArithmetique deriver() {
 		return new Multiplication(new Soustraction(new ConstEntiere(0), new ConstEntiere((int)this.membre.calculer()).deriver()), new Sin(this.membre));
 	}
+	
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Cos(membre.clone());
+	}
 }

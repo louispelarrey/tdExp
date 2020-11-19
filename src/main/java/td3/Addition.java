@@ -304,4 +304,9 @@ public class Addition extends OperationBinaire {
 		return eaLeft.toString() + "+" + eaRight.toString();
 	}
 
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Addition(eaLeft.clone(), eaRight.clone());
+	}
+
 }

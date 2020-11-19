@@ -71,5 +71,10 @@ public class Division extends OperationBinaire {
 		}
 		return simplified;
 	}
+
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Division(eaLeft.clone(), eaRight.clone());
+	}
 	
 }

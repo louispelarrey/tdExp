@@ -235,5 +235,10 @@ public class Multiplication extends OperationBinaire {
 		}	
 		return simplified;
 	}
+	
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Multiplication(eaLeft.clone(), eaRight.clone());
+	}
 
 }

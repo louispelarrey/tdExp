@@ -7,6 +7,11 @@ public class Pi extends ConstSymbolique {
 	
 	public Pi() {
 		super(SYMBOLEPI, VALEURPI);
+	}
+
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Pi();
 	}	
 
 }

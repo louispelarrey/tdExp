@@ -118,4 +118,9 @@ public class Soustraction extends OperationBinaire {
 		
 		return (isIdRemarquable) ? idRemarquable : this;
 	}
+	
+	@Override
+	public ExpressionArithmetique clone() {
+		return new Soustraction(eaLeft.clone(), eaRight.clone());
+	}
 }

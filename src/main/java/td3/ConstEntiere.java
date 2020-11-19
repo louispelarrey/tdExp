@@ -54,4 +54,9 @@ public final class ConstEntiere extends ExpressionArithmetique {
 	public ExpressionArithmetique deriver() {
 		return new ConstEntiere(0);
 	}
+	
+	@Override
+	public ExpressionArithmetique clone() {
+		return new ConstEntiere(this.entier);
+	}
 }
