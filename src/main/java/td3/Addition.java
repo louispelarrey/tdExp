@@ -36,6 +36,15 @@ public class Addition extends OperationBinaire {
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {
 		return simplifie(droite, gauche).simplifier();
 	}
+	
+	protected ExpressionArithmetique simplifie(Matrice gauche, Matrice droite) {
+		if(gauche.getColumn() != droite.getColumn() || gauche.getRow() != droite.getRow()) {
+            return this;
+        } 
+        else {
+        	return gauche.somme(droite);
+        }
+	}
 
 	@Override
 	public ExpressionArithmetique deriver() {
@@ -164,7 +173,16 @@ public class Addition extends OperationBinaire {
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		ExpressionArithmetique simplified = super.simplifier(map);
 		if (simplified instanceof Addition) {
-			return ((Addition) simplified).associativite();	//le pb de associativité est que la méthode retourne this si n'est pas dans la condition
+			Addition simplifiedAdd = (Addition) simplified;	//le pb de associativité est que la méthode retourne this si n'est pas dans la condition
+			if(simplifiedAdd.eaRight instanceof Addition) {
+				return simplifiedAdd.associativite(); //TODO voir avec David
+			}
+			else if(simplifiedAdd.eaLeft instanceof Matrice && simplifiedAdd.eaRight instanceof Matrice) {
+				Matrice gauche = (Matrice) this.eaLeft;
+				Matrice droite = (Matrice) this.eaRight;
+
+				return simplifie(gauche, droite);
+			}
 		}
 		return simplified;
 	}

@@ -1,28 +1,22 @@
 package poo;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-import java.beans.Expression;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.text.html.parser.ContentModel;
 
 import org.junit.Test;
 
 import td3.Addition;
 import td3.ConstEntiere;
 import td3.ConstRationnelle;
-import td3.ConstSymbolique;
 import td3.Cos;
 import td3.Division;
 import td3.ExpSomme;
-import td3.Expand;
 import td3.ExpressionArithmetique;
 import td3.Ln;
+import td3.Matrice;
 import td3.MissingValueException;
 import td3.Multiplication;
 import td3.Pi;
@@ -247,7 +241,7 @@ public class AppTest {
 	public void testExceptionVarSymb() {
 		ExpressionArithmetique x = new VariableSymbolique("x");
 
-		double error = x.calculer();
+		x.calculer();
 	}
 
 
@@ -337,6 +331,7 @@ public class AppTest {
 		Multiplication multi = new Multiplication(a_i,droite); // a_i * x^i
 		
 		ExpSomme exp = new ExpSomme(new VariableSymbolique("i"),0, 4, multi);
+		
 		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de a_i et x
 		map.put(a_i, pui); // a_i = i^2
 		map.put(x, new ConstEntiere(4)); // x = 4
@@ -347,7 +342,6 @@ public class AppTest {
 		
 		assertEquals(new ConstEntiere(5008), exp.simplifier(map));
 
-		System.out.println(exp.simplifier()); //Sans map
 	}
 	
 	@Test //question 12
@@ -357,20 +351,18 @@ public class AppTest {
 		
 		VariableSymboliqueIndicee a_i = new VariableSymboliqueIndicee("a", i); // a_i
 		
-		Puissance pui = new Puissance(i, new ConstEntiere(2)); // i^2
-		Multiplication mult = new Multiplication(new ConstEntiere(4),i); // 4*i		
+		Puissance pui = new Puissance(i, new ConstEntiere(2)); // i^2	
 		Puissance droite = new Puissance(x, i); //x^i
 		
 		Multiplication multi = new Multiplication(a_i,droite); // a_i * x^i
 		
 		ExpProduit exp = new ExpProduit(new VariableSymbolique("i"),0, 4, multi);
+		
 		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de a_i et x
 		map.put(a_i, pui); // a_i = i^2
 		map.put(x, new ConstEntiere(4)); // x = 4
 		
 		assertEquals(new ConstEntiere(0), exp.simplifier(map));
-		
-		System.out.println(exp.simplifier()); //sans map
 			
 	}
 	
@@ -381,7 +373,6 @@ public class AppTest {
 			ConstEntiere cinq = new ConstEntiere(5);
 			ConstEntiere dix = new ConstEntiere(10);
 			VariableSymbolique x1 = new VariableSymbolique("x");
-			ConstEntiere un = new ConstEntiere(1);// 1
 			ConstEntiere deux1 = new ConstEntiere(2);// 2
 			ConstEntiere trois = new ConstEntiere(3);// 3
 			VariableSymbolique x = new VariableSymbolique("x");
@@ -403,11 +394,6 @@ public class AppTest {
 			
 			assertEquals(new Addition(sixIx, cinq), new Addition(dix, new Addition(TroisixCarre, cinqIx)).deriver());
 
-			
-			ExpressionArithmetique unX = new Addition(un, x1); 
-			ExpressionArithmetique unMoinsX = new Soustraction(un, x1);
-
-			ExpressionArithmetique uuu = new Division(unX, unMoinsX); // 1+x/(1-x)
 	}
 	
 	@Test //question 14
@@ -459,7 +445,6 @@ public class AppTest {
 		ConstEntiere deux = new ConstEntiere(2);// 2
 		VariableSymbolique x = new VariableSymbolique("x"); // x
 		ConstRationnelle unDemi = new ConstRationnelle(1, 2);// 1/2
-		Cos cos2 = new Cos(deux); // cos(2)
 
 		// Distributivité addition
 
@@ -525,7 +510,6 @@ public class AppTest {
 		ConstEntiere trois = new ConstEntiere(4);
 		ConstEntiere six = new ConstEntiere(8);
 		ConstEntiere deux = new ConstEntiere(2);
-		ConstRationnelle rat = new ConstRationnelle(2, 5);
 		VariableSymbolique a = new VariableSymbolique("a");
 		VariableSymbolique b = new VariableSymbolique("b");
 		
@@ -543,6 +527,52 @@ public class AppTest {
 		
 		assertEquals(idRemarqueFactorise, idRemarquable.idRemarquable());
 		 
+	}
+	
+	@Test //question 29
+	public void testMatrice() {
+		
+		//SIMPLIFICATION
+		
+		Map<VariableSymbolique, ExpressionArithmetique> map = new HashMap<>(); // valorisation de x et y
+		map.put(new VariableSymbolique("x"), new ConstEntiere(3));// x = 3
+		map.put(new VariableSymbolique("y"), new ConstEntiere(5));// y = 5
+		
+		ExpressionArithmetique[][] s={{new ConstEntiere(7),new VariableSymbolique("x")},{new ConstEntiere(2), new VariableSymbolique("y")}}; 
+		Matrice mSimp = new Matrice(s);
+		
+		ExpressionArithmetique[][] sR={{new ConstEntiere(7),new ConstEntiere(3)},{new ConstEntiere(2), new ConstEntiere(5)}};
+		Matrice mSimpRep = new Matrice(sR);
+		
+		assertEquals(mSimpRep, mSimp.simplifier(map));
+		
+		//PRODUIT 2 MATRICES
+		
+		ExpressionArithmetique[][] a={{new ConstEntiere(4),new ConstEntiere(3)},{new ConstEntiere(2), new ConstEntiere(1)}}; 
+		ExpressionArithmetique[][] b={{new ConstEntiere(2),new ConstEntiere(4)},{new ConstEntiere(4), new ConstEntiere(5)}}; 
+		
+		Matrice m = new Matrice(a);
+		Matrice m2 = new Matrice(b);
+		
+		ExpressionArithmetique[][] c={{new ConstEntiere(20),new ConstEntiere(31)},{new ConstEntiere(8), new ConstEntiere(13)}}; 
+		Matrice m3 = new Matrice(c);
+		
+		ExpressionArithmetique produit = new Multiplication(m, m2); 
+		assertEquals(m3, produit.simplifier());
+		
+		//SOMME MATRICIELLE
+		
+		ExpressionArithmetique[][] d={{new ConstEntiere(8),new ConstEntiere(6)},{new ConstEntiere(4), new ConstEntiere(2)}}; 
+		Matrice m4= new Matrice(d);
+		
+		ExpressionArithmetique somme = new Addition(m, m);
+		assertEquals(m4, somme.simplifier());
+		
+		
+		//PRODUIT MATRICE ET EXP ARITHMETIQUE
+		
+		ExpressionArithmetique produit2 = new Multiplication(m, new ConstEntiere(2)); 
+		assertEquals(m4, produit2.simplifier());
 	}
 	
 	

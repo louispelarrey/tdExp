@@ -63,6 +63,17 @@ public class Multiplication extends OperationBinaire {
 		return new Soustraction(mLeft, mRight).simplifier();
 	}
 	
+	protected ExpressionArithmetique simplifie(Matrice gauche, ExpressionArithmetique droite) {
+		return gauche.produit(droite);
+	}
+	
+	protected ExpressionArithmetique simplifie(Matrice gauche, Matrice droite) {
+		if(gauche.getColumn() != droite.getRow())
+			return this;
+		else
+			return gauche.produit(droite);
+	}
+	
 	
 	@Override
 	protected boolean isNeutre(ExpressionArithmetique ea) {
@@ -228,6 +239,22 @@ public class Multiplication extends OperationBinaire {
 			else if (simplifiedMult.eaRight instanceof Multiplication) { //TODO associativité a verifier
 
 				 return associativite();
+			}
+			else if(simplifiedMult.eaLeft instanceof Matrice && simplifiedMult.eaRight instanceof Matrice){
+				Matrice gauche = (Matrice) simplifiedMult.eaLeft;
+				Matrice droite = (Matrice) simplifiedMult.eaRight;
+				
+				return simplifie(gauche, droite);
+			}
+			else if(simplifiedMult.eaLeft instanceof Matrice) {
+				Matrice gauche = (Matrice) simplifiedMult.eaLeft;
+				
+				return simplifie(gauche, simplifiedMult.eaRight);
+			}
+			else if(simplifiedMult.eaRight instanceof Matrice) {
+				Matrice droite = (Matrice) simplifiedMult.eaRight;
+				
+				return simplifie(droite, simplifiedMult.eaLeft);
 			}
 			else {
 				return simplifiedMult;
