@@ -2,7 +2,7 @@ package td3;
 
 import java.util.Map;
 
-public final class ConstEntiere extends ExpressionArithmetique {
+public final class ConstEntiere extends ExpressionArithmetique implements ConstReelle {
 	private final int entier;
 	
 	public ConstEntiere(int value) {
