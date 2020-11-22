@@ -394,9 +394,6 @@ public class AppTest {
 			assertEquals(sixIx, TroisixCarre.deriver().simplifier());
 			
 			assertEquals(new Addition(sixIx, cinq), new Addition(dix, new Addition(TroisixCarre, cinqIx)).deriver());
-			
-			ExpressionArithmetique cosUn = new Cos(deux1);
-			assertEquals(zero, TroisixCarre.deriver().simplifier());
 	}
 	
 	@Test //question 14
