@@ -17,7 +17,7 @@ public abstract class ExpressionArithmetique{
 	}
 	
 	public ExpressionArithmetique deriver() {
-		return deriver();//TODO METTRE un int dans parenthèse ??
+		return deriver();
 	}
 	
 	public ExpressionArithmetique deriver(int n) {
@@ -38,7 +38,7 @@ public abstract class ExpressionArithmetique{
 			Addition Xi = new Addition(a, new Multiplication(new ConstEntiere(i), delta));
 			Addition Xiplus1 = new Addition(a, new Multiplication(new ConstEntiere(i + 1), delta));
 			
-			Division milieu = new Division(new Addition(Xi, Xiplus1), new ConstEntiere(2));
+			ExpressionArithmetique milieu = new Division(new Addition(Xi, Xiplus1), new ConstEntiere(2));
 			double calculFonc = this.calculer(Collections.singletonMap(var, milieu));
 			
 			somme += calculFonc;
