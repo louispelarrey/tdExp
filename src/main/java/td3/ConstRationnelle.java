@@ -80,4 +80,20 @@ public final class ConstRationnelle extends ExpressionArithmetique implements Co
 	public ExpressionArithmetique deriver() {
 		return new ConstEntiere(0);
 	}
+	
+	public static ConstRationnelle getFraction(double decimal) {
+		String decimalString = String.valueOf(decimal);
+        int apresVirgule = decimalString.length() - 1 - decimalString.indexOf('.');        
+
+        int denominateur = 1;
+        
+        for(int i = 0; i < apresVirgule; i++){
+           decimal *= 10;
+           denominateur *= 10;
+        }
+        
+        int numerateur = (int) Math.round(decimal);
+
+        return new ConstRationnelle(numerateur, denominateur);
+	}
 }
