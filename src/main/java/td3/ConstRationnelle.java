@@ -2,7 +2,7 @@ package td3;
 
 import java.util.Map;
 
-public final class ConstRationnelle extends ExpressionArithmetique {
+public final class ConstRationnelle extends ExpressionArithmetique implements ConstReelle {
 
 	private final int numerateur;
 	private final int denominateur;

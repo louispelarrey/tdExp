@@ -56,126 +56,75 @@ public class Addition extends OperationBinaire {
 		return (ea.equals(new ConstEntiere(0)));
 	}
 	
-	public Addition associativite() {
-		// La partie suivante gère l'associativité
-		
-		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();  //TODO MODIFIER COMME DANS MULT
+	private ExpressionArithmetique associativite() {
+
+		ExpressionArithmetique eaLeftSimp = this.eaLeft.simplifier();
 		ExpressionArithmetique eaRightSimp = this.eaRight.simplifier();
+		Addition eaCast;
+		int action = 0;
+		
+		/* Pour chaque, on vérifie si on a bien une Addition à gauche ou à droite avec un paramètre isolé, puis si on doit inverser pour 
+		 * simplifier en ConstReelle * un symbole. La variable action permet de raccourcir car certaines "actions" sont les mêmes.
+		 */
+
+		if(eaLeftSimp instanceof Addition && eaRightSimp instanceof ConstReelle) {
+			eaCast = (Addition) eaLeftSimp;
+			
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 1;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 2;
+		}
+		
+		else if(eaRightSimp instanceof Addition && eaLeftSimp instanceof ConstReelle) {
+			eaCast = (Addition) eaRightSimp;
+			
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 3;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 4;
+		}
+		
+		else if(eaLeftSimp instanceof Addition && eaRightSimp instanceof Symbolique) {
+			eaCast = (Addition) eaLeftSimp;
+			
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 2;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 1;
+		}
+		
+		else if(eaRightSimp instanceof Addition && eaLeftSimp instanceof Symbolique) {
+			eaCast = (Addition) eaRightSimp;
+			
+			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 4;
+			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 3;
+		}
+		
+		else return this;
 		
 		ExpressionArithmetique newEaLeft;
 		ExpressionArithmetique newEaRight;
-		Addition res;
-
-		if(eaLeftSimp instanceof Addition && (eaRightSimp instanceof ConstEntiere || eaRightSimp instanceof ConstRationnelle)) {
-			Addition eaLeftCast = (Addition) eaLeftSimp;
-			
-			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
-				newEaRight = eaLeftCast.getEaLeft();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
-				newEaRight = eaLeftCast.getEaRight();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
-		}
 		
-		else if(eaRightSimp instanceof Addition && (eaLeftSimp instanceof ConstEntiere || eaLeftSimp instanceof ConstRationnelle)) {
-			Addition eaRightCast = (Addition) eaRightSimp;
-			
-			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
-				newEaRight = eaRightCast.getEaLeft();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaRightCast.getEaRight() instanceof VariableSymbolique  || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = new Addition(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
-				newEaRight = eaRightCast.getEaRight();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
+		if(action == 1) {
+			newEaLeft = new Addition(eaCast.getEaRight(), eaRightSimp).simplifier();
+			newEaRight = eaCast.getEaLeft();
+		} else if(action == 2) {
+			newEaLeft = new Addition(eaCast.getEaLeft(), eaRightSimp).simplifier();
+			newEaRight = eaCast.getEaRight();
+		} else if(action == 3) {
+			newEaLeft = new Addition(eaCast.getEaRight(), eaLeftSimp).simplifier();
+			newEaRight = eaCast.getEaLeft();
+		} else if(action == 4) {
+			newEaLeft = new Addition(eaCast.getEaLeft(), eaLeftSimp).simplifier();
+			newEaRight = eaCast.getEaRight();
 		}
+		else return this;
 		
-		else if(eaLeftSimp instanceof Addition && (eaRightSimp instanceof VariableSymbolique || eaRightSimp instanceof ConstSymbolique)) {
-			Addition eaLeftCast = (Addition) eaLeftSimp;
-			
-			if((eaLeftCast.getEaLeft() instanceof VariableSymbolique || eaLeftCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaRight() instanceof ConstEntiere || eaLeftCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaLeftCast.getEaRight();
-				newEaRight = new Addition(eaLeftCast.getEaLeft(), eaRightSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaLeftCast.getEaRight() instanceof VariableSymbolique || eaLeftCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaLeftCast.getEaLeft() instanceof ConstEntiere || eaLeftCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft =  eaLeftCast.getEaLeft();
-				newEaRight = new Addition(eaLeftCast.getEaRight(), eaRightSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
-		}
-		
-		else if(eaRightSimp instanceof Addition && (eaLeftSimp instanceof VariableSymbolique || eaLeftSimp instanceof ConstSymbolique)) {
-			Addition eaRightCast = (Addition) eaRightSimp;
-			
-			if((eaRightCast.getEaLeft() instanceof VariableSymbolique || eaRightCast.getEaLeft() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaRight() instanceof ConstEntiere || eaRightCast.getEaRight() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaRightCast.getEaRight();
-				newEaRight = new Addition(eaRightCast.getEaLeft(), eaLeftSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else if((eaRightCast.getEaRight() instanceof VariableSymbolique || eaRightCast.getEaRight() instanceof ConstSymbolique) &&
-					(eaRightCast.getEaLeft() instanceof ConstEntiere || eaRightCast.getEaLeft() instanceof ConstRationnelle)) {
-				
-				newEaLeft = eaRightCast.getEaLeft();
-				newEaRight = new Addition(eaRightCast.getEaRight(), eaLeftSimp).simplifier();
-				
-				res = new Addition(newEaLeft, newEaRight);
-			}
-			
-			else res = this;
-		}
-
-		else {
-			res = this;
-		}
-		
-		return res;
+		return (new Addition(newEaLeft, newEaRight)).simplifier();
 	}
 	
 	@Override
 	public ExpressionArithmetique simplifier(Map<VariableSymbolique, ExpressionArithmetique> map) {
 		ExpressionArithmetique simplified = super.simplifier(map);
 		if (simplified instanceof Addition) {
-			Addition simplifiedAdd = (Addition) simplified;	//le pb de associativité est que la méthode retourne this si n'est pas dans la condition
-			if(simplifiedAdd.eaRight instanceof Addition) {
-				return simplifiedAdd.associativite(); //TODO voir avec David
+			Addition simplifiedAdd = (Addition) simplified;	
+			if(simplifiedAdd.eaLeft instanceof Addition || simplifiedAdd.eaRight instanceof Addition) {
+				return simplifiedAdd.associativite();
 			}
 			else if(simplifiedAdd.eaLeft instanceof Matrice && simplifiedAdd.eaRight instanceof Matrice) {
 				Matrice gauche = (Matrice) this.eaLeft;
@@ -188,92 +137,80 @@ public class Addition extends OperationBinaire {
 	}
 	
 	public ExpressionArithmetique idRemarquable() {
-		boolean isIdRemarquable = true;
+		ExpressionArithmetique idRemarquable;
+		ExpressionArithmetique part1; 
+		ExpressionArithmetique part2;
+		ExpressionArithmetique part3;
 		
-		ExpressionArithmetique part1 = null, part2 = null, part3 = null, idRemarquable = null;
+		// On vérifie d'abord ou se trouve l'objet Addition, à droite ou à gauche pour isoler chacune des 3 parties de la potentielle identité
 		
 		if(this.eaLeft instanceof Addition) {
-			Addition castEaLeft = (Addition) this.eaLeft;
-			part1 = castEaLeft.getEaLeft();
-			part2 = castEaLeft.getEaRight();
+			part1 = ((Addition) this.eaLeft).getEaLeft();
+			part2 = ((Addition) this.eaLeft).getEaRight();
 			part3 = this.eaRight;
 		}
 		
 		else if(this.eaRight instanceof Addition) {
-			Addition castEaRight = (Addition) this.eaRight;
 			part1 = this.eaLeft;
-			part2 = castEaRight.getEaLeft();
-			part3 = castEaRight.getEaRight();
+			part2 = ((Addition) this.eaRight).getEaLeft();
+			part3 = ((Addition) this.eaRight).getEaRight();
 		}
 		
-		else {
-			isIdRemarquable = false;
-		}
+		else return this;
 		
-		globalCond:	
-		if(part2 instanceof Multiplication && isIdRemarquable) {
+		// Si la partie 2 n'est pas une Multiplication alors pas une identité remaruqable
+		
+		if(part2 instanceof Multiplication) {
 			ExpressionArithmetique constanteIdentite = new ConstEntiere(1);
 			ExpressionArithmetique constanteMilieu = new ConstEntiere(2);
-			ExpressionArithmetique constanteMilieuNeg = new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier();
 			
-			boolean milieuNeg;
-			
-			Puissance part1NoConst, part3NoConst;
+			boolean milieuNeg = false;
+			Puissance part1NoConst;
+			Puissance part3NoConst;
 			Multiplication part2NoConst;
 			
-			if(part1 instanceof Multiplication && (((Multiplication) part1).getEaLeft() instanceof ConstEntiere || ((Multiplication) part1).getEaLeft() instanceof ConstRationnelle) && 
+			/* 
+			 * Cas n°1 : chaque partie est multipliée par une constante (ou par son double pour la partie du milieu), on vérifie l'égalité à chaque fois
+			 * On vérifie également que ces constantes sont bien multipliées par des puissances
+			 */
+			
+			if(part1 instanceof Multiplication && ((Multiplication) part1).getEaLeft() instanceof ConstReelle && 
 					((Multiplication) part1).getEaRight() instanceof Puissance && ((Multiplication) part3).getEaRight() instanceof Puissance)  {
 				constanteIdentite = ((Multiplication) part1).getEaLeft();
 				constanteMilieu = new Multiplication(constanteIdentite, new ConstEntiere(2)).simplifier();
-				constanteMilieuNeg = new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier();
 				
-				if(!(part3 instanceof Multiplication) || !constanteIdentite.equals(((Multiplication) part3).getEaLeft())) {
-					isIdRemarquable = false;
-					break globalCond;
-				}
+				if(!(part3 instanceof Multiplication) || !constanteIdentite.equals(((Multiplication) part3).getEaLeft())) return this;
 				
 				else {
-					if(((Multiplication) part2).getEaLeft().equals(constanteMilieu)) {
-						milieuNeg = false;
-					}
+					if(((Multiplication) part2).getEaLeft().equals(constanteMilieu)) milieuNeg = false;
 					
-					else if(((Multiplication) part2).getEaLeft().equals(constanteMilieuNeg)) {
-						milieuNeg = true;
-						constanteMilieu = constanteMilieuNeg;
-					}
+					else if(((Multiplication) part2).getEaLeft().equals(new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier())) milieuNeg = true;
 					
-					else {
-						isIdRemarquable = false;
-						break globalCond;
-					}
+					else return this;
 					
 					part1NoConst = (Puissance) ((Multiplication) part1).getEaRight();
 					part2NoConst = (Multiplication) ((Multiplication) part2).getEaRight();
 					part3NoConst = (Puissance) ((Multiplication) part3).getEaRight();
 					
-
 				}
 			}
+			
+			// Cas n°2 : pas de puissance devant
 			
 			else {
 				part1NoConst = (Puissance) part1;
 				part3NoConst = (Puissance) part3;
 				
-				if(((Multiplication) part2).getEaLeft().equals(constanteMilieu)) {
-					milieuNeg = false;
-					part2NoConst = (Multiplication) part2;
-				}
+				if(((Multiplication) part2).getEaLeft().equals(constanteMilieu)) milieuNeg = false;
 				
-				else if(((Multiplication) part2).getEaLeft().equals(constanteMilieuNeg)) {
-					milieuNeg = true;
-					part2NoConst = (Multiplication) part2;
-				}
+				else if(((Multiplication) part2).getEaLeft().equals(new Multiplication(constanteMilieu, new ConstEntiere(-1)).simplifier())) milieuNeg = true;
 						
-				else {
-					isIdRemarquable = false;
-					break globalCond;
-				}
+				else return this;
+				
+				part2NoConst = (Multiplication) part2;
 			}
+			
+			// On vérifie bien qu'il s'agit de puissances de VariablesSymboliques au degré 2
 			
 			if(part1NoConst instanceof Puissance && part1NoConst.getEaLeft() instanceof VariableSymbolique && part1NoConst.getEaRight().equals(new ConstEntiere(2))
 					&& part3NoConst instanceof Puissance && part3NoConst.getEaLeft() instanceof VariableSymbolique && part3NoConst.getEaRight().equals(new ConstEntiere(2))
@@ -282,39 +219,17 @@ public class Addition extends OperationBinaire {
 				VariableSymbolique varA = (VariableSymbolique) part1NoConst.getEaLeft();
 				VariableSymbolique varB = (VariableSymbolique) part3NoConst.getEaLeft();
 				
-				OperationBinaire operation1;
-				Puissance operation2;
-				
-				if(!milieuNeg) {
-					operation1 = new Addition(varA, varB);
-				}
-				
-				else {
-					operation1 = new Soustraction(varA, varB);
-				}
-				
-				operation2 = new Puissance(operation1, new ConstEntiere(2));
-				
-				if(!constanteIdentite.equals(new ConstEntiere(1))) {
-					idRemarquable = new Multiplication(constanteIdentite, operation2);
-				}
-				
-				else {
-					idRemarquable = operation2;
-				}
+				OperationBinaire operation1 = !milieuNeg ? new Addition(varA, varB) : new Soustraction(varA, varB);
+				Puissance operation2 = new Puissance(operation1, new ConstEntiere(2));
+				idRemarquable = !constanteIdentite.equals(new ConstEntiere(1)) ? new Multiplication(constanteIdentite, operation2) : operation2;
 			}
 			
-			else {
-				isIdRemarquable = false;
-				break globalCond;
-			}
+			else return this;
 		}
 		
-		else {
-			isIdRemarquable = false;
-		}
+		else return this;
 		
-		return (isIdRemarquable) ? idRemarquable : this;
+		return idRemarquable;
 	}
 	
 	@Override
