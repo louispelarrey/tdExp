@@ -391,6 +391,7 @@ public class AppTest {
 	
 	@Test // question 13
 	public void testDerivPolynome() {
+			ConstEntiere zero = new ConstEntiere(0);
 			ConstEntiere trois1 = new ConstEntiere(3);
 			ConstEntiere six = new ConstEntiere(6);
 			ConstEntiere cinq = new ConstEntiere(5);
@@ -416,7 +417,6 @@ public class AppTest {
 			assertEquals(sixIx, TroisixCarre.deriver().simplifier());
 			
 			assertEquals(new Addition(sixIx, cinq), new Addition(dix, new Addition(TroisixCarre, cinqIx)).deriver());
-
 	}
 	
 	@Test //question 14

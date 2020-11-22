@@ -17,7 +17,7 @@ public abstract class ExpressionArithmetique implements Derivable{
 	}
 	
 	public ExpressionArithmetique deriver() {
-		return deriver(0);
+		return deriver();
 	}
 	
 	public ExpressionArithmetique deriver(int n) {
