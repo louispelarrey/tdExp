@@ -488,4 +488,25 @@ public class AppTest {
 		ExpressionArithmetique idRemarquableSimp = idRemarquable.idRemarquable();
 		System.out.println(idRemarquableSimp);*/
 	}
+	
+	@Test //question 22
+	public void testIntegralesRiemann() {
+		VariableSymbolique X = new VariableSymbolique("x");
+		ConstEntiere precision = new ConstEntiere(200);
+		
+		ConstEntiere quatre = new ConstEntiere(4);
+		ConstEntiere min = new ConstEntiere(0);
+		ConstEntiere max = new ConstEntiere(10);
+		
+		Addition fonction1 = new Addition(quatre, X);
+		
+		assertEquals(90, fonction1.integrationRiemann(X, precision, min, max), 0.001);
+		
+		ConstEntiere huit = new ConstEntiere(8);
+		min = new ConstEntiere(-20);
+		max = new ConstEntiere(20);
+		
+		Multiplication fonction2 = new Multiplication(new Soustraction(X, huit), new Puissance(X, quatre));
+		assertEquals(-10239146.6816, fonction2.integrationRiemann(X, precision, min, max), 0.0001);
+	}
 }
