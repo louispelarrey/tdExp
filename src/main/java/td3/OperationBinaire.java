@@ -23,7 +23,7 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 
 	
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
-		return this; //sert peut etre à rien
+		return this;
 	}
 
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {

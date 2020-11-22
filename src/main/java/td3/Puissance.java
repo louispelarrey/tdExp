@@ -20,17 +20,17 @@ public class Puissance extends OperationBinaire{
 	
 	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstEntiere droite) {
-		return new ConstRationnelle(droite.getEntier() ^ gauche.getNumerateur(), gauche.getDenominateur()).simplifier(); //TODO a verifier ABSOLUMENT !!
+		return new ConstRationnelle(gauche.getNumerateur(), (int)Math.pow(gauche.getDenominateur(), droite.getEntier())).simplifier(); //TODO a verifier ABSOLUMENT !!
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstRationnelle gauche, ConstRationnelle droite) {
-		return this; //TODO a faire ou inutile
+		return new Division(this.simplifie(gauche, new ConstEntiere(droite.getNumerateur())), new ConstEntiere(droite.getDenominateur())).simplifier(); //TODO 
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstEntiere gauche, ConstRationnelle droite) {	
-		return this;//TODO a faire ou inutile
+		return new ConstRationnelle((int)Math.pow(gauche.getEntier(), droite.getNumerateur()), droite.getDenominateur()).simplifier();
 	}
 	
 	@Override

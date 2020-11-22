@@ -61,8 +61,19 @@ public class AppTest {
 		assertEquals(17, ((ConstRationnelle) times.simplifier()).getDenominateur());
 
 	}
+	
+	@Test //question 2
+	public void testVarSymb() {
+		VariableSymbolique x = new VariableSymbolique("x");
+		
+		assertEquals(x, x.simplifier());
+		
+		ExpressionArithmetique mult = new Multiplication(x, new ConstEntiere(2));
+		
+		assertEquals(mult, mult.simplifier());
+	}
 
-	@Test //question 4
+	@Test //question 3 
 	public void testOperationBinaire() {
 
 		ExpressionArithmetique neuf = new ConstEntiere(9);
@@ -127,7 +138,7 @@ public class AppTest {
 		
 	}
 
-	@Test //question 4
+	@Test //question 3
 	public void testOpUnaire() {
 		ExpressionArithmetique neuf = new ConstEntiere(9);
 		ExpressionArithmetique pui = new Puissance(neuf, neuf);
@@ -143,9 +154,22 @@ public class AppTest {
 		assertEquals(-0.91113, cos.calculer(), 0.0001);
 
 	}
-
+	
+	@Test //question 4
+	public void testConstSymbolique() {
+		Pi pi = new Pi();
+		E e = new E();
+		
+		assertEquals(3.1416, pi.calculer(), 0.0001);
+		assertEquals(2.7182, e.calculer(), 0.0001);
+		
+		ExpressionArithmetique mult = new Multiplication(pi, new ConstEntiere(2));
+		
+		assertEquals(mult, mult.simplifier());
+	}
+	
 	@Test // question 5
-	public void testSimplifierVarSymb() {
+	public void testSimplifcationStandart() {
 		ExpressionArithmetique unQuart = new ConstRationnelle(1, 4);
 		ExpressionArithmetique troisQuart = new ConstRationnelle(3, 4);
 		ExpressionArithmetique x = new VariableSymbolique("x");
@@ -156,12 +180,11 @@ public class AppTest {
 		ExpressionArithmetique question = new Addition(plu, x); // ((1/4) + (3/4))+x
 		ExpressionArithmetique questionRep = new Addition(un, x); // 1+x
 
-		assertEquals(true, question.simplifier().equals(questionRep.simplifier()));
+		assertEquals(questionRep, question.simplifier());
 	}
 
 	@Test // question 6
-	public void testConstSymb() {
-
+	public void testCalculeExpArithmetique() {
 		ExpressionArithmetique un = new ConstEntiere(1);
 		Pi pi = new Pi();
 		ExpressionArithmetique piPlusUn = new Addition(pi, un);

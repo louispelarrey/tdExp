@@ -6,7 +6,7 @@ public abstract class ConstSymbolique extends ExpressionArithmetique {
 	private final String symbole;
 	private final double value;
 	
-	public ConstSymbolique(String symbole, double value) { //TODO VERIFIER SI IL FAUT SUPPRIMER
+	protected ConstSymbolique(String symbole, double value) {
 		this.symbole = symbole;
 		this.value = value;
 	}
