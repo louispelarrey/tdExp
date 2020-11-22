@@ -35,37 +35,45 @@ public class Multiplication extends OperationBinaire {
 	}
 	
 	
-	//Distributivite
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Addition droite) {
-		ExpressionArithmetique mLeft = new Multiplication(gauche, droite.eaLeft).simplifier();
-		ExpressionArithmetique mRight = new Multiplication(gauche, droite.eaRight).simplifier();
-		return new Addition(mLeft, mRight).simplifier();
+	
+	protected ExpressionArithmetique distributiviteAddition() {
+		if (this.eaLeft instanceof Addition) {
+			Addition add = (Addition) this.eaLeft;
+			ExpressionArithmetique mLeft = new Multiplication(add.eaLeft, eaRight);
+			ExpressionArithmetique mRight = new Multiplication(add.eaRight, eaRight);
+			return new Addition(mLeft, mRight).simplifier();
+		}
+		else if (this.eaRight instanceof Addition) {
+			Addition add = (Addition) this.eaRight;
+			ExpressionArithmetique mLeft = new Multiplication(eaLeft, add.eaLeft);
+			ExpressionArithmetique mRight = new Multiplication(eaLeft, add.eaRight);
+			return new Addition(mLeft, mRight).simplifier();
+		}
+		else {
+			return this;
+		}
+		
 	}
 	
-
-	protected ExpressionArithmetique simplifie(Addition gauche, ExpressionArithmetique droite) {
-		ExpressionArithmetique mLeft = new Multiplication(gauche.eaLeft, droite).simplifier();
-		ExpressionArithmetique mRight = new Multiplication(gauche.eaRight, droite).simplifier();
-		return new Addition(mLeft, mRight).simplifier();
+	protected ExpressionArithmetique distributiviteSoustraction() {
+		if (this.eaLeft instanceof Soustraction) {
+			Soustraction sous = (Soustraction) this.eaLeft;
+			ExpressionArithmetique mLeft = new Multiplication(sous.eaLeft, eaRight);
+			ExpressionArithmetique mRight = new Multiplication(sous.eaRight, eaRight);
+			return new Soustraction(mLeft, mRight).simplifier();
+		}
+		else if (this.eaRight instanceof Soustraction) {
+			Soustraction sous = (Soustraction) this.eaRight;
+			ExpressionArithmetique mLeft = new Multiplication(eaLeft, sous.eaLeft);
+			ExpressionArithmetique mRight = new Multiplication(eaLeft, sous.eaRight);
+			return new Soustraction(mLeft, mRight).simplifier();
+		}
+		else {
+			return this;
+		}
+		
 	}
 	
-
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, Soustraction droite) {
-		ExpressionArithmetique mLeft = new Multiplication(gauche, droite.eaLeft).simplifier();
-		ExpressionArithmetique mRight = new Multiplication(gauche, droite.eaRight).simplifier();
-		return new Soustraction(mLeft, mRight).simplifier();
-	}
-	
-
-	protected ExpressionArithmetique simplifie(Soustraction gauche, ExpressionArithmetique droite) {
-		ExpressionArithmetique mLeft = new Multiplication(gauche.eaLeft, droite).simplifier();
-		ExpressionArithmetique mRight = new Multiplication(gauche.eaRight, droite).simplifier();
-		return new Soustraction(mLeft, mRight).simplifier();
-	}
-	
-	protected ExpressionArithmetique simplifie(Matrice gauche, ExpressionArithmetique droite) {
-		return gauche.produit(droite);
-	}
 	
 	protected ExpressionArithmetique simplifie(Matrice gauche, Matrice droite) {
 		if(gauche.getColumn() != droite.getRow())
@@ -94,29 +102,29 @@ public class Multiplication extends OperationBinaire {
 		if(eaLeftSimp instanceof Multiplication && eaRightSimp instanceof ConstReelle) {
 			eaCast = (Multiplication) eaLeftSimp;
 			
-			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 1;
-			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 2;
+			if(eaCast.eaLeft instanceof Symbolique && eaCast.eaRight instanceof ConstReelle) action = 1;
+			else if(eaCast.eaRight instanceof Symbolique && eaCast.eaLeft instanceof ConstReelle) action = 2;
 		}
 		
 		else if(eaRightSimp instanceof Multiplication && eaLeftSimp instanceof ConstReelle) {
 			eaCast = (Multiplication) eaRightSimp;
 			
-			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 3;
-			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 4;
+			if(eaCast.eaLeft instanceof Symbolique && eaCast.eaRight instanceof ConstReelle) action = 3;
+			else if(eaCast.eaRight instanceof Symbolique && eaCast.eaLeft instanceof ConstReelle) action = 4;
 		}
 		
 		else if(eaLeftSimp instanceof Multiplication && eaRightSimp instanceof Symbolique) {
 			eaCast = (Multiplication) eaLeftSimp;
 			
-			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 2;
-			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 1;
+			if(eaCast.eaLeft instanceof Symbolique && eaCast.eaRight instanceof ConstReelle) action = 2;
+			else if(eaCast.eaRight instanceof Symbolique && eaCast.eaLeft instanceof ConstReelle) action = 1;
 		}
 		
 		else if(eaRightSimp instanceof Multiplication && eaLeftSimp instanceof Symbolique) {
 			eaCast = (Multiplication) eaRightSimp;
 			
-			if(eaCast.getEaLeft() instanceof Symbolique && eaCast.getEaRight() instanceof ConstReelle) action = 4;
-			else if(eaCast.getEaRight() instanceof Symbolique && eaCast.getEaLeft() instanceof ConstReelle) action = 3;
+			if(eaCast.eaLeft instanceof Symbolique && eaCast.eaRight instanceof ConstReelle) action = 4;
+			else if(eaCast.eaRight instanceof Symbolique && eaCast.eaLeft instanceof ConstReelle) action = 3;
 		}
 		
 		else return this;
@@ -124,20 +132,26 @@ public class Multiplication extends OperationBinaire {
 		ExpressionArithmetique newEaLeft;
 		ExpressionArithmetique newEaRight;
 		
-		if(action == 1) {
-			newEaLeft = new Multiplication(eaCast.getEaRight(), eaRightSimp).simplifier();
-			newEaRight = eaCast.getEaLeft();
-		} else if(action == 2) {
-			newEaLeft = new Multiplication(eaCast.getEaLeft(), eaRightSimp).simplifier();
-			newEaRight = eaCast.getEaRight();
-		} else if(action == 3) {
-			newEaLeft = new Multiplication(eaCast.getEaRight(), eaLeftSimp).simplifier();
-			newEaRight = eaCast.getEaLeft();
-		} else if(action == 4) {
-			newEaLeft = new Multiplication(eaCast.getEaLeft(), eaLeftSimp).simplifier();
-			newEaRight = eaCast.getEaRight();
+		switch (action) {
+		case (1):
+			newEaLeft = new Multiplication(eaCast.eaRight, eaRightSimp).simplifier();
+			newEaRight = eaCast.eaLeft;
+			break;
+		case (2):
+			newEaLeft = new Multiplication(eaCast.eaLeft, eaRightSimp).simplifier();
+			newEaRight = eaCast.eaRight;
+			break;
+		case (3):
+			newEaLeft = new Multiplication(eaCast.eaRight, eaLeftSimp).simplifier();
+			newEaRight = eaCast.eaRight;
+			break;
+		case (4):
+			newEaLeft = new Multiplication(eaCast.eaLeft, eaLeftSimp).simplifier();
+			newEaRight = eaCast.eaRight;
+			break;
+		default:
+			return this;
 		}
-		else return this;
 		
 		return (new Multiplication(newEaLeft, newEaRight)).simplifier();
 	}
@@ -163,26 +177,13 @@ public class Multiplication extends OperationBinaire {
 			if (simplifiedMult.eaLeft.equals(new ConstEntiere(0)) || simplifiedMult.eaRight.equals(new ConstEntiere(0))) {
 				return new ConstEntiere(0);
 			}
-			else if (simplifiedMult.eaRight instanceof Addition) { //distributivité addition
-				Addition droite = (Addition) simplifiedMult.eaRight;
-
-				 return simplifie(simplifiedMult.eaLeft, droite);
-			}
-			else if (simplifiedMult.eaLeft instanceof Addition) { 		
-				Addition gauche = (Addition) simplifiedMult.eaLeft;
+			else if (simplifiedMult.eaLeft instanceof Addition || simplifiedMult.eaRight instanceof Addition) { 		
 				
-
-				return simplifie(gauche, simplifiedMult.eaRight);
+				return simplifiedMult.distributiviteAddition();
 			}
-			else if (simplifiedMult.eaRight instanceof Soustraction) {//distributivité soustraction
-				Soustraction droite = (Soustraction) simplifiedMult.eaRight;
-
-				return simplifie(simplifiedMult.eaLeft, droite);
-			}
-			else if (simplifiedMult.eaLeft instanceof Soustraction) { 		
-				Soustraction gauche = (Soustraction) simplifiedMult.eaLeft;
-
-				return simplifie(gauche, simplifiedMult.eaRight);
+			else if (simplifiedMult.eaLeft instanceof Soustraction || simplifiedMult.eaRight instanceof Soustraction) {
+				
+				return simplifiedMult.distributiviteSoustraction();
 			}
 			else if (simplifiedMult.eaLeft instanceof Multiplication || simplifiedMult.eaRight instanceof Multiplication) {
 
@@ -197,12 +198,12 @@ public class Multiplication extends OperationBinaire {
 			else if(simplifiedMult.eaLeft instanceof Matrice) {
 				Matrice gauche = (Matrice) simplifiedMult.eaLeft;
 				
-				return simplifie(gauche, simplifiedMult.eaRight);
+				return gauche.produit(simplifiedMult.eaRight);
 			}
 			else if(simplifiedMult.eaRight instanceof Matrice) {
 				Matrice droite = (Matrice) simplifiedMult.eaRight;
 				
-				return simplifie(droite, simplifiedMult.eaLeft);
+				return droite.produit(simplifiedMult.eaLeft);
 			}
 			else {
 				return simplifiedMult;

@@ -11,17 +11,6 @@ public abstract class OperationBinaire extends ExpressionArithmetique {
 		this.eaRight = eaRight;
 	}
 
-	
-	public ExpressionArithmetique getEaLeft() {//TODO à enlever car deja en protected
-		return eaLeft;
-	}
-
-	public ExpressionArithmetique getEaRight() {
-		return eaRight;
-	}
-	
-
-	
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
 		return this;
 	}

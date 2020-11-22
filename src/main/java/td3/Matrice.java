@@ -8,7 +8,7 @@ public class Matrice extends ExpressionArithmetique {
     private final int column;
     private final ExpressionArithmetique[][] datas;
 
-  public Matrice(int row, int column) {
+    public Matrice(int row, int column) {
         this.row = row;
         this.column = column;
         this.datas = new ExpressionArithmetique[row][column];
@@ -155,8 +155,6 @@ public class Matrice extends ExpressionArithmetique {
 			return false;
 		if (row != other.row)
 			return false;
-		if (!Arrays.deepEquals(datas, other.datas))
-			return false;
-		return true;
+		return (Arrays.deepEquals(datas, other.datas));
 	}
 }

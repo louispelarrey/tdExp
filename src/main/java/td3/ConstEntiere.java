@@ -40,9 +40,7 @@ public final class ConstEntiere extends ExpressionArithmetique implements ConstR
 		if (getClass() != obj.getClass())
 			return false;
 		ConstEntiere other = (ConstEntiere) obj;
-		if (entier != other.entier)
-			return false;
-		return true;
+		return (entier == other.entier);
 	}
 
 	@Override

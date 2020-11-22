@@ -67,15 +67,15 @@ public class Soustraction extends OperationBinaire {
 			Multiplication part1 = (Multiplication) this.eaLeft;
 			Multiplication part2 = (Multiplication) this.eaRight;
 			
-			if(part1.getEaLeft() instanceof ConstReelle && part1.getEaLeft().equals(part2.getEaLeft())) {
-				constanteIdentite = part1.getEaLeft();
+			if(part1.eaLeft instanceof ConstReelle && part1.eaLeft.equals(part2.eaLeft)) {
+				constanteIdentite = part1.eaLeft;
 				
-				if(part1.getEaRight() instanceof Puissance && ((Puissance) part1.getEaRight()).getEaLeft() instanceof VariableSymbolique &&
-						((Puissance) part1.getEaRight()).getEaRight().equals(deux) &&
-						part2.getEaRight() instanceof Puissance && ((Puissance) part2.getEaRight()).getEaLeft() instanceof VariableSymbolique && 
-						((Puissance) part2.getEaRight()).getEaRight().equals(deux)) {
-					part1NoConst = (Puissance) part1.getEaRight();
-					part2NoConst = (Puissance) part2.getEaRight();
+				if(part1.eaRight instanceof Puissance && ((Puissance) part1.eaRight).eaLeft instanceof VariableSymbolique &&
+						((Puissance) part1.eaRight).eaRight.equals(deux) &&
+						part2.eaRight instanceof Puissance && ((Puissance) part2.eaRight).eaLeft instanceof VariableSymbolique && 
+						((Puissance) part2.eaRight).eaRight.equals(deux)) {
+					part1NoConst = (Puissance) part1.eaRight;
+					part2NoConst = (Puissance) part2.eaRight;
 				}
 				
 				else return this;
@@ -88,10 +88,10 @@ public class Soustraction extends OperationBinaire {
 		 * la puissance est bien 2.
 		 */
 		
-		else if(this.eaLeft instanceof Puissance && ((Puissance) this.eaLeft).getEaLeft() instanceof VariableSymbolique &&
-				((Puissance) this.eaLeft).getEaRight().equals(new ConstEntiere(2)) &&
-				this.eaRight instanceof Puissance && ((Puissance) this.eaRight).getEaLeft() instanceof VariableSymbolique && 
-				((Puissance) this.eaRight).getEaRight().equals(new ConstEntiere(2))) {
+		else if(this.eaLeft instanceof Puissance && ((Puissance) this.eaLeft).eaLeft instanceof VariableSymbolique &&
+				((Puissance) this.eaLeft).eaRight.equals(new ConstEntiere(2)) &&
+				this.eaRight instanceof Puissance && ((Puissance) this.eaRight).eaLeft instanceof VariableSymbolique && 
+				((Puissance) this.eaRight).eaRight.equals(new ConstEntiere(2))) {
 			
 			part1NoConst = (Puissance) this.eaLeft;
 			part2NoConst = (Puissance) this.eaRight;
@@ -101,8 +101,8 @@ public class Soustraction extends OperationBinaire {
 		
 		// Dans les 2 cas, on finit avec les objets part1-2NoConst, on remultiplie si nécessaire à la fin
 
-		VariableSymbolique varA = (VariableSymbolique) part1NoConst.getEaLeft();
-		VariableSymbolique varB = (VariableSymbolique) part2NoConst.getEaLeft();
+		VariableSymbolique varA = (VariableSymbolique) part1NoConst.eaLeft;
+		VariableSymbolique varB = (VariableSymbolique) part2NoConst.eaLeft;
 		
 		Multiplication operation3 = new Multiplication(new Addition(varA, varB), new Soustraction(varA, varB));
 		

@@ -23,8 +23,7 @@ public class ExpProduit extends Expand {
 
 	@Override
 	public ExpressionArithmetique clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ExpProduit((VariableSymbolique)n.clone(), i, max, (OperationBinaire)exp.clone());
 	}
 
 

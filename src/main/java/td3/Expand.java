@@ -5,7 +5,7 @@ import java.util.Map;
 
 public abstract class Expand extends ExpressionArithmetique{
 	
-	protected VariableSymbolique n;
+	protected final VariableSymbolique n;
 	protected int i;
 	protected int max;
 	protected final OperationBinaire exp;
@@ -15,6 +15,30 @@ public abstract class Expand extends ExpressionArithmetique{
 		this.i = i;
 		this.max = max;
 		this.exp = exp;
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public VariableSymbolique getN() {
+		return n;
+	}
+
+	public OperationBinaire getExp() {
+		return exp;
 	}
 
 	@Override

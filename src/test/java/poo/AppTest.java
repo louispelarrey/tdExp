@@ -488,26 +488,27 @@ public class AppTest {
 		
 		ExpressionArithmetique mult5 = new Multiplication(deux, sous); // 2*(x-1/2)
 		ExpressionArithmetique sous5 = new Soustraction(new Multiplication(deux, x), un); // 2x - 1
-		assertEquals(true, mult5.simplifier().equals(sous5.simplifier()));
+		assertEquals(sous5,mult5.simplifier());
 
 		ExpressionArithmetique mult6 = new Multiplication(x, sous); // x*(x-1/2)
 		ExpressionArithmetique sous6 = new Soustraction(new Multiplication(x, x), new Multiplication(x, unDemi));// x*x - x*1/2
-		assertEquals(true, mult6.simplifier().equals(sous6.simplifier()));
+		assertEquals(sous6, mult6.simplifier());
 
 
 		// Distributivité inversée
 
 		ExpressionArithmetique mult8 = new Multiplication(sous, deux); // (x-1/2)*2
-		ExpressionArithmetique sous8 = new Soustraction(new Multiplication(x, deux), un); // x*2 - 1		
-		assertEquals(true, mult8.simplifier().equals(sous8.simplifier()));
+		ExpressionArithmetique sous8 = new Soustraction(new Multiplication(x, deux), un); // x*2 - 1
+		mult8.simplifier();
+		assertEquals(sous8, mult8.simplifier());
 
 		// Double distributivité
 
 		ExpressionArithmetique mult9 = new Multiplication(add, add); // (x+1/2)*(x+1/2)
 		ExpressionArithmetique sous9 = new Addition(
-				new Addition(new Multiplication(x, x), new Multiplication(unDemi, x)),
-				new Addition(new Multiplication(x, unDemi), new Multiplication(unDemi, unDemi))); // x*x+1/2*x+x*1/2+1/4
-		assertEquals(true, mult9.simplifier().equals(sous9.simplifier()));
+				new Addition(new Multiplication(x, x), new Multiplication(x, unDemi)),
+				new Addition(new Multiplication(unDemi, x), new Multiplication(unDemi, unDemi))); // x*x+x*1/2+1/2*x+1/4
+		assertEquals(sous9, mult9.simplifier());
 
 		// Double distrib avec une soustraction ne marche pas !!
 	}

@@ -3,7 +3,7 @@ package td3;
 import java.util.Map;
 
 public class VariableSymbolique extends ExpressionArithmetique implements Symbolique {
-	protected String symbole;
+	protected final String symbole;
 	
 	public VariableSymbolique(String variable) {
 		this.symbole = variable;
@@ -14,10 +14,6 @@ public class VariableSymbolique extends ExpressionArithmetique implements Symbol
 		return symbole;
 	}
 
-
-	public void setSymbole(String symbole) {
-		this.symbole = symbole;
-	}
 
 	@Override
 	public String toString() {
